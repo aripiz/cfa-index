@@ -1,0 +1,7 @@
+pandas==1.5
+xlsxwriter
+plotly
+dash
+dash-bootstrap-components
+dash-bootstrap-templates
+gunicorn
