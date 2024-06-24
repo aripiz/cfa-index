@@ -6,10 +6,10 @@ import dash_bootstrap_components as dbc
 
 # Options
 features_list = df_data.columns[4:23]
-years_list = df_data['anno'].unique()
-indicators_list = [f"{num}: {df_meta.loc[num]['nome']}" for num in df_meta.index]
+years_list = df_data['year'].unique()
+indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
 indicators_numbers = [f"{num}" for num in df_meta.index]
-territories_list = df_data['territorio'].unique()
+territories_list = df_data['name'].unique()
 
 # Modal window
 modal_data_download = dbc.Modal(

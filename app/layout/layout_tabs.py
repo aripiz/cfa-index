@@ -8,10 +8,10 @@ from configuration import NOTES_FILE
 
 # Options
 features_list = df_data.columns[4:23]
-years_list = df_data['anno'].unique()
-indicators_list = [f"{num}: {df_meta.loc[num]['nome']}" for num in df_meta.index]
+years_list = df_data['year'].unique()
+indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
 kind_list = ['Dati', 'Punteggi']
-territories_list = df_data['territorio'].unique()
+territories_list = df_data['name'].unique()
 
 # Data tabs
 tab_map_features = html.Div([
@@ -39,18 +39,19 @@ tab_map_features = html.Div([
                     options = features_list,
                     value = features_list[0],
                     style = {"width": "75%"}
-                )], lg = 9, xs = 12),
+                )], lg = 8, xs = 12),
                 dbc.Col([
                     dbc.Label("Seleziona un anno:"),
                     dcc.Slider(
                         years_list[0],
                         years_list[-1],
-                        step = None,
+                        step = 1,
                         id ='slider_year',
                         value = years_list[-1],
-                        marks = {str(year): str(year) for year in years_list},
+                        marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
+                        tooltip={"placement": "bottom", "always_visible": True}
                         )
-                ], lg = 3, xs =12)],
+                ], lg = 4, xs =12)],
                 justify='around'),
                 dbc.Row(dbc.Col(
                 dcc.Graph(
@@ -93,18 +94,20 @@ tab_map_indicators = html.Div([
                     options=kind_list,
                     inline=True,
                     value= kind_list[1])],
-                    lg = 3, xs = 12
+                    lg = 2, xs = 12
                 ),
                 dbc.Col([
                     dbc.Label("Seleziona un anno:"),
-                    dcc.Slider(
+                     dcc.Slider(
                         years_list[0],
                         years_list[-1],
-                        step=None,
-                        id='slider_year',
-                        value=years_list[-1],
-                        marks={str(year): str(year) for year in years_list})],
-                    lg = 3, xs = 12
+                        step = 1,
+                        id ='slider_year',
+                        value = years_list[-1],
+                        marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
+                        tooltip={"placement": "bottom", "always_visible": True}
+                        )],
+                    lg = 4, xs = 12
                 )], justify='around'),
                 dbc.Row(dbc.Col(
                 dcc.Graph(
@@ -152,11 +155,13 @@ tab_correlations = html.Div([
                     dcc.Slider(
                         years_list[0],
                         years_list[-1],
-                        step=None,
-                        id='slider_year',
-                        value=years_list[-1],
-                        marks={str(year): str(year) for year in years_list})
-                    ], lg = 3, xs =12)],
+                        step = 1,
+                        id ='slider_year',
+                        value = years_list[-1],
+                        marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
+                        tooltip={"placement": "bottom", "always_visible": True}
+                        )
+                    ], lg = 4, xs =12)],
                 justify='between'),
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="dimensions_correlation",
@@ -189,17 +194,19 @@ tab_ranking = html.Div([
                     options = features_list,
                     value=features_list[0],
                     style={"width": "75%"}
-                )], lg = 9, xs =12),
+                )], lg = 8, xs =12),
                 dbc.Col([
                 dbc.Label("Seleziona un anno:"),
                 dcc.Slider(
                         years_list[0],
                         years_list[-1],
-                        step=None,
-                        id='slider_year',
-                        value=years_list[-1],
-                        marks={str(year): str(year) for year in years_list})
-                ], lg = 3, xs =12)
+                        step = 1,
+                        id ='slider_year',
+                        value = years_list[-1],
+                        marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
+                        tooltip={"placement": "bottom", "always_visible": True}
+                        )
+                ], lg = 4, xs =12)
                 ], justify='around'),
                 dbc.Row(dbc.Col(html.Div(
                     id='ranking_table',
@@ -292,11 +299,11 @@ tab_radar = html.Div([
                 dbc.Col(html.Div(
                     id='radar_table',
                     style={"height": "60vh", "overflow": "scroll"},
-                ), lg = 6, xs =12),
+                ), lg = 4, xs =12),
                 dbc.Col(dcc.Graph(
                     id="radar_chart",
                     style={'height': '60vh'},
-                ), lg = 6, xs =12)
+                ), lg = 8, xs =12)
                 ], justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -412,7 +419,7 @@ tab_construction = html.Div([
                     ),
                     dbc.CardBody([
                         html.H4("Contesto", className="card-title"),
-                        html.Div([html.P(dim) for dim in df_meta.loc[[1,3,5,7,9],'dimensione']],
+                        html.Div([html.P(dim) for dim in df_meta.loc[[1,3,5,7,9],'dimension']],
                         className="card-text",), 
                         ])
                 ]),
@@ -423,7 +430,7 @@ tab_construction = html.Div([
                     ),
                     dbc.CardBody([
                         html.H4("Bambini", className="card-title"),
-                        html.Div([ html.P(dim) for dim in df_meta.loc[[11,13,15,17,19],'dimensione']],
+                        html.Div([ html.P(dim) for dim in df_meta.loc[[11,13,15,17,19],'dimension']],
                         className="card-text",)
                         ])
                 ]),
@@ -434,7 +441,7 @@ tab_construction = html.Div([
                     ),
                     dbc.CardBody([
                         html.H4("Donne", className="card-title"),
-                        html.Div([ html.P(dim) for dim in df_meta.loc[[21,23,25,27,29],'dimensione']],
+                        html.Div([ html.P(dim) for dim in df_meta.loc[[21,23,25,27,29],'dimension']],
                         className="card-text",)
                     ])
                 ])

@@ -19,7 +19,7 @@ def render_tab(active_tab):
         elif active_tab == 'ranking': return tab_ranking
         elif active_tab == 'evolution': return tab_evolution
         elif active_tab == 'radar': return tab_radar
-    return "Nessun elemento selezionato."
+    return "Select a tab."
 
 # Methodology tabs
 @app.callback(
@@ -29,4 +29,4 @@ def render_tab(active_tab):
     if active_tab is not None:
         if active_tab == "construction": return tab_construction
         elif active_tab == "indicators":  return tab_indicators
-    return "Nessun elemento selezionato."
+    return "Select a tab."

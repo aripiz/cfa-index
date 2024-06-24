@@ -28,15 +28,15 @@ def toggle_modal(n1, n2, is_open):
 def download_excel(n_clicks, indicators, territories):
     changed_id = [p['prop_id'] for p in callback_context.triggered][0]
     if 'download_button' in changed_id:
-        colonne_metadati = ['sottoindice', 'dimensione', 'nome', 'unità', 'descrizione', 'aggiornamento', 'fonte', 'link']
-        colonne_dati = [f'Indicatore {i}' for i in range(1,31)]
+        colonne_metadati = ['subindex', 'dimension', 'name', 'unit', 'description', 'last_update', 'source', 'source_link']
+        colonne_dati = [f'Indicator {i}' for i in range(1,31)]
 
         meta = df_meta[colonne_metadati]  
-        data = df_data.set_index(['territorio','anno'])[colonne_dati]
+        data = df_data.set_index(['name','year'])[colonne_dati]
         file_name = "WeWorld-MaiPiùInvisibili-2023_Indicatori.xlsx"
         if indicators  is not None: 
             indicators = [int(indicator.split(":")[0]) for indicator in indicators]
-            colonne_dati = [f'Indicatore {indicator}' for indicator in indicators]
+            colonne_dati = [f'Indicator {indicator}' for indicator in indicators]
             meta = meta.loc[indicators]
             data = data[colonne_dati]
             file_name = "WeWorld-MaiPiùInvisibili-2023_Indicatori-selezione.xlsx"
@@ -45,7 +45,7 @@ def download_excel(n_clicks, indicators, territories):
             file_name = "WeWorld-MaiPiùInvisibili-2023_Indicatori-selezione.xlsx"
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer) as writer:
-            meta.to_excel(writer, sheet_name='metadati')
-            data.to_excel(writer, sheet_name='dati')
+            meta.to_excel(writer, sheet_name='metadata')
+            data.to_excel(writer, sheet_name='data')
         return dcc.send_bytes(buffer.getvalue(), filename=file_name)
     else: return None
