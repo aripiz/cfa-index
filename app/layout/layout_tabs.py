@@ -11,7 +11,7 @@ features_list = df_data.columns[4:23]
 years_list = df_data['year'].unique()
 indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
 kind_list = ['Dati', 'Punteggi']
-territories_list = df_data['name'].unique()
+territories_list = df_data['territory'].unique()
 
 # Data tabs
 tab_map_features = html.Div([
@@ -246,7 +246,7 @@ tab_evolution = html.Div([
                 dcc.Dropdown(
                     id='evolution_territory',
                     options = territories_list ,
-                    value = 'Italia',
+                    value = 'World',
                     #style={"width": "75%"},
                     multi=True
                 )], lg = 6, xs =12)
@@ -281,7 +281,7 @@ tab_radar = html.Div([
                 dcc.Dropdown(
                     id='radar_territory',
                     options = territories_list ,
-                    value = 'Italia',
+                    value = 'World',
                     style={"width": "75%"},
                     multi=True
                 )], lg = 9, xs =12),

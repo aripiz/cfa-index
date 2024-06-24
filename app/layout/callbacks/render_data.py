@@ -24,7 +24,6 @@ pio.templates.default = FIGURE_TEMPLATE
 def display_map_index(feature, year):
     df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].copy()
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
-
     fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
         locations='code', featureidkey="properties.ADM0_A3",
         #color=feature,
@@ -64,16 +63,16 @@ def display_map_indicators(indicator, year, kind):
     df = df_data.loc[df_data['year']==year].copy()
     if kind=='Dati':
         col = f'Indicator {int(indicator)}'
-        # fig = px.choropleth(df, #geojson=GEO_FILE,
-        #     locations='code', #featureidkey="properties.istat_code_num",
-        #     color=col,
-        #     range_color=limits_scale,
-        #     color_continuous_scale=colors,
-        #     hover_name='territory',
-        #     hover_data={'code':False, 'year': False, col: ':.3g'},
-        #     #zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=42, lon=12)
-        # )
-        # fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unit'], x=0.92, len=0.75))
+        fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
+            locations='code', featureidkey="properties.ADM0_A3",
+            color=col,
+            range_color=limits_scale,
+            color_continuous_scale=colors,
+            hover_name='territory',
+            hover_data={'code':False, 'year': False, col: ':.3g'},
+            zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
+        )
+        fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unit'], x=0.92, len=0.75))
     elif kind=='Punteggi':
         col = f"{df_meta.loc[int(indicator)]['subindex']}|{df_meta.loc[int(indicator)]['dimension']}|{indicator}"
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
@@ -141,7 +140,7 @@ def display_ranking(feature, year):
     Input("evolution_feature", "value"),
     Input("evolution_territory", "value"))
 def display_evolution(features, territories):
-    df = df_data.query("name == @territories").rename(columns={'year':'Year', 'territory':'Territory'})
+    df = df_data.query("territory == @territories").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Subindex/Dimension', value_name='Score')
     fig = px.line(df, x='Year', y='Score',
                 hover_name='Territory',
@@ -165,7 +164,7 @@ def display_evolution(features, territories):
     Input("radar_year", "value"))
 def display_radar(territories, year):
     features = df_data.columns[8:23]
-    df = df_data.query("name == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
+    df = df_data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score')
     fig = px.line_polar(df, theta='Dimension', r='Score',
                         line_close=True, color='Territory', line_dash='Year',
@@ -184,7 +183,7 @@ def display_radar(territories, year):
     Input("radar_year", "value"))
 def display_radar_table(territories, year):
     features = df_data.columns[8:23].to_list()
-    df = df_data.query("name == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
+    df = df_data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score').set_index(['Dimension', 'Territory', 'Year']).unstack(['Territory','Year']).loc[features]
     table = dbc.Table.from_dataframe(
                     df,

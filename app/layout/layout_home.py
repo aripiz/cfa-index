@@ -19,7 +19,7 @@ def display_map_home():
         #range_color=[20,80],
         color_discrete_map=dict(zip(TIER_LABELS,COLOR_SCALE)),
         category_orders={'Tier': TIER_LABELS},
-        hover_name='name',
+        hover_name='territory',
         hover_data={'code':False, 'year': False,
                     'General': ':.3g', 'Context':':.3g', 'Children':':.3g', 'Women':':.3g'},
         #zoom=4.5, opacity=1, center=dict(lat=42, lon=12)
