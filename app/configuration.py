@@ -22,11 +22,12 @@ CENTER_COORDINATES = (10 ,0)
 
 # Files link
 DATA_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/index2024_data.csv"
+#"/Users/ariele/Library/CloudStorage/GoogleDrive-ariele.piziali@gmail.com/Il mio Drive/Lavoro/WeWorld/Mondiale/2024/weworld-index2024/data/index2024_data.csv"
 META_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/index2024_meta.csv"
+# "/Users/ariele/Library/CloudStorage/GoogleDrive-ariele.piziali@gmail.com/Il mio Drive/Lavoro/WeWorld/Mondiale/2024/weworld-index2024/data/index2024_meta.csv"
+
 GEO_FILE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
 
-#DATA_FILE = "https://raw.githubusercontent.com/aripiz/weworld-maipiuinvisibili2023/master/data/maipiuinvisibili2023_data.csv"
-#META_FILE = "https://raw.githubusercontent.com/aripiz/weworld-maipiuinvisibili2023/master/data/maipiuinvisibili2023_metadata.csv"
-#GEO_FILE = "https://raw.githubusercontent.com/aripiz/weworld-maipiuinvisibili2023/master/data/italy_regions_low.json"
+
 NOTES_FILE = "https://github.com/aripiz/weworld-maipiuinvisibili2023/raw/master/data/WeWorld-MaiPi%C3%B9Invisibili-2023_NoteTecniche.pdf"
 REPORT_FILE = "https://github.com/aripiz/weworld-maipiuinvisibili2023/raw/master/data/WeWorld-MaiPi%C3%B9Invisibili-2023_Rapporto.pdf"
