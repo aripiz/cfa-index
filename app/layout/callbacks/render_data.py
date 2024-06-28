@@ -75,7 +75,7 @@ def display_map_indicators(indicator, year, kind):
         )
         fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unit'], x=0.92, len=0.75))
     elif kind=='Scores':
-        col = f"{df_meta.loc[int(indicator)]['subindex']}|{df_meta.loc[int(indicator)]['dimension']}|{indicator}"
+        col = f"Component {indicator}"
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
             color=col,
@@ -108,8 +108,8 @@ def display_corr_dimensions(dimension_x, dimension_y,year):
                  )
     fig.update_traces(marker={'size': 15})
     fig.update_layout(legend_title = 'Area')
-    fig.update_xaxes(range=[0, 100])
-    fig.update_yaxes(range=[0, 100])
+    fig.update_xaxes(range=[0, 105])
+    fig.update_yaxes(range=[0, 105])
     
     return fig
 

@@ -34,6 +34,7 @@ tab_map_features = html.Div([
                 dbc.Row([
                 dbc.Col([
                     dbc.Label("Components"),
+                    
                     dcc.Dropdown(
                     id = 'feature',
                     options = features_list,
