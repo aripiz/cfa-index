@@ -9,12 +9,12 @@ register_page(__name__, name = TITLE )
 # Tabs
 tabs = html.Div(dbc.Tabs(
     [
-        dbc.Tab(label="Mappa componenti", tab_id="map_features"),
-        dbc.Tab(label="Classifica territori", tab_id="ranking"),
-        dbc.Tab(label="Profili territori", tab_id="radar"),
-        dbc.Tab(label="Mappa indicatori", tab_id="map_indicators"),
-        dbc.Tab(label="Correlazioni componenti", tab_id="correlations"),
-        dbc.Tab(label="Evoluzione componenti", tab_id="evolution"),
+        dbc.Tab(label="Map", tab_id="map_features"),
+        dbc.Tab(label="Ranking", tab_id="ranking"),
+        dbc.Tab(label="Profiles", tab_id="radar"),
+        dbc.Tab(label="Indicators", tab_id="map_indicators"),
+        dbc.Tab(label="Correlations", tab_id="correlations"),
+        dbc.Tab(label="Progress", tab_id="evolution"),
     ],
     id="data_tabs",
     active_tab="map_features",

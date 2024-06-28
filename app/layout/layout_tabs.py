@@ -10,7 +10,7 @@ from configuration import NOTES_FILE
 features_list = df_data.columns[4:23]
 years_list = df_data['year'].unique()
 indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
-kind_list = ['Dati', 'Punteggi']
+kind_list = ['Data', 'Scores']
 territories_list = df_data['territory'].unique()
 
 # Data tabs
@@ -18,14 +18,14 @@ tab_map_features = html.Div([
             dbc.Row(
                     dbc.Col([
                         dbc.Button(
-                            "Informazioni",
+                            "Info",
                             id="collapse-button",
                             className="mb-3",
                             color="primary",
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("La mappa mostra il punteggio delle componenti dell'Indice. Dai menu è possibile selezionare la componente (Indice/Sottoindice/Dimensione) e l'anno di cui mostrare i risultati. Ciascun territorio è colorato in base al livello di inclusione/esclusione a cui appartiene nella componente scelta. Gli intervalli di punteggio che definiscono i livelli sono riportati nelle Note tecniche.", body=True),
+                        dbc.Card("The map displays the scores of the Index components. You can choose the component (Index/Sub-index/Dimension) and the year to view from the menus. Each area is shaded according to its level of Human Rights Implementation for the selected component. The score ranges for each level are detailed in the Technical Notes.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -33,7 +33,7 @@ tab_map_features = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Seleziona una componente:"),
+                    dbc.Label("Components"),
                     dcc.Dropdown(
                     id = 'feature',
                     options = features_list,
@@ -41,7 +41,7 @@ tab_map_features = html.Div([
                     style = {"width": "75%"}
                 )], lg = 8, xs = 12),
                 dbc.Col([
-                    dbc.Label("Seleziona un anno:"),
+                    dbc.Label("Year"),
                     dcc.Slider(
                         years_list[0],
                         years_list[-1],
@@ -64,14 +64,14 @@ tab_map_indicators = html.Div([
                 dbc.Row(
                     dbc.Col([
                         dbc.Button(
-                            "Informazioni",
+                            "Info",
                             id="collapse-button",
                             className="mb-3",
                             color="primary",
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("La mappa mostra i dati degli Indicatori che fanno parte dell'Indice. Dai menu è possibile selezionare l'Indicatore da mostrare, il tipo di valore da riportare (dato originale o punteggio normalizzato) e l'anno di riferimento. Selezionando i dati originali, la mappa rimarrà bianca in corrispondenza di valori mancanti.", body=True),
+                        dbc.Card("The map displays data for the Indicators that are part of the Index. You can use the menus to choose the Indicator, the type of value (original data or normalized score), and the reference year. If you select original data, the map will show blank areas for any missing values.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -79,7 +79,7 @@ tab_map_indicators = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Seleziona un indicatore:"),
+                    dbc.Label("Indicator"),
                     dcc.Dropdown(
                     id='indicator',
                     options=indicators_list,
@@ -88,7 +88,7 @@ tab_map_indicators = html.Div([
                     lg = 6, xs = 12
                 ),
                 dbc.Col([
-                    dbc.Label("Scegli la tipologia:"),
+                    dbc.Label("Kind"),
                     dbc.RadioItems(
                     id='indicator_kind',
                     options=kind_list,
@@ -97,7 +97,7 @@ tab_map_indicators = html.Div([
                     lg = 2, xs = 12
                 ),
                 dbc.Col([
-                    dbc.Label("Seleziona un anno:"),
+                    dbc.Label("Year:"),
                      dcc.Slider(
                         years_list[0],
                         years_list[-1],
@@ -120,14 +120,14 @@ tab_correlations = html.Div([
                 dbc.Row(
                     dbc.Col([
                         dbc.Button(
-                            "Informazioni",
+                            "Info",
                             id="collapse-button",
                             className="mb-3",
                             color="primary",
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("Il grafico mostra la correlazione fra le componenti dell'Indice: ciascun punto nel grafico avrà coordinate x e y date dal punteggio del territorio nelle componenti scelte. Dai menu è possibile selezionare le due componenti (Indice/Sottoindice/Dimensione) da confrontare nel grafico. I territori sono colorati in base all'area geografica di appartenenza.", body=True),
+                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension) to compare. Territories are colored according to their geographic area.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -135,7 +135,7 @@ tab_correlations = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Seleziona una componente:"),
+                    dbc.Label("Component (x)"),
                     dcc.Dropdown(
                     id="dimension_x",
                     options = features_list,
@@ -143,7 +143,7 @@ tab_correlations = html.Div([
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
-                    dbc.Label("Seleziona un'altra componente:"),
+                    dbc.Label("Component (y)"),
                     dcc.Dropdown(
                     id="dimension_y",
                     options = features_list,
@@ -151,7 +151,7 @@ tab_correlations = html.Div([
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
-                    dbc.Label("Seleziona un anno:"),
+                    dbc.Label("Year:"),
                     dcc.Slider(
                         years_list[0],
                         years_list[-1],
@@ -173,14 +173,14 @@ tab_ranking = html.Div([
                 dbc.Row(
                     dbc.Col([
                         dbc.Button(
-                            "Informazioni",
+                            "Info",
                             id="collapse-button",
                             className="mb-3",
                             color="primary",
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("La tabella riporta la classifica dei territori nella componente (Indice/Sottoindice/Dimensione) e nell'anno selezionato.", body=True),
+                        dbc.Card("The table shows the ranking of territories for the selected component (Index/Sub-index/Dimension) and year.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -188,7 +188,7 @@ tab_ranking = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                dbc.Label("Seleziona una componente:"),
+                dbc.Label("Component"),
                 dcc.Dropdown(
                     id="ranking_feature",
                     options = features_list,
@@ -196,7 +196,7 @@ tab_ranking = html.Div([
                     style={"width": "75%"}
                 )], lg = 8, xs =12),
                 dbc.Col([
-                dbc.Label("Seleziona un anno:"),
+                dbc.Label("Year"),
                 dcc.Slider(
                         years_list[0],
                         years_list[-1],
@@ -218,14 +218,14 @@ tab_evolution = html.Div([
                 dbc.Row(
                     dbc.Col([
                         dbc.Button(
-                            "Informazioni",
+                            "Info",
                             id="collapse-button",
                             className="mb-3",
                             color="primary",
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("Il grafico mostra l'evoluzione temporale delle componenti dell'Indice. Dai menu è possibile selezionare una o più componenti (Indice/Sottoindice/Dimensione) e uno o più territori (Regione/Provincia Autonoma/Area/Italia) per confrontarne l'evoluzione.", body=True),
+                        dbc.Card("he chart displays the temporal evolution of the Index components. From the menus, you can select one or more components (Index/Sub-index/Dimension) and one or more territories (Country/Area/World) to compare their evolution.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -233,7 +233,7 @@ tab_evolution = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                dbc.Label("Seleziona le componenti:"),
+                dbc.Label("Components"),
                 dcc.Dropdown(
                     id="evolution_feature",
                     options = features_list,
@@ -242,7 +242,7 @@ tab_evolution = html.Div([
                     multi=True
                 )], lg = 6, xs =12),
                 dbc.Col([
-                dbc.Label("Seleziona i territori:"),
+                dbc.Label("Territories"),
                 dcc.Dropdown(
                     id='evolution_territory',
                     options = territories_list ,
@@ -262,14 +262,14 @@ tab_radar = html.Div([
                 dbc.Row(
                     dbc.Col([
                         dbc.Button(
-                            "Informazioni",
+                            "Info",
                             id="collapse-button",
                             className="mb-3",
                             color="primary",
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("Il grafico radar mostra i punteggi delle Dimensioni del territorio. Dai menu è possibile selezionare i territori (Regione/Provincia Autonoma/Area/Italia) e gli anni da mostrare. La tabella a fianco riporta i dati mostrati nel grafico.", body=True),
+                        dbc.Card("The radar chart shows the scores of the Dimensions for the territory. You can use the menus to select the territories (Country/Area/World) and the years to display. The table beside the chart shows the data presented in the chart.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -277,7 +277,7 @@ tab_radar = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                dbc.Label("Seleziona i territori:"),
+                dbc.Label("Territories"),
                 dcc.Dropdown(
                     id='radar_territory',
                     options = territories_list ,
@@ -286,7 +286,7 @@ tab_radar = html.Div([
                     multi=True
                 )], lg = 9, xs =12),
                 dbc.Col([
-                dbc.Label("Seleziona gli anni:"),
+                dbc.Label("Years"),
                 dcc.Dropdown(
                     id='radar_year',
                     options = years_list ,

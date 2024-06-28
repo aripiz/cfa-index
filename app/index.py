@@ -4,7 +4,7 @@ from dash import Dash
 import dash_bootstrap_components as dbc
 import pandas as pd
 
-from configuration import DATA_FILE, META_FILE, TITLE, DBC_CSS
+from configuration import DATA_FILE, DATA_FILE_LOCAL, META_FILE, META_FILE_LOCAL, TITLE, DBC_CSS
 
 # Loading data
 df_data = pd.read_csv(DATA_FILE)

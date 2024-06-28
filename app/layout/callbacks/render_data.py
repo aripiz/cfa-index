@@ -1,5 +1,6 @@
 # render_data.py
 
+import numpy as np
 import plotly.express as px
 import pandas as pd
 import plotly.io as pio
@@ -22,7 +23,7 @@ pio.templates.default = FIGURE_TEMPLATE
     Input("feature", "value"),
     Input('slider_year', 'value'))
 def display_map_index(feature, year):
-    df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].copy()
+    df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].rename(columns={'year':'Year'})
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
     fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
         locations='code', featureidkey="properties.ADM0_A3",
@@ -33,11 +34,11 @@ def display_map_index(feature, year):
         color_discrete_map=dict(zip(TIER_LABELS,COLOR_SCALE)),
         category_orders={'Tier': TIER_LABELS},
         hover_name='territory',
-        hover_data={'code':False, 'year': False,
+        hover_data={'code':False, 'Year': True,
                     feature: ':.3g'},
         zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
     )
-    fig.update_layout(legend=dict(title_text="Livelli d'inclusione/esclusione",xanchor='right', yanchor='top', x=0.95, y=0.92))
+    fig.update_layout(legend=dict(title_text="Human Rights Implementation",xanchor='right', yanchor='top', x=0.95, y=0.92))
     fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92))
     fig.update_layout(
         mapbox_style = MAP_STYLE,
@@ -60,8 +61,8 @@ def display_map_indicators(indicator, year, kind):
     else:
         colors = COLOR_SCALE
         limits_scale = [df_meta.loc[int(indicator)]['worst_value'], df_meta.loc[int(indicator)]['best_value']]
-    df = df_data.loc[df_data['year']==year].copy()
-    if kind=='Dati':
+    df = df_data.loc[df_data['year']==year].rename(columns={'year':'Year'})
+    if kind=='Data':
         col = f'Indicator {int(indicator)}'
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
@@ -69,11 +70,11 @@ def display_map_indicators(indicator, year, kind):
             range_color=limits_scale,
             color_continuous_scale=colors,
             hover_name='territory',
-            hover_data={'code':False, 'year': False, col: ':.3g'},
+            hover_data={'code':False, 'Year': True, col: ':.3g'},
             zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
         )
         fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unit'], x=0.92, len=0.75))
-    elif kind=='Punteggi':
+    elif kind=='Scores':
         col = f"{df_meta.loc[int(indicator)]['subindex']}|{df_meta.loc[int(indicator)]['dimension']}|{indicator}"
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
@@ -81,7 +82,7 @@ def display_map_indicators(indicator, year, kind):
             range_color=[0,100],
             color_continuous_scale=COLOR_SCALE,
             hover_name='territory',
-            hover_data={'code':False, 'year': False, col: ':.3g'},
+            hover_data={'code':False, 'Year': True, col: ':.3g'},
             zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
         )
         fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92,  len=0.75))
@@ -99,10 +100,10 @@ def display_map_indicators(indicator, year, kind):
     Input('dimension_y', 'value'),
     Input('slider_year', 'value'))
 def display_corr_dimensions(dimension_x, dimension_y,year):
-    df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].copy()
+    df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].rename(columns={'year':'Year'})
     fig = px.scatter(df, x=dimension_x, y=dimension_y,
                  hover_name='territory', color='area',
-                 hover_data={'area':False, 'year': False, dimension_x: ':.3g', dimension_y:':.3g'},
+                 hover_data={'area':False, 'Year': True, dimension_x: ':.3g', dimension_y:':.3g'},
                  color_discrete_sequence=px.colors.qualitative.G10
                  )
     fig.update_traces(marker={'size': 15})
@@ -123,10 +124,10 @@ def display_ranking(feature, year):
     final = df[df['year']==year][['territory', feature]]
     initial = df[df['year']==years_list[0]][['territory', feature]]
     final['Rank'] = final[feature].rank(ascending=False, method='min')
-    final[f'Variation since {years_list[0]}'] = (final[feature]-initial[feature]).apply(sig_round)
+    final[f'Change since {years_list[0]}'] = (final[feature]-initial[feature]).apply(sig_round)
     final = final.reset_index().rename(columns={'territory':'Territory', feature:'Score'}).sort_values('Rank')
     table = dbc.Table.from_dataframe(
-                    final[['Rank', 'Territory', 'Score', f'Variation since {years_list[0]}']],
+                    final[['Rank', 'Territory', 'Score', f'Change since {years_list[0]}']],
                     bordered=False,
                     hover=True,
                     responsive=True,
@@ -141,11 +142,11 @@ def display_ranking(feature, year):
     Input("evolution_territory", "value"))
 def display_evolution(features, territories):
     df = df_data.query("territory == @territories").rename(columns={'year':'Year', 'territory':'Territory'})
-    df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Subindex/Dimension', value_name='Score')
+    df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Sub-index/Dimension', value_name='Score')
     fig = px.line(df, x='Year', y='Score',
                 hover_name='Territory',
                 color='Territory',
-                line_dash='Subindex/Dimension',
+                line_dash='Sub-index/Dimension',
                 hover_data={'Territory':False},
                 markers=True
         )
@@ -167,11 +168,13 @@ def display_radar(territories, year):
     df = df_data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score')
     fig = px.line_polar(df, theta='Dimension', r='Score',
-                        line_close=True, color='Territory', line_dash='Year',
+                        line_close=True,
+                        color='Territory', 
+                        line_dash='Year',
                         range_r=[0,100],
                         start_angle=90,
                         hover_name='Territory',
-                        hover_data={'Territory':False, 'Territory':True, 'Dimension':True, 'Score':True}
+                        hover_data={'Territory':False, 'Dimension':True, 'Score':True}
         )
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90))
     return fig
