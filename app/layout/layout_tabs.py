@@ -128,7 +128,7 @@ tab_correlations = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension) to compare. Territories are colored according to their geographic area.", body=True),
+                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension) to compare. Territories are colored according to their geographic area: clicking on the items in the legend you can hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -226,7 +226,7 @@ tab_evolution = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("he chart displays the temporal evolution of the Index components. From the menus, you can select one or more components (Index/Sub-index/Dimension) and one or more territories (Country/Area/World) to compare their evolution.", body=True),
+                        dbc.Card("The chart displays the temporal evolution of the Index components. From the menus, you can select one or more components (Index/Sub-index/Dimension) and one or more territories (Country/Area/World) to compare their evolution.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
