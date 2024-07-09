@@ -412,6 +412,7 @@ tab_indicators = html.Div([
         )
     ], className='mt-2')
 ])
+
 tab_construction = html.Div([
     dbc.Row(
         dbc.Col([
@@ -425,19 +426,21 @@ tab_construction = html.Div([
     ),
     dbc.Row([
         dbc.Col([
-            dcc.Markdown("### La struttura"),
-            dcc.Markdown(
-                """
-                La necessità di valutare separatamente le performance dei territori in relazioni ai tre sottoindici nasce da un assunto ben preciso: **intervenire per garantire inclusione tout court, senza tenere conto degli specifici bisogni e rischi di genere e generazionali,** adottando dunque un approccio intersezionale, non consente una piena realizzazione dei diritti e delle capacitazioni di donne, bambini e adolescenti. 
+            dcc.Markdown("### Index structure"),
+            dcc.Markdown("Da scrivere"),
+            # dcc.Markdown(
+            #     """
                 
-                Una reale inclusione di queste categorie, infatti, può compiersi solo attraverso la **creazione, implementazione e il monitoraggio di policy** adeguate che devono essere al tempo stesso **multidimensionali,** per tenere conto dell’intreccio esistente tra i diritti di donne e minori, e **targettizzate,** ovvero tarate sulle loro necessità specifiche. **Per questo è necessario guardare ancora più da vicino alle loro condizioni.** 
+            #     La necessità di valutare separatamente le performance dei territori in relazioni ai tre sottoindici nasce da un assunto ben preciso: **intervenire per garantire inclusione tout court, senza tenere conto degli specifici bisogni e rischi di genere e generazionali,** adottando dunque un approccio intersezionale, non consente una piena realizzazione dei diritti e delle capacitazioni di donne, bambini e adolescenti. 
                 
-                L’Italia offre un contesto tendenzialmente favorevole all’inclusione delle categorie più vulnerabili, eppure queste continuano a vivere in condizioni di svantaggio e fragilità. 
-                I valori ottenuti dalle regioni nei tre sottoindici sono in certi casi molto diversi, al punto da apparire quasi discordanti. 
+            #     Una reale inclusione di queste categorie, infatti, può compiersi solo attraverso la **creazione, implementazione e il monitoraggio di policy** adeguate che devono essere al tempo stesso **multidimensionali,** per tenere conto dell’intreccio esistente tra i diritti di donne e minori, e **targettizzate,** ovvero tarate sulle loro necessità specifiche. **Per questo è necessario guardare ancora più da vicino alle loro condizioni.** 
                 
-                È necessario quindi procedere su due fronti paralleli e complementari: da una parte è fondamentale **lavorare sui contesti** in cui donne, bambini e adolescenti vivono e renderli il più favorevoli possibile al loro pieno sviluppo; dall’altra non si può di certo pensare che contesti favorevoli siano di per sé sufficienti a soddisfare i bisogni e le istanze di donne, bambini e adolescenti per i quali sono necessarie **politiche adeguate e interventi mirati.**
-                """
-            ),
+            #     L’Italia offre un contesto tendenzialmente favorevole all’inclusione delle categorie più vulnerabili, eppure queste continuano a vivere in condizioni di svantaggio e fragilità. 
+            #     I valori ottenuti dalle regioni nei tre sottoindici sono in certi casi molto diversi, al punto da apparire quasi discordanti. 
+                
+            #     È necessario quindi procedere su due fronti paralleli e complementari: da una parte è fondamentale **lavorare sui contesti** in cui donne, bambini e adolescenti vivono e renderli il più favorevoli possibile al loro pieno sviluppo; dall’altra non si può di certo pensare che contesti favorevoli siano di per sé sufficienti a soddisfare i bisogni e le istanze di donne, bambini e adolescenti per i quali sono necessarie **politiche adeguate e interventi mirati.**
+            #     """
+            # ),
         ], lg=6, xs =12),
         dbc.Col(
             dbc.CardGroup([
@@ -445,6 +448,10 @@ tab_construction = html.Div([
                     dbc.CardImg(
                         src="assets/icona-contesto.png",
                         top=True,
+                        style={"width": "100px",  # Riduce la larghezza dell'immagine
+                                "height": "100px",  # Riduce l'altezza dell'immagine
+                                "object-fit": "cover"  # Mantiene le proporzioni e adatta l'immagine all'area specificata
+                        }
                     ),
                     dbc.CardBody([
                         html.H4("Context", className="card-title"),
@@ -456,6 +463,10 @@ tab_construction = html.Div([
                     dbc.CardImg(
                         src="assets/icona-bambini.png",
                         top=True,
+                        style={"width": "100px",  # Riduce la larghezza dell'immagine
+                                "height": "100px",  # Riduce l'altezza dell'immagine
+                                "object-fit": "cover"  # Mantiene le proporzioni e adatta l'immagine all'area specificata
+                        }
                     ),
                     dbc.CardBody([
                         html.H4("Children", className="card-title"),
@@ -467,6 +478,10 @@ tab_construction = html.Div([
                     dbc.CardImg(
                         src="assets/icona-donne.png",
                         top=True,
+                        style={"width": "100px",  # Riduce la larghezza dell'immagine
+                                "height": "100px",  # Riduce l'altezza dell'immagine
+                                "object-fit": "cover"  # Mantiene le proporzioni e adatta l'immagine all'area specificata
+                        }
                     ),
                     dbc.CardBody([
                         html.H4("Women", className="card-title"),
@@ -479,14 +494,13 @@ tab_construction = html.Div([
     ], justify="around"),
     dbc.Row([
         dbc.Col([
-            dcc.Markdown("### L'aggregazione"),
+            dcc.Markdown("### Aggregation process"),
             dcc.Markdown("""
-                L’Indice di ogni territorio consiste in un **punteggio 0-100** elaborato aggregando i dati normalizzati dei suoi 30 Indicatori in **tre diverse fasi**. 
-                
-                Innanzitutto sono calcolati i punteggi di ciascuna delle **Dimensioni** prendendo la media aritmetica dei punteggi dei due Indicatori che la compongono.
-                Successivamente, per evitare una piena compensabilità fra le Dimensioni, il punteggio dei **Sottoindici** è determinato dalla media geometrica delle Dimensioni che ne fanno parte. La media geometrica è infine utilizzata anche per calcolare l’**Indice generale** a partire dai 3 Sottoindici. 
-                
-                Con un’aggregazione di questo tipo, una pessima prestazione in **un aspetto giudicato fondamentale per l’inclusione non può venire del tutto o in parte compensato da un punteggio elevato in altre.** 
+                The Index for each territory consists of a **0-100 score** developed by aggregating the normalised data of its 30 Indicators in **three different steps**.
+
+                First, the scores of each of each **Dimension** is calculated by taking the arithmetic mean of the scores of the two constituent **Component** (normalised indicators). Next, to avoid full compensability between Dimensions, the score of the **Sub-indexes** is determined by the geometric mean of the Dimensions that are part of it. Finally, the geometric mean is also used to calculate the overall **Index** from the 3 Sub-indexes.
+
+                With such an aggregation, **a poor performance in one aspect judged to be crucial for inclusion cannot be fully or partly compensated for by a high score in others**.
                 """)
         ], lg=6, xs =12),
         dbc.Col(
@@ -494,19 +508,19 @@ tab_construction = html.Div([
                 dbc.Card(
                     dbc.CardBody([
                         html.H4("Dimensions", className="card-title"),
-                        dcc.Markdown("Il punteggio delle 15 Dimensioni è ottenuto dalla **media aritmetica** dei punteggi dei **2 Indicatori** che compongono ciascuna.", className="card-text")
+                        dcc.Markdown("The **arithmetic mean** of the **2 Components** (indicators) of each dimension gives its score.", className="card-text")
                         ])
                 ),
                 dbc.Card(
                     dbc.CardBody([
                         html.H4("Sub-indexes", className="card-title"),
-                         dcc.Markdown("Il punteggio dei 3 Sottoindici è ottenuto dalla **media geometrica** dei punteggi delle **5 Dimensioni** che compongono ciascuno.", className="card-text")
+                         dcc.Markdown("The **geometric mean** of the **5 Dimensions** of each Sub-index gives its score.", className="card-text")
                         ])
                 ),
                 dbc.Card(
                     dbc.CardBody([
                         html.H4("Index", className="card-title"),
-                        dcc.Markdown("Il punteggio dell'Indice generale è ottenuto dalla **media geometrica** dei punteggi dei **3 Sottoindici** che lo compongono.", className="card-text")
+                        dcc.Markdown("The **Geometric mean** of **3 Sub-indexes** gives the Index score.", className="card-text")
                     ])
                 )
             ]),
