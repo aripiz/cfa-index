@@ -418,9 +418,9 @@ tab_construction = html.Div([
         dbc.Col([
             dcc.Markdown(
                 """
-                L’Indice è stato costruito seguendo un processo in cinque fasi (raccolta dati, imputazione valori mancanti, trasformazione indicatori, normalizzazione indicatori, aggregazione) che, a partire dai dati originali permette di ottenere e confrontare i punteggi di ciascuna componente (Indicatori, Dimensioni, Sottoindici, Indice generale) negli anni dal 2018 al 2022 per ciascun territorio (Regione/Provincia Autonoma, Area o Italia). 
+                The Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The _General_ Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
                 """),
-                html.Div(["Una descrizione dettagliata del metodo seguito è disponibile nelle ", html.A("Note tecniche.", href=NOTES_FILE)]),
+                html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes.", href=NOTES_FILE)]),
                 html.Br()
             ])
     ),
@@ -500,7 +500,7 @@ tab_construction = html.Div([
 
                 First, the scores of each of each **Dimension** is calculated by taking the arithmetic mean of the scores of the two constituent **Component** (normalised indicators). Next, to avoid full compensability between Dimensions, the score of the **Sub-indexes** is determined by the geometric mean of the Dimensions that are part of it. Finally, the geometric mean is also used to calculate the overall **Index** from the 3 Sub-indexes.
 
-                With such an aggregation, **a poor performance in one aspect judged to be crucial for inclusion cannot be fully or partly compensated for by a high score in others**.
+                This kind of aggregation is **non-compensatory**: a poor performance in one aspect judged to be crucial for inclusion cannot be fully or partly compensated for by a high score in others.
                 """)
         ], lg=6, xs =12),
         dbc.Col(

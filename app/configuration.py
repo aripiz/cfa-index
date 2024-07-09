@@ -31,5 +31,5 @@ META_FILE_LOCAL = "/Users/ariele/Library/CloudStorage/GoogleDrive-ariele.piziali
 GEO_FILE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson"
 
 
-NOTES_FILE = "https://github.com/aripiz/weworld-maipiuinvisibili2023/raw/master/data/WeWorld-MaiPi%C3%B9Invisibili-2023_NoteTecniche.pdf"
-REPORT_FILE = "https://github.com/aripiz/weworld-maipiuinvisibili2023/raw/master/data/WeWorld-MaiPi%C3%B9Invisibili-2023_Rapporto.pdf"
+NOTES_FILE = ""
+REPORT_FILE = ""
