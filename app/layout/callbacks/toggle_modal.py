@@ -8,6 +8,7 @@ from dash import Input, Output, State, dcc, callback_context
 import pandas as pd
 import io
 
+df_meta.index.name = 'indicator'
 @app.callback(
     Output("modal", "is_open"),
     [Input("open_download", "n_clicks"), Input("close_download", "n_clicks")],
@@ -25,27 +26,20 @@ def toggle_modal(n1, n2, is_open):
     Input('download_territory', 'value')],
     prevent_initial_call=True,
 )
-def download_excel(n_clicks, indicators, territories):
+def download_excel(n_clicks, features, territories):
     changed_id = [p['prop_id'] for p in callback_context.triggered][0]
     if 'download_button' in changed_id:
-        colonne_metadati = ['subindex', 'dimension', 'name', 'unit', 'description', 'last_update', 'source', 'source_link']
-        colonne_dati = [f'Indicator {i}' for i in range(1,31)]
-
-        meta = df_meta[colonne_metadati]  
-        data = df_data.set_index(['name','year'])[colonne_dati]
-        file_name = "WeWorld-MaiPiùInvisibili-2023_Indicatori.xlsx"
-        if indicators  is not None: 
-            indicators = [int(indicator.split(":")[0]) for indicator in indicators]
-            colonne_dati = [f'Indicator {indicator}' for indicator in indicators]
-            meta = meta.loc[indicators]
-            data = data[colonne_dati]
-            file_name = "WeWorld-MaiPiùInvisibili-2023_Indicatori-selezione.xlsx"
+        meta_columns = ['subindex', 'dimension', 'name', 'unit', 'definition', 'last_update', 'source', 'source_link']
+        meta = df_meta[meta_columns]  
+        data = df_data.set_index(['territory','year'])
+        file_name = "WeWorld-Index-2024_Data.xlsx"
+        if features  is not None: 
+            data = data[features]
         if territories is not None:
             data = data.loc[territories]
-            file_name = "WeWorld-MaiPiùInvisibili-2023_Indicatori-selezione.xlsx"
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer) as writer:
-            meta.to_excel(writer, sheet_name='metadata')
+            meta.to_excel(writer, sheet_name='indicators_metadata')
             data.to_excel(writer, sheet_name='data')
         return dcc.send_bytes(buffer.getvalue(), filename=file_name)
     else: return None
