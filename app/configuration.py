@@ -28,8 +28,7 @@ META_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/dat
 DATA_FILE_LOCAL = "/Users/ariele/Library/CloudStorage/GoogleDrive-ariele.piziali@gmail.com/Il mio Drive/Lavoro/WeWorld/Mondiale/2024/weworld-index2024/data/index2024_data.csv"
 META_FILE_LOCAL = "/Users/ariele/Library/CloudStorage/GoogleDrive-ariele.piziali@gmail.com/Il mio Drive/Lavoro/WeWorld/Mondiale/2024/weworld-index2024/data/index2024_meta.csv"
 
-GEO_FILE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson"
-
+GEO_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ne_50m_admin_0_countries.geojson"
 
 NOTES_FILE = ""
 REPORT_FILE = ""
