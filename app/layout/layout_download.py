@@ -33,7 +33,7 @@ modal_data_download = dbc.Modal(
                         id='download_indicator',
                         options=features_list,
                         multi=True,
-                        placeholder="Select features",
+                        placeholder="All features",
                         style={"width": "100%",}
                     ),
                 ], xs=12)),
@@ -44,7 +44,7 @@ modal_data_download = dbc.Modal(
                         id='download_territory',
                         options=territories_list,
                         multi=True,
-                        placeholder="Select territories",
+                        placeholder="All territories",
                         style={"width": "100%",}
                     ),
                     # dbc.DropdownMenu(
@@ -64,7 +64,7 @@ modal_data_download = dbc.Modal(
         ),
         dbc.ModalFooter(
             dbc.Button(
-                "Chiudi", id="close_download", n_clicks=0, 
+                "Close", id="close_download", n_clicks=0, 
                 )
         ),
     ],
