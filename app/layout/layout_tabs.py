@@ -98,7 +98,7 @@ tab_map_indicators = html.Div([
                     lg = 2, xs = 12
                 ),
                 dbc.Col([
-                    dbc.Label("Year:"),
+                    dbc.Label("Year"),
                      dcc.Slider(
                         years_list[0],
                         years_list[-1],
@@ -152,7 +152,7 @@ tab_correlations = html.Div([
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
-                    dbc.Label("Year:"),
+                    dbc.Label("Year"),
                     dcc.Slider(
                         years_list[0],
                         years_list[-1],
@@ -309,10 +309,10 @@ tab_radar = html.Div([
             ])
 
 # Methodology tabs
-tab_indicators= html.Div([
+tab_indicators_old = html.Div([
     dbc.Row([
         dbc.Col([
-            dbc.Label("Seleziona un indicatore:"),
+            dbc.Label("Indicator:"),
             dcc.Dropdown(
                 id='indicator',
                 options=indicators_list,
@@ -323,28 +323,28 @@ tab_indicators= html.Div([
     dbc.Row([
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Indicatore", className="card-title"),
+                html.H4("Indicator", className="card-title"),
                 html.H5(id="indicator_num", className="card-text")
             ]), style={'height':"100%"}),
             lg = 2, xs = 4,
         ),
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Nome", className="card-title"),
+                html.H4("Name", className="card-title"),
                 html.Div(id="indicator_name", className="card-text")
             ]), style={'height':"100%"}),
             lg=6, xs=8,
         ),
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Sottoindice", className="card-title"),
+                html.H4("Sub-index", className="card-title"),
                 html.Div(id="indicator_sub", className="card-text")
             ]), style={'height':"100%"}),
             lg=2, xs=6,
         ),
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Dimensione", className="card-title"),
+                html.H4("Dimension", className="card-title"),
                 html.Div(id="indicator_dim", className="card-text")
             ]), style={'height':"100%"}),
             lg=2, xs=6,
@@ -353,14 +353,14 @@ tab_indicators= html.Div([
     dbc.Row([
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Descrizione", className="card-title"),
+                html.H4("Definition", className="card-title"),
                 html.Div(id="indicator_des", className="card-text")
             ]), style={'height':"100%"}),
             lg=10, xs=12,
         ),
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Unità di misura", className="card-title"),
+                html.H4("Unit", className="card-title"),
                 html.Div(id="indicator_unit", className="card-text")
             ]), style={'height':"100%"}),
             lg=2, xs=12,
@@ -369,14 +369,14 @@ tab_indicators= html.Div([
     dbc.Row([
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Aggiornamento", className="card-title"),
+                html.H4("Last update", className="card-title"),
                 html.Div(id="indicator_update", className="card-text")
             ]), style={'height':"100%"}),
             lg = 3, xs = 12,
         ),
         dbc.Col(
             dbc.Card(dbc.CardBody([
-                html.H4("Fonte", className="card-title"),
+                html.H4("Source", className="card-title"),
                 html.A(id="indicator_source", className="card-text", target="_blank", rel="noopener noreferrer")
             ]), style={'height':"100%"}),
             lg=9, xs=12,
@@ -384,6 +384,34 @@ tab_indicators= html.Div([
     ], class_name = 'mt-2'),
 ])
 
+tab_indicators = html.Div([
+    dbc.Row([
+        dbc.Col([
+            dbc.Label("Indicator"),
+            dcc.Dropdown(
+                id='indicator',
+                options=indicators_list,
+                value=indicators_list[0],
+                style={"width": "100%"}),
+        ]),
+    ]),
+    dbc.Row([
+        dbc.Col(
+            dbc.Table([
+                html.Tbody([
+                    html.Tr([html.Th("Indicator", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_num")]),
+                    html.Tr([html.Th("Name", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_name")]),
+                    html.Tr([html.Th("Sub-index", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_sub")]),
+                    html.Tr([html.Th("Dimension", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_dim")]),
+                    html.Tr([html.Th("Definition", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_des")]),
+                    html.Tr([html.Th("Unit", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_unit")]),
+                    html.Tr([html.Th("Last update", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_update")]),
+                    html.Tr([html.Th("Source", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(html.A(id="indicator_source", target="_blank", rel="noopener noreferrer"))])
+                ])
+            ], bordered=True, hover=True, responsive=True, striped=True)
+        )
+    ], className='mt-2')
+])
 tab_construction = html.Div([
     dbc.Row(
         dbc.Col([
@@ -419,7 +447,7 @@ tab_construction = html.Div([
                         top=True,
                     ),
                     dbc.CardBody([
-                        html.H4("Contesto", className="card-title"),
+                        html.H4("Context", className="card-title"),
                         html.Div([html.P(dim) for dim in df_meta.loc[[1,3,5,7,9],'dimension']],
                         className="card-text",), 
                         ])
@@ -430,7 +458,7 @@ tab_construction = html.Div([
                         top=True,
                     ),
                     dbc.CardBody([
-                        html.H4("Bambini", className="card-title"),
+                        html.H4("Children", className="card-title"),
                         html.Div([ html.P(dim) for dim in df_meta.loc[[11,13,15,17,19],'dimension']],
                         className="card-text",)
                         ])
@@ -441,7 +469,7 @@ tab_construction = html.Div([
                         top=True,
                     ),
                     dbc.CardBody([
-                        html.H4("Donne", className="card-title"),
+                        html.H4("Women", className="card-title"),
                         html.Div([ html.P(dim) for dim in df_meta.loc[[21,23,25,27,29],'dimension']],
                         className="card-text",)
                     ])
@@ -465,19 +493,19 @@ tab_construction = html.Div([
             dbc.CardGroup([
                 dbc.Card(
                     dbc.CardBody([
-                        html.H4("Dimensioni", className="card-title"),
+                        html.H4("Dimensions", className="card-title"),
                         dcc.Markdown("Il punteggio delle 15 Dimensioni è ottenuto dalla **media aritmetica** dei punteggi dei **2 Indicatori** che compongono ciascuna.", className="card-text")
                         ])
                 ),
                 dbc.Card(
                     dbc.CardBody([
-                        html.H4("Sottoindici", className="card-title"),
+                        html.H4("Sub-indexes", className="card-title"),
                          dcc.Markdown("Il punteggio dei 3 Sottoindici è ottenuto dalla **media geometrica** dei punteggi delle **5 Dimensioni** che compongono ciascuno.", className="card-text")
                         ])
                 ),
                 dbc.Card(
                     dbc.CardBody([
-                        html.H4("Indice generale", className="card-title"),
+                        html.H4("Index", className="card-title"),
                         dcc.Markdown("Il punteggio dell'Indice generale è ottenuto dalla **media geometrica** dei punteggi dei **3 Sottoindici** che lo compongono.", className="card-text")
                     ])
                 )

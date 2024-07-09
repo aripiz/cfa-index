@@ -218,7 +218,7 @@ def update_indicator_description(indicator):
             data['name'], 
             data['subindex'],
             data['dimension'],
-            data['description'],
+            data['definition'],
             data['unit'],
             data['last_update'],
             data['source'],

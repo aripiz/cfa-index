@@ -15,21 +15,21 @@ from layout.layout_download import modal_data_download
 
 # Navbar
 pages_nav = dbc.NavbarSimple(
-    # children=[
-    #     dbc.NavItem(dbc.NavLink("Panoramica", active='exact', href='/')),
-    #     dbc.NavItem(dbc.NavLink("Esplora i dati", active='exact', href="/data")),
-    #     dbc.NavItem(dbc.NavLink("Metodologia", active='exact', href="/methodology")),
-    #     dbc.DropdownMenu(
-    #         [
-    #             dbc.DropdownMenuItem("Rapporto", href=REPORT_FILE), 
-    #             dbc.DropdownMenuItem("Note tecniche", href=NOTES_FILE), 
-    #             dbc.DropdownMenuItem("Dati", id='open_download', n_clicks=0),
-    #             modal_data_download
-    #         ],
-    #         label="Download",
-    #         in_navbar=True,
-    #     ),
-    # ],
+    children=[
+        dbc.NavItem(dbc.NavLink("Overview", active='exact', href='/')),
+        dbc.NavItem(dbc.NavLink("Data", active='exact', href="/data")),
+        dbc.NavItem(dbc.NavLink("Methodology", active='exact', href="/methodology")),
+        dbc.DropdownMenu(
+            [
+                dbc.DropdownMenuItem("Report", href=REPORT_FILE), 
+                dbc.DropdownMenuItem("Techical Notes", href=NOTES_FILE), 
+                dbc.DropdownMenuItem("Data", id='open_download', n_clicks=0),
+                modal_data_download
+            ],
+            label="Download",
+            in_navbar=True,
+        ),
+    ],
     brand= [html.Img(src="assets/logo_weworld_neg.png", height='30px'), "  Index 2024"],
             #html.Img(src="assets/logo_maipiuinvisibili2023_neg.png", height="30px", alt='Index 2024')],
     brand_href="https://www.weworld.it",

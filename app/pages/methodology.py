@@ -9,8 +9,8 @@ register_page(__name__, name = TITLE )
 # Tabs
 tabs = html.Div(dbc.Tabs(
     [
-        dbc.Tab(label="Costruzione dell'Indice", tab_id="construction"),
-        dbc.Tab(label="Definizione degli Indicatori", tab_id="indicators"),
+        dbc.Tab(label="Index Construction", tab_id="construction"),
+        dbc.Tab(label="Indicators List", tab_id="indicators"),
     ],
     id="metho_tabs",
     active_tab="construction",
