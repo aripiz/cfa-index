@@ -1,7 +1,5 @@
 # render_data.py
 
-from tkinter import Y
-from turtle import title
 import numpy as np
 import plotly.express as px
 import pandas as pd
