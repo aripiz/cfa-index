@@ -1,6 +1,7 @@
 # render_data.py
 
 from tkinter import Y
+from turtle import title
 import numpy as np
 import plotly.express as px
 import pandas as pd
@@ -100,20 +101,21 @@ def display_map_indicators(indicator, year, kind):
     Input('corr_x', 'value'),
     Input('corr_y', 'value'),
     Input('slider_year', 'value'))
-def display_corr_features(x_data, y_data,year):
+def display_corr(x_data, y_data,year):
     df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].rename(columns={'year':'Year'})
     x_data = x_data.split(":")[0] 
     y_data = y_data.split(":")[0]
+    corr = df.corr('spearman', numeric_only=True)
     fig = px.scatter(df, x=x_data, y=y_data,
                  hover_name='territory', color='area',
                  hover_data={'area':False, 'Year': True, x_data: ':.3g', y_data:':.3g'},
                  color_discrete_sequence=px.colors.qualitative.G10
                  )
     fig.update_traces(marker={'size': 15})
-    fig.update_layout(legend_title = 'Area')
-    fig.update_xaxes(range=[0, 105])
-    fig.update_yaxes(range=[0, 105])
-    
+    fig.update_layout(legend_title = 'Area',
+                      title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:.3g}")
+    fig.update_xaxes(range=[-5, 105])
+    fig.update_yaxes(range=[-5, 105])    
     return fig
 
 # Ranking
@@ -143,13 +145,14 @@ def display_ranking(feature, year):
     Output("evolution_plot", "figure"),
     Input("evolution_feature", "value"),
     Input("evolution_territory", "value"))
-def display_evolution(features, territories):
-    df = df_data.query("territory == @territories").rename(columns={'year':'Year', 'territory':'Territory'})
-    df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Sub-index/Dimension', value_name='Score')
+def display_evolution(component, territory):
+    df = df_data.query("territory == @territory").rename(columns={'year':'Year', 'territory':'Territory'})
+    component = [c.split(":")[0] for c in component]
+    df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=component, var_name='Component', value_name='Score')
     fig = px.line(df, x='Year', y='Score',
                 hover_name='Territory',
                 color='Territory',
-                line_dash='Sub-index/Dimension',
+                line_dash='Component',
                 hover_data={'Territory':False},
                 markers=True
         )

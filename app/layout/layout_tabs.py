@@ -129,7 +129,7 @@ tab_correlations = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension) to compare. Territories are colored according to their geographic area: clicking on the items in the legend you can hide them.", body=True),
+                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Spearmans's correlation coefficient \u03c1\u209b is displayed above the plot. Territories are colored according to their geographic area: clicking on the items in the legend you can hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -142,6 +142,7 @@ tab_correlations = html.Div([
                     id="corr_x",
                     options = features_list + components_list,
                     value = features_list[0],
+                    optionHeight=50,
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
@@ -150,6 +151,7 @@ tab_correlations = html.Div([
                     id="corr_y",
                     options = features_list + components_list,
                     value = features_list[1],
+                    optionHeight=50
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
@@ -227,7 +229,7 @@ tab_evolution = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart displays the temporal evolution of the Index components. From the menus, you can select one or more components (Index/Sub-index/Dimension) and one or more territories (Country/Area/World) to compare their evolution.", body=True),
+                        dbc.Card("The chart displays the temporal evolution of the Index components. From the menus, you can select one or more components (Index/Sub-index/Dimension/Indicator) and one or more territories (Country/Area/World) to compare their evolution.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -238,8 +240,9 @@ tab_evolution = html.Div([
                 dbc.Label("Component"),
                 dcc.Dropdown(
                     id="evolution_feature",
-                    options = features_list,
+                    options = features_list+components_list,
                     value=features_list[0],
+                    optionHeight=50,
                     #style={"width": "75%"},
                     multi=True
                 )], lg = 6, xs =12),
