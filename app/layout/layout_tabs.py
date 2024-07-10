@@ -7,8 +7,9 @@ import dash_bootstrap_components as dbc
 from configuration import NOTES_FILE
 
 # Options
-features_list = df_data.columns[4:23]
+features_list = df_data.columns[4:23].to_list()
 years_list = df_data['year'].unique()
+components_list = [f"Indicator {num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
 indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
 kind_list = ['Data', 'Scores']
 territories_list = df_data['territory'].unique()
@@ -33,7 +34,7 @@ tab_map_features = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Components"),
+                    dbc.Label("Component"),
                     
                     dcc.Dropdown(
                     id = 'feature',
@@ -138,17 +139,17 @@ tab_correlations = html.Div([
                 dbc.Col([
                     dbc.Label("Component (x)"),
                     dcc.Dropdown(
-                    id="dimension_x",
-                    options = features_list,
-                    value=features_list[0],
+                    id="corr_x",
+                    options = features_list + components_list,
+                    value = features_list[0],
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
                     dbc.Label("Component (y)"),
                     dcc.Dropdown(
-                    id="dimension_y",
-                    options = features_list,
-                    value=features_list[1],
+                    id="corr_y",
+                    options = features_list + components_list,
+                    value = features_list[1],
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
@@ -165,7 +166,7 @@ tab_correlations = html.Div([
                     ], lg = 4, xs =12)],
                 justify='between'),
                 dbc.Row(dbc.Col(dcc.Graph(
-                    id="dimensions_correlation",
+                    id="features_correlation",
                     style={'height': '60vh'},
                 )), justify = 'around', class_name = 'mt-2'),
             ])
@@ -234,7 +235,7 @@ tab_evolution = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                dbc.Label("Components"),
+                dbc.Label("Component"),
                 dcc.Dropdown(
                     id="evolution_feature",
                     options = features_list,
@@ -243,7 +244,7 @@ tab_evolution = html.Div([
                     multi=True
                 )], lg = 6, xs =12),
                 dbc.Col([
-                dbc.Label("Territories"),
+                dbc.Label("Territory"),
                 dcc.Dropdown(
                     id='evolution_territory',
                     options = territories_list ,
@@ -278,7 +279,7 @@ tab_radar = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                dbc.Label("Territories"),
+                dbc.Label("Territory"),
                 dcc.Dropdown(
                     id='radar_territory',
                     options = territories_list ,
@@ -287,7 +288,7 @@ tab_radar = html.Div([
                     multi=True
                 )], lg = 9, xs =12),
                 dbc.Col([
-                dbc.Label("Years"),
+                dbc.Label("Year"),
                 dcc.Dropdown(
                     id='radar_year',
                     options = years_list ,

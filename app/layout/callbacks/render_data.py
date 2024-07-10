@@ -1,5 +1,6 @@
 # render_data.py
 
+from tkinter import Y
 import numpy as np
 import plotly.express as px
 import pandas as pd
@@ -63,7 +64,7 @@ def display_map_indicators(indicator, year, kind):
         limits_scale = [df_meta.loc[int(indicator)]['worst_value'], df_meta.loc[int(indicator)]['best_value']]
     df = df_data.loc[df_data['year']==year].rename(columns={'year':'Year'})
     if kind=='Data':
-        col = f'Indicator {int(indicator)}'
+        col = f'Indicator {int(indicator)} (data)'
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
             color=col,
@@ -75,7 +76,7 @@ def display_map_indicators(indicator, year, kind):
         )
         fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unit'], x=0.92, len=0.75))
     elif kind=='Scores':
-        col = f"Component {indicator}"
+        col = f'Indicator {int(indicator)}'
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
             color=col,
@@ -95,15 +96,17 @@ def display_map_indicators(indicator, year, kind):
 
 # Correlation
 @app.callback(
-    Output("dimensions_correlation", "figure"),
-    Input('dimension_x', 'value'),
-    Input('dimension_y', 'value'),
+    Output("features_correlation", "figure"),
+    Input('corr_x', 'value'),
+    Input('corr_y', 'value'),
     Input('slider_year', 'value'))
-def display_corr_dimensions(dimension_x, dimension_y,year):
+def display_corr_features(x_data, y_data,year):
     df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].rename(columns={'year':'Year'})
-    fig = px.scatter(df, x=dimension_x, y=dimension_y,
+    x_data = x_data.split(":")[0] 
+    y_data = y_data.split(":")[0]
+    fig = px.scatter(df, x=x_data, y=y_data,
                  hover_name='territory', color='area',
-                 hover_data={'area':False, 'Year': True, dimension_x: ':.3g', dimension_y:':.3g'},
+                 hover_data={'area':False, 'Year': True, x_data: ':.3g', y_data:':.3g'},
                  color_discrete_sequence=px.colors.qualitative.G10
                  )
     fig.update_traces(marker={'size': 15})
@@ -152,7 +155,7 @@ def display_evolution(features, territories):
         )
     fig.update_traces(marker={'size': 10})
     fig.update_layout(
-        legend_title = 'Territories, Components',
+        legend_title = 'Territory, Component',
         xaxis = dict(tickvals = df['Year'].unique()),
         yaxis = dict(title='Score')
         )
