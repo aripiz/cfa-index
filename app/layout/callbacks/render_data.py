@@ -147,7 +147,8 @@ def display_ranking(feature, year):
     Input("evolution_territory", "value"))
 def display_evolution(component, territory):
     df = df_data.query("territory == @territory").rename(columns={'year':'Year', 'territory':'Territory'})
-    component = [c.split(":")[0] for c in component]
+    if type(component) is list: component = [c.split(": ")[0] for c in component]
+    else: component.split(": ")[0]
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=component, var_name='Component', value_name='Score')
     fig = px.line(df, x='Year', y='Score',
                 hover_name='Territory',
