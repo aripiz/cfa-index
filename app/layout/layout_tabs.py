@@ -336,7 +336,7 @@ tab_comparison = html.Div([
                     dbc.Label("Data (x)"),
                     dcc.Dropdown(
                     id="comp_x",
-                    options = subindexes_list[0] + auxiliary_list,
+                    options = list(subindexes_list[0]) + auxiliary_list,
                     value = subindexes_list[0],
                     #optionHeight=50,
                     #style={"width": "75%"}
@@ -345,7 +345,7 @@ tab_comparison = html.Div([
                     dbc.Label("Data (y)"),
                     dcc.Dropdown(
                     id="comp_y",
-                    options = subindexes_list[0] + auxiliary_list,
+                    options = list(subindexes_list[0]) + auxiliary_list,
                     value = auxiliary_list[1],
                     #optionHeight=50
                     #style={"width": "75%"}
