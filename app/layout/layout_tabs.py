@@ -325,7 +325,7 @@ tab_comparison = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Territories are colored according to their geographic area and sized based on their population: clicking on the items in the legend you can hide them.", body=True),
+                        dbc.Card("The chart compare the Index and other relevant indicators: each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population: clicking on the items in the legend you can hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -333,7 +333,7 @@ tab_comparison = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Component (x)"),
+                    dbc.Label("Data (x)"),
                     dcc.Dropdown(
                     id="comp_x",
                     options = subindexes_list + auxiliary_list,
@@ -342,7 +342,7 @@ tab_comparison = html.Div([
                     #style={"width": "75%"}
                 )], lg = 4, xs =12),
                 dbc.Col([
-                    dbc.Label("Component (y)"),
+                    dbc.Label("Data (y)"),
                     dcc.Dropdown(
                     id="comp_y",
                     options = subindexes_list + auxiliary_list,
@@ -357,7 +357,7 @@ tab_comparison = html.Div([
                         years_list[-1],
                         step = 1,
                         id ='slider_year',
-                        value = years_list[-1],
+                        value = years_list[-2],
                         marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
                         tooltip={"placement": "bottom", "always_visible": True}
                         )

@@ -131,9 +131,9 @@ def display_corr(x_data, y_data,year):
                      color_discrete_sequence=px.colors.qualitative.G10,
                      size_max = 50
     )
-    if x_data == 'GDP per capita': fig.update_xaxes(type='log')
-    if y_data == 'GDP per capita': fig.update_yaxes(type='log')
- 
+
+    if x_data == 'GDP per capita': fig.update_xaxes(type='log', ticksuffix=' ' + metadata.loc[101]['unit'])
+    if y_data == 'GDP per capita': fig.update_yaxes(type='log', ticksuffix=' ' + metadata.loc[101]['unit'])
     return fig
 
 
