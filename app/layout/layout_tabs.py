@@ -325,7 +325,7 @@ tab_comparison = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart compare the Index and other relevant indicators: each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population: clicking on the items in the legend you can hide them.", body=True),
+                        dbc.Card("The chart compares the Index and other relevant indicators: each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population: clicking on the items in the legend you can hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -336,7 +336,7 @@ tab_comparison = html.Div([
                     dbc.Label("Data (x)"),
                     dcc.Dropdown(
                     id="comp_x",
-                    options = subindexes_list + auxiliary_list,
+                    options = subindexes_list[0] + auxiliary_list,
                     value = subindexes_list[0],
                     #optionHeight=50,
                     #style={"width": "75%"}
@@ -345,7 +345,7 @@ tab_comparison = html.Div([
                     dbc.Label("Data (y)"),
                     dcc.Dropdown(
                     id="comp_y",
-                    options = subindexes_list + auxiliary_list,
+                    options = subindexes_list[0] + auxiliary_list,
                     value = auxiliary_list[1],
                     #optionHeight=50
                     #style={"width": "75%"}
