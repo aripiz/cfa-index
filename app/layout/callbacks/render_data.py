@@ -10,7 +10,7 @@ from dash_bootstrap_templates import load_figure_template
 from dash import Input, Output
 
 from index import app
-from index import df_meta, df_data
+from index import metadata, data
 from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, COLOR_SCALE, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
 from utilis import sig_round
 
@@ -23,7 +23,7 @@ pio.templates.default = FIGURE_TEMPLATE
     Input("feature", "value"),
     Input('slider_year', 'value'))
 def display_map_index(feature, year):
-    df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].rename(columns={'year':'Year'})
+    df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year'})
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
     fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
         locations='code', featureidkey="properties.ADM0_A3",
@@ -55,13 +55,13 @@ def display_map_index(feature, year):
     Input('indicator_kind', 'value'))
 def display_map_indicators(indicator, year, kind):
     indicator = indicator.split(":")[0]
-    if df_meta.loc[int(indicator)]['inverted']=='yes':
+    if metadata.loc[int(indicator)]['inverted']=='yes':
         colors = COLOR_SCALE[::-1]
-        limits_scale = [df_meta.loc[int(indicator)]['best_value'], df_meta.loc[int(indicator)]['worst_value']]
+        limits_scale = [metadata.loc[int(indicator)]['best_value'], metadata.loc[int(indicator)]['worst_value']]
     else:
         colors = COLOR_SCALE
-        limits_scale = [df_meta.loc[int(indicator)]['worst_value'], df_meta.loc[int(indicator)]['best_value']]
-    df = df_data.loc[df_data['year']==year].rename(columns={'year':'Year'})
+        limits_scale = [metadata.loc[int(indicator)]['worst_value'], metadata.loc[int(indicator)]['best_value']]
+    df = data.loc[data['year']==year].rename(columns={'year':'Year'})
     if kind=='Data':
         col = f'Indicator {int(indicator)} (data)'
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
@@ -73,7 +73,7 @@ def display_map_indicators(indicator, year, kind):
             hover_data={'code':False, 'Year': True, col: ':.3g'},
             zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
         )
-        fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unit'], x=0.92, len=0.75))
+        fig.update_layout(coloraxis_colorbar=dict(title=metadata.loc[int(indicator)]['unit'], x=0.92, len=0.75))
     elif kind=='Scores':
         col = f'Indicator {int(indicator)}'
         fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
@@ -100,21 +100,42 @@ def display_map_indicators(indicator, year, kind):
     Input('corr_y', 'value'),
     Input('slider_year', 'value'))
 def display_corr(x_data, y_data,year):
-    df = df_data[(df_data['area'].notna()) & (df_data['year']==year)].rename(columns={'year':'Year'})
+    df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
     x_data = x_data.split(":")[0] 
     y_data = y_data.split(":")[0]
     corr = df.corr('spearman', numeric_only=True)
-    fig = px.scatter(df, x=x_data, y=y_data,
-                 hover_name='territory', color='area',
-                 hover_data={'area':False, 'Year': True, x_data: ':.3g', y_data:':.3g'},
-                 color_discrete_sequence=px.colors.qualitative.G10
-                 )
-    fig.update_traces(marker={'size': 15})
-    fig.update_layout(legend_title = 'Area',
-                      title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:.3g}")
+    fig = px.scatter(df, x=x_data, y=y_data, size='Population', color='Area', 
+                     hover_name='territory', 
+                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', 'Population':':.3g'},
+                     color_discrete_sequence=px.colors.qualitative.G10,
+                     size_max = 50
+    )
+    #fig.update_traces(marker={'size': 15})
+    fig.update_layout(title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:.3g}")
     fig.update_xaxes(range=[-5, 105])
     fig.update_yaxes(range=[-5, 105])    
     return fig
+
+# Comparison
+@app.callback(
+    Output("comparison_chart", "figure"),
+    Input('comp_x', 'value'),
+    Input('comp_y', 'value'),
+    Input('slider_year', 'value'))
+def display_corr(x_data, y_data,year):
+    df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
+    #corr = df.corr('pearson', numeric_only=True)
+    fig = px.scatter(df, x=x_data, y=y_data, size='Population', color='Area', 
+                     hover_name='territory', 
+                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', 'Population':':.3g'},
+                     color_discrete_sequence=px.colors.qualitative.G10,
+                     size_max = 50
+    )
+    if x_data == 'GDP per capita': fig.update_xaxes(type='log')
+    if y_data == 'GDP per capita': fig.update_yaxes(type='log')
+ 
+    return fig
+
 
 # Ranking
 @app.callback(
@@ -122,8 +143,8 @@ def display_corr(x_data, y_data,year):
     Input("ranking_feature", "value"),
     Input("slider_year", "value"))
 def display_ranking(feature, year):
-    df = df_data[df_data['area'].notna()].set_index('code')
-    years_list = df_data['year'].unique()
+    df = data[data['area'].notna()].set_index('code')
+    years_list = data['year'].unique()
     final = df[df['year']==year][['territory', feature]]
     initial = df[df['year']==years_list[0]][['territory', feature]]
     final['Rank'] = final[feature].rank(ascending=False, method='min')
@@ -144,7 +165,7 @@ def display_ranking(feature, year):
     Input("evolution_feature", "value"),
     Input("evolution_territory", "value"))
 def display_evolution(component, territory):
-    df = df_data.query("territory == @territory").rename(columns={'year':'Year', 'territory':'Territory'})
+    df = data.query("territory == @territory").rename(columns={'year':'Year', 'territory':'Territory'})
     if type(component) is list: component = [c.split(": ")[0] for c in component]
     else: component.split(": ")[0]
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=component, var_name='Component', value_name='Score')
@@ -169,8 +190,8 @@ def display_evolution(component, territory):
     Input("radar_territory", "value"),
     Input("radar_year", "value"))
 def display_radar(territories, year):
-    features = df_data.columns[8:23]
-    df = df_data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
+    features = data.columns[8:23]
+    df = data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score')
     fig = px.line_polar(df, theta='Dimension', r='Score',
                         line_close=True,
@@ -190,8 +211,8 @@ def display_radar(territories, year):
     Input("radar_territory", "value"),
     Input("radar_year", "value"))
 def display_radar_table(territories, year):
-    features = df_data.columns[8:23].to_list()
-    df = df_data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
+    features = data.columns[8:23].to_list()
+    df = data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score').set_index(['Dimension', 'Territory', 'Year']).unstack(['Territory','Year']).loc[features]
     table = dbc.Table.from_dataframe(
                     df,
@@ -218,7 +239,7 @@ def display_radar_table(territories, year):
     Input("indicator", "value"))
 def update_indicator_description(indicator):
     indicator = indicator.split(":")[0]
-    data = df_meta.loc[int(indicator)]
+    data = metadata.loc[int(indicator)]
     info = [indicator, 
             data['name'], 
             data['subindex'],

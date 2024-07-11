@@ -7,8 +7,9 @@ import pandas as pd
 from configuration import DATA_FILE, META_FILE, TITLE, DBC_CSS
 
 # Loading data
-df_data = pd.read_csv(DATA_FILE)
-df_meta = pd.read_csv(META_FILE, index_col=0)
+data = pd.read_csv(DATA_FILE)
+metadata = pd.read_csv(META_FILE, index_col=0)
+#auxiliary_meta = pd.read_csv(META_FILE, index_col=0 ,nrows=2, header=0, skiprows=range(1,31))
 
 # App 
 app = Dash(

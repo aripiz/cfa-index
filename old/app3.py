@@ -39,8 +39,8 @@ indicators_meta_file = "https://raw.githubusercontent.com/aripiz/weworld-maipiui
 geo_data_file = "https://raw.githubusercontent.com/aripiz/weworld-maipiuinvisibili2023/master/data/italy_regions_low.json"
 
 # Loading
-df_data = pd.read_csv(data_file)
-df_meta = pd.read_csv(indicators_meta_file, index_col=0)
+data = pd.read_csv(data_file)
+metadata = pd.read_csv(indicators_meta_file, index_col=0)
 #geo_data = pd.read_json(geo_data_file,lines=True).to_dict('records')[0]
 
 #### App ####
@@ -77,8 +77,8 @@ app.layout = dbc.Container([
 def render_tab_content(active_tab, data):
     if active_tab is not None:
         if active_tab == "map_features":
-            options_list = df_data.columns[4:23]
-            years_list = df_data['anno'].unique()
+            options_list = data.columns[4:23]
+            years_list = data['anno'].unique()
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -108,8 +108,8 @@ def render_tab_content(active_tab, data):
             ])
         elif active_tab == "map_indicators":
             #return "Sezione ancora da creare."
-            options_list = [f"{num}: {df_meta.loc[num]['nome']}" for num in df_meta.index]
-            years_list = df_data['anno'].unique()
+            options_list = [f"{num}: {metadata.loc[num]['nome']}" for num in metadata.index]
+            years_list = data['anno'].unique()
             kind_list = ['Dati', 'Punteggi']
             return html.Div([
                 dbc.Row([
@@ -148,8 +148,8 @@ def render_tab_content(active_tab, data):
                 )
             ])
         elif active_tab == "correlations":
-            options_list = df_data.columns[4:23]
-            years_list = df_data['anno'].unique()
+            options_list = data.columns[4:23]
+            years_list = data['anno'].unique()
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -186,8 +186,8 @@ def render_tab_content(active_tab, data):
                 )
             ])
         elif active_tab == 'ranking':
-            options_list = options_list = df_data.columns[4:23]
-            years_list = df_data['anno'].unique()
+            options_list = options_list = data.columns[4:23]
+            years_list = data['anno'].unique()
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -214,8 +214,8 @@ def render_tab_content(active_tab, data):
                 )
             ])
         elif active_tab == 'evolution':
-            territories_list = df_data['territorio'].unique()
-            options_list = df_data.columns[4:23]
+            territories_list = data['territorio'].unique()
+            options_list = data.columns[4:23]
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -243,8 +243,8 @@ def render_tab_content(active_tab, data):
                 )
             ])
         elif active_tab == 'radar':
-            territories_list = df_data['territorio'].unique()
-            years_list = df_data['anno'].unique()
+            territories_list = data['territorio'].unique()
+            years_list = data['anno'].unique()
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -280,7 +280,7 @@ def render_tab_content(active_tab, data):
     Input("feature", "value"),
     Input('slider_year', 'value'))
 def display_map_index(feature, year):
-    df = df_data[df_data['area'].notna()]
+    df = data[data['area'].notna()]
     fig = px.choropleth_mapbox(df.loc[df['anno']==year], geojson=geo_data_file,
         locations='codice_istat', featureidkey="properties.istat_code_num",
         color=feature,
@@ -306,13 +306,13 @@ def display_map_index(feature, year):
     Input('indicator_kind', 'value'))
 def display_map_indicators(indicator, year, kind):
     indicator = indicator.split(":")[0]
-    if df_meta.loc[int(indicator)]['inverted']=='yes':
+    if metadata.loc[int(indicator)]['inverted']=='yes':
         color_scale = 'RdYlGn_r'
-        limits_scale = [df_meta.loc[int(indicator)]['best_value'], df_meta.loc[int(indicator)]['worst_value']]
+        limits_scale = [metadata.loc[int(indicator)]['best_value'], metadata.loc[int(indicator)]['worst_value']]
     else:
         color_scale = 'RdYlGn'
-        limits_scale = [df_meta.loc[int(indicator)]['worst_value'], df_meta.loc[int(indicator)]['best_value']]
-    df = df_data.loc[df_data['anno']==year]
+        limits_scale = [metadata.loc[int(indicator)]['worst_value'], metadata.loc[int(indicator)]['best_value']]
+    df = data.loc[data['anno']==year]
     if kind=='Dati':
         col = f'Indicatore {int(indicator)}'
         fig = px.choropleth_mapbox(df, geojson=geo_data_file,
@@ -324,9 +324,9 @@ def display_map_indicators(indicator, year, kind):
             hover_data={'codice_istat':False, 'anno': False, col: ':.3g'},
             zoom=4.4, opacity=1, center=dict(lat=42, lon=12)
         )
-        fig.update_layout(coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unità'], x=0.92))
+        fig.update_layout(coloraxis_colorbar=dict(title=metadata.loc[int(indicator)]['unità'], x=0.92))
     elif kind=='Punteggi':
-        col = f"{df_meta.loc[int(indicator)]['sottoindice']}|{df_meta.loc[int(indicator)]['dimensione']}|{indicator}"
+        col = f"{metadata.loc[int(indicator)]['sottoindice']}|{metadata.loc[int(indicator)]['dimensione']}|{indicator}"
         fig = px.choropleth_mapbox(df.loc[df['anno']==year], geojson=geo_data_file,
             locations='codice_istat', featureidkey="properties.istat_code_num",
             color=col,
@@ -351,7 +351,7 @@ def display_map_indicators(indicator, year, kind):
     Input('dimension_y', 'value'),
     Input('slider_year', 'value'))
 def display_corr_dimensions(dimension_x, dimension_y,year):
-    df = df_data[df_data['area'].notna()]
+    df = data[data['area'].notna()]
     fig = px.scatter(df.loc[df['anno']==year], x=dimension_x, y=dimension_y,
                  hover_name='territorio', color='area',
                  hover_data={'area':False, 'anno': False, dimension_x: ':.3g', dimension_y:':.3g'},
@@ -367,7 +367,7 @@ def display_corr_dimensions(dimension_x, dimension_y,year):
     Input("ranking_feature", "value"),
     Input("slider_year", "value"))
 def display_ranking(feature, year):
-    df = df_data[df_data['area'].notna()].set_index('territorio')
+    df = data[data['area'].notna()].set_index('territorio')
     final = df[df['anno']==year][[feature]]
     initial = df[df['anno']==2018][[feature]]
     final['Posizione'] = final[feature].rank(ascending=False, method='min')
@@ -388,7 +388,7 @@ def display_ranking(feature, year):
     Input("evolution_feature", "value"),
     Input("evolution_territory", "value"))
 def display_evolution(features, territories):
-    df = df_data.query("territorio == @territories").rename(columns={'anno':'Anno', 'territorio':'Territorio'})
+    df = data.query("territorio == @territories").rename(columns={'anno':'Anno', 'territorio':'Territorio'})
     df = pd.melt(df, id_vars=['Territorio', 'Anno'], value_vars=features, var_name='Indice/Dimensione', value_name='Punteggio')
     fig = px.line(df, x='Anno', y='Punteggio',
                 hover_name='Territorio',
@@ -411,8 +411,8 @@ def display_evolution(features, territories):
     Input("radar_territory", "value"),
     Input("radar_year", "value"))
 def display_evolution(territories, year):
-    features = df_data.columns[8:23]
-    df = df_data.query("territorio == @territories and anno==@year").rename(columns={'anno':'Anno', 'territorio':'Territorio'})
+    features = data.columns[8:23]
+    df = data.query("territorio == @territories and anno==@year").rename(columns={'anno':'Anno', 'territorio':'Territorio'})
     df = pd.melt(df, id_vars=['Territorio', 'Anno'], value_vars=features, var_name='Indice/Dimensione', value_name='Punteggio')
     fig = px.line_polar(df, theta='Indice/Dimensione', r='Punteggio',
                         line_close=True, color='Territorio', line_dash='Anno',

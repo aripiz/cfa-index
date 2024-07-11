@@ -2,13 +2,13 @@
 
 from fileinput import filename
 from index import app
-from index import df_data, df_meta
+from index import data, metadata
 
 from dash import Input, Output, State, dcc, callback_context
 import pandas as pd
 import io
 
-df_meta.index.name = 'indicator'
+metadata.index.name = 'indicator'
 @app.callback(
     Output("modal", "is_open"),
     [Input("open_download", "n_clicks"), Input("close_download", "n_clicks")],
@@ -30,8 +30,8 @@ def download_excel(n_clicks, features, territories):
     changed_id = [p['prop_id'] for p in callback_context.triggered][0]
     if 'download_button' in changed_id:
         meta_columns = ['subindex', 'dimension', 'name', 'unit', 'definition', 'last_update', 'source', 'source_link']
-        meta = df_meta[meta_columns]  
-        data = df_data.set_index(['territory','year'])
+        meta = metadata[meta_columns]  
+        data = data.set_index(['territory','year'])
         file_name = "WeWorld-Index-2024_Data.xlsx"
         if features  is not None: 
             data = data[features]

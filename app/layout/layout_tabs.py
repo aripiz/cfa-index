@@ -1,18 +1,20 @@
 # layout_tabs.py
 
-from index import df_data, df_meta
+from index import data, metadata
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
 from configuration import NOTES_FILE
 
 # Options
-features_list = df_data.columns[4:23].to_list()
-years_list = df_data['year'].unique()
-components_list = [f"Indicator {num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
-indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
+subindexes_list = data.columns[4:8].to_list()
+features_list = data.columns[4:23].to_list()
+years_list = data['year'].unique()
+components_list = [f"Indicator {num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
+indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
 kind_list = ['Data', 'Scores']
-territories_list = df_data['territory'].unique()
+territories_list = data['territory'].unique()
+auxiliary_list = metadata.loc[101:102]['name'].to_list()
 
 # Data tabs
 tab_map_features = html.Div([
@@ -129,7 +131,7 @@ tab_correlations = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Spearmans's correlation coefficient \u03c1\u209b is displayed above the plot. Territories are colored according to their geographic area: clicking on the items in the legend you can hide them.", body=True),
+                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Spearmans's correlation coefficient \u03c1\u209b is displayed above the plot. Territories are colored according to their geographic area and sized based on theri population: clicking on the items in the legend you can hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -312,6 +314,61 @@ tab_radar = html.Div([
                 ], justify = 'around', class_name = 'mt-2'),
             ])
 
+tab_comparison = html.Div([
+                dbc.Row(
+                    dbc.Col([
+                        dbc.Button(
+                            "Info",
+                            id="collapse-button",
+                            className="mb-3",
+                            color="primary",
+                            n_clicks=0,
+                        ),
+                        dbc.Collapse(
+                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Territories are colored according to their geographic area and sized based on their population: clicking on the items in the legend you can hide them.", body=True),
+                        id="collapse",
+                        is_open=False,
+                        ),
+                    ]),  justify = 'around', class_name = 'my-2'
+                ),
+                dbc.Row([
+                dbc.Col([
+                    dbc.Label("Component (x)"),
+                    dcc.Dropdown(
+                    id="comp_x",
+                    options = subindexes_list + auxiliary_list,
+                    value = subindexes_list[0],
+                    #optionHeight=50,
+                    #style={"width": "75%"}
+                )], lg = 4, xs =12),
+                dbc.Col([
+                    dbc.Label("Component (y)"),
+                    dcc.Dropdown(
+                    id="comp_y",
+                    options = subindexes_list + auxiliary_list,
+                    value = auxiliary_list[1],
+                    #optionHeight=50
+                    #style={"width": "75%"}
+                )], lg = 4, xs =12),
+                dbc.Col([
+                    dbc.Label("Year"),
+                    dcc.Slider(
+                        years_list[0],
+                        years_list[-1],
+                        step = 1,
+                        id ='slider_year',
+                        value = years_list[-1],
+                        marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
+                        tooltip={"placement": "bottom", "always_visible": True}
+                        )
+                    ], lg = 4, xs =12)],
+                justify='between'),
+                dbc.Row(dbc.Col(dcc.Graph(
+                    id="comparison_chart",
+                    style={'height': '60vh'},
+                )), justify = 'around', class_name = 'mt-2'),
+            ])
+
 # Methodology tabs
 tab_indicators_old = html.Div([
     dbc.Row([
@@ -459,7 +516,7 @@ tab_construction = html.Div([
                     ),
                     dbc.CardBody([
                         html.H4("Context", className="card-title"),
-                        html.Div([html.P(dim) for dim in df_meta.loc[[1,3,5,7,9],'dimension']],
+                        html.Div([html.P(dim) for dim in metadata.loc[[1,3,5,7,9],'dimension']],
                         className="card-text",), 
                         ])
                 ]),
@@ -474,7 +531,7 @@ tab_construction = html.Div([
                     ),
                     dbc.CardBody([
                         html.H4("Children", className="card-title"),
-                        html.Div([ html.P(dim) for dim in df_meta.loc[[11,13,15,17,19],'dimension']],
+                        html.Div([ html.P(dim) for dim in metadata.loc[[11,13,15,17,19],'dimension']],
                         className="card-text",)
                         ])
                 ]),
@@ -489,7 +546,7 @@ tab_construction = html.Div([
                     ),
                     dbc.CardBody([
                         html.H4("Women", className="card-title"),
-                        html.Div([ html.P(dim) for dim in df_meta.loc[[21,23,25,27,29],'dimension']],
+                        html.Div([ html.P(dim) for dim in metadata.loc[[21,23,25,27,29],'dimension']],
                         className="card-text",)
                     ])
                 ])

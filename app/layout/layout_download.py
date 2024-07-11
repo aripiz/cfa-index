@@ -1,16 +1,16 @@
 # layout_download.py
 
-from index import df_data, df_meta
+from index import data, metadata
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
 # Options
-features_list = df_data.columns[4:-1]
-years_list = df_data['year'].unique()
-#indicators_list = [f"{num}: {df_meta.loc[num]['name']}" for num in df_meta.index]
+features_list = data.columns[4:-1]
+years_list = data['year'].unique()
+#indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.index]
 
-#indicators_numbers = [f"{num}" for num in df_meta.index]
-territories_list = df_data['territory'].unique()
+#indicators_numbers = [f"{num}" for num in metadata.index]
+territories_list = data['territory'].unique()
 
 # Modal window
 modal_data_download = dbc.Modal(

@@ -35,8 +35,8 @@ indicators_meta_file = "https://raw.githubusercontent.com/aripiz/weworld-maipiui
 geo_data_file = "https://raw.githubusercontent.com/aripiz/weworld-maipiuinvisibili2023/master/data/italy_regions_low.json"
 
 # Loading
-df_data = pd.read_csv(data_file)
-df_meta = pd.read_csv(indicators_meta_file, index_col=0)
+data = pd.read_csv(data_file)
+metadata = pd.read_csv(indicators_meta_file, index_col=0)
 #geo_data = pd.read_json(geo_data_file,lines=True).to_dict('records')[0]
 
 #### App ####
@@ -73,7 +73,7 @@ app.layout = dbc.Container([
 def render_tab_content(active_tab, data):
     if active_tab is not None:
         if active_tab == "map_features":
-            options_list = df_data.columns[4:23]
+            options_list = data.columns[4:23]
             return html.Div([
                 html.P("Seleziona un Indice/Dimensione:"),
                 dcc.Dropdown(
@@ -89,7 +89,7 @@ def render_tab_content(active_tab, data):
             ])
         elif active_tab == "map_indicators":
             #return "Sezione ancora da creare."
-            options_list = [f"{num}: {df_meta.loc[num]['nome']}" for num in df_meta.index]
+            options_list = [f"{num}: {metadata.loc[num]['nome']}" for num in metadata.index]
             return html.Div([
                 html.P("Seleziona un indicatore:"),
                 dcc.Dropdown(
@@ -105,7 +105,7 @@ def render_tab_content(active_tab, data):
                 )
             ])
         elif active_tab == "correlations":
-            options_list = df_data.columns[4:23]
+            options_list = data.columns[4:23]
             return html.Div([
                 html.P("Seleziona due Indici/Dimensioni da confrontare:"),
                 dbc.Row([
@@ -128,8 +128,8 @@ def render_tab_content(active_tab, data):
                 ),
             ])
         elif active_tab == 'ranking':
-            options_list = options_list = df_data.columns[4:23]
-            years_list = df_data['anno'].unique()
+            options_list = options_list = data.columns[4:23]
+            years_list = data['anno'].unique()
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -153,8 +153,8 @@ def render_tab_content(active_tab, data):
                 )
             ])
         elif active_tab == 'evolution':
-            territories_list = df_data['territorio'].unique()
-            options_list = df_data.columns[4:23]
+            territories_list = data['territorio'].unique()
+            options_list = data.columns[4:23]
             return html.Div([
                 dbc.Row([
                 dbc.Col([
@@ -188,7 +188,7 @@ def render_tab_content(active_tab, data):
     Output("map", "figure"),
     Input("feature", "value"))
 def display_map_index(feature):
-    df = df_data[df_data['area'].notna()]
+    df = data[data['area'].notna()]
     fig = px.choropleth(df, geojson=geo_data_file,
         locations='codice_istat', featureidkey="properties.istat_code_num",
         projection='natural earth', animation_frame='anno', animation_group='codice_istat',
@@ -214,13 +214,13 @@ def display_map_index(feature):
     Input("indicator", "value"))
 def display_map_indicators(indicator):
     indicator = indicator.split(":")[0]
-    if df_meta.loc[int(indicator)]['inverted']=='yes':
+    if metadata.loc[int(indicator)]['inverted']=='yes':
         color_scale = 'RdYlGn_r'
-        limits_scale = [df_meta.loc[int(indicator)]['best_value'], df_meta.loc[int(indicator)]['worst_value']]
+        limits_scale = [metadata.loc[int(indicator)]['best_value'], metadata.loc[int(indicator)]['worst_value']]
     else:
         color_scale = 'RdYlGn'
-        limits_scale = [df_meta.loc[int(indicator)]['worst_value'], df_meta.loc[int(indicator)]['best_value']]
-    df = df_data
+        limits_scale = [metadata.loc[int(indicator)]['worst_value'], metadata.loc[int(indicator)]['best_value']]
+    df = data
     fig = px.choropleth(df, geojson=geo_data_file,
         locations='codice_istat', featureidkey="properties.istat_code_num",
         projection='natural earth', animation_frame='anno', animation_group='codice_istat',
@@ -235,7 +235,7 @@ def display_map_indicators(indicator):
     fig.update_geos(fitbounds="locations", visible=False)
     fig.update_layout(
         margin={"r":0,"t":30,"l":0,"b":0},
-        coloraxis_colorbar=dict(title=df_meta.loc[int(indicator)]['unità']),
+        coloraxis_colorbar=dict(title=metadata.loc[int(indicator)]['unità']),
         sliders = [dict(len=0.25, active= 4, x=0.5,xanchor='center', currentvalue= {"prefix": "Anno: "})]
     )
     fig["layout"].pop("updatemenus")
@@ -246,7 +246,7 @@ def display_map_indicators(indicator):
     Output("dimensions_map", "figure"),
     Input("dimension", "value"))
 def display_map_dimensions(dimension):
-    fig = px.choropleth(df_data, geojson=geo_data_file,
+    fig = px.choropleth(data, geojson=geo_data_file,
         locations='codice_istat', featureidkey="properties.istat_code_num",
         projection='natural earth', animation_frame='anno', animation_group='codice_istat',
         color=dimension,
@@ -271,7 +271,7 @@ def display_map_dimensions(dimension):
     Input('dimension_x', 'value'),
     Input('dimension_y', 'value'))
 def display_corr_dimensions(dimension_x, dimension_y):
-    df = df_data[df_data['area'].notna()]
+    df = data[data['area'].notna()]
     fig = px.scatter(df, x=dimension_x, y=dimension_y,
                  hover_name='territorio', color='area', animation_frame='anno', animation_group='territorio',
                  hover_data={'area':False, 'anno': False, dimension_x: ':.3g', dimension_y:':.3g'},  range_x=[10,90], range_y=[10,90])
@@ -289,7 +289,7 @@ def display_corr_dimensions(dimension_x, dimension_y):
     Input("ranking_feature", "value"),
     Input("ranking_year", "value"))
 def display_ranking(feature, year):
-    df = df_data[df_data['area'].notna()].set_index('territorio')
+    df = data[data['area'].notna()].set_index('territorio')
     final = df[df['anno']==year][[feature]]
     initial = df[df['anno']==2018][[feature]]
     final['Posizione'] = final[feature].rank(ascending=False, method='min')
@@ -310,7 +310,7 @@ def display_ranking(feature, year):
     Input("evolution_feature", "value"),
     Input("evolution_territory", "value"))
 def display_evolution(features, territories):
-    df = df_data.query("territorio == @territories").rename(columns={'anno':'Anno', 'territorio':'Territorio'})
+    df = data.query("territorio == @territories").rename(columns={'anno':'Anno', 'territorio':'Territorio'})
     df = pd.melt(df, id_vars=['Territorio', 'Anno'], value_vars=features, var_name='Indice/Dimensione', value_name='Punteggio')
     fig = px.line(df, x='Anno', y='Punteggio',
                 hover_name='Territorio',

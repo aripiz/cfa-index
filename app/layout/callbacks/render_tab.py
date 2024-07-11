@@ -3,7 +3,7 @@
 from index import app
 from dash import Input, Output
 
-from layout.layout_tabs import tab_map_features, tab_map_indicators, tab_correlations, tab_ranking, tab_evolution, tab_radar
+from layout.layout_tabs import tab_map_features, tab_map_indicators, tab_correlations, tab_ranking, tab_evolution, tab_radar, tab_comparison
 
 from layout.layout_tabs import tab_construction, tab_indicators
 
@@ -19,6 +19,7 @@ def render_tab(active_tab):
         elif active_tab == 'ranking': return tab_ranking
         elif active_tab == 'evolution': return tab_evolution
         elif active_tab == 'radar': return tab_radar
+        elif active_tab == 'comparison': return tab_comparison
     return "Select a tab."
 
 # Methodology tabs

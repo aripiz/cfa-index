@@ -4,14 +4,14 @@ import plotly.express as px
 import plotly.io as pio
 import pandas as pd
 from dash_bootstrap_templates import load_figure_template
-from index import df_data
+from index import data
 from configuration import MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, COLOR_SCALE, TIER_BINS, TIER_LABELS
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
 
 # Home map
 def display_map_home():
-    df = df_data[df_data['area'].notna()].copy()
+    df = data[data['area'].notna()].copy()
     df['Tier'] = pd.cut(df['General'], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
     fig = px.choropleth(df.loc[df['year']==2023], #geojson=GEO_FILE,
         locations='code', #featureidkey="properties.istat_code_num",
