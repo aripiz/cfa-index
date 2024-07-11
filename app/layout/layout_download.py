@@ -5,7 +5,7 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 
 # Options
-features_list = data.columns[4:-1]
+features_list = data.columns[4:]
 years_list = data['year'].unique()
 #indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.index]
 
