@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 from configuration import NOTES_FILE
 
 # Options
-subindexes_list = data.columns[4:8].to_list()
+subindexes_list = [data.columns[4]]
 features_list = data.columns[4:23].to_list()
 years_list = data['year'].unique()
 components_list = [f"Indicator {num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
@@ -336,7 +336,7 @@ tab_comparison = html.Div([
                     dbc.Label("Data (x)"),
                     dcc.Dropdown(
                     id="comp_x",
-                    options = list(subindexes_list[0]) + auxiliary_list,
+                    options = subindexes_list + auxiliary_list,
                     value = subindexes_list[0],
                     #optionHeight=50,
                     #style={"width": "75%"}
@@ -345,7 +345,7 @@ tab_comparison = html.Div([
                     dbc.Label("Data (y)"),
                     dcc.Dropdown(
                     id="comp_y",
-                    options = list(subindexes_list[0]) + auxiliary_list,
+                    options = subindexes_list + auxiliary_list,
                     value = auxiliary_list[1],
                     #optionHeight=50
                     #style={"width": "75%"}
