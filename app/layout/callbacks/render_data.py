@@ -112,8 +112,8 @@ def display_corr(x_data, y_data,year):
     )
     #fig.update_traces(marker={'size': 15})
     fig.update_layout(title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:.3g}")
-    fig.update_xaxes(range=[-5, 105])
-    fig.update_yaxes(range=[-5, 105])    
+    #fig.update_xaxes(range=[-5, 105])
+    #fig.update_yaxes(range=[-5, 105])    
     return fig
 
 # Comparison
