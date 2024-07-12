@@ -98,15 +98,16 @@ def display_map_indicators(indicator, year, kind):
     Output("features_correlation", "figure"),
     Input('corr_x', 'value'),
     Input('corr_y', 'value'),
+    Input('corr_pop', 'value'),
     Input('slider_year', 'value'))
-def display_corr(x_data, y_data,year):
+def display_corr(x_data, y_data, population, year):
     df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
     x_data = x_data.split(":")[0] 
     y_data = y_data.split(":")[0]
     corr = df.corr('spearman', numeric_only=True)
-    fig = px.scatter(df, x=x_data, y=y_data, size='Population', color='Area', 
+    fig = px.scatter(df, x=x_data, y=y_data, size=population, color='Area', 
                      hover_name='territory', 
-                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', 'Population':':.3g'},
+                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', population:':.3g'},
                      color_discrete_sequence=px.colors.qualitative.G10,
                      size_max = 50
     )
@@ -121,13 +122,14 @@ def display_corr(x_data, y_data,year):
     Output("comparison_chart", "figure"),
     Input('comp_x', 'value'),
     Input('comp_y', 'value'),
+    Input('comp_pop', 'value'),
     Input('slider_year', 'value'))
-def display_corr(x_data, y_data,year):
+def display_corr(x_data, y_data, population, year):
     df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
     #corr = df.corr('pearson', numeric_only=True)
-    fig = px.scatter(df, x=x_data, y=y_data, size='Population', color='Area', 
+    fig = px.scatter(df, x=x_data, y=y_data, size=population, color='Area', 
                      hover_name='territory', 
-                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', 'Population':':.3g'},
+                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', population:':.3g'},
                      color_discrete_sequence=px.colors.qualitative.G10,
                      size_max = 50
     )
@@ -135,7 +137,6 @@ def display_corr(x_data, y_data,year):
     if x_data == 'GDP per capita': fig.update_xaxes(type='log', ticksuffix=' ' + metadata.loc[101]['unit'])
     if y_data == 'GDP per capita': fig.update_yaxes(type='log', ticksuffix=' ' + metadata.loc[101]['unit'])
     return fig
-
 
 # Ranking
 @app.callback(
@@ -242,7 +243,7 @@ def update_indicator_description(indicator):
     data = metadata.loc[int(indicator)]
     info = [indicator, 
             data['name'], 
-            data['subindex'],
+            data['sub-index'],
             data['dimension'],
             data['definition'],
             data['unit'],

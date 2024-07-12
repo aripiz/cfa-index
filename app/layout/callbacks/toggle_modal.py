@@ -29,7 +29,7 @@ def toggle_modal(n1, n2, is_open):
 def download_excel(n_clicks, features, territories):
     changed_id = [p['prop_id'] for p in callback_context.triggered][0]
     if 'download_button' in changed_id:
-        meta_columns = ['subindex', 'dimension', 'name', 'unit', 'definition', 'last_update', 'source', 'source_link']
+        meta_columns = ['sub-index', 'dimension', 'name', 'unit', 'definition', 'last_update', 'source', 'source_link']
         meta = metadata[meta_columns]  
         data = data.set_index(['territory','year'])
         file_name = "WeWorld-Index-2024_Data.xlsx"

@@ -15,6 +15,7 @@ indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.loc
 kind_list = ['Data', 'Scores']
 territories_list = data['territory'].unique()
 auxiliary_list = metadata.loc[101:102]['name'].to_list()
+population_list = data.columns[83:86].to_list()
 
 # Data tabs
 tab_map_features = html.Div([
@@ -131,7 +132,7 @@ tab_correlations = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Spearmans's correlation coefficient \u03c1\u209b is displayed above the plot. Territories are colored according to their geographic area and sized based on theri population: clicking on the items in the legend you can hide them.", body=True),
+                        dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Spearmans's correlation coefficient \u03c1\u209b is displayed above the plot. Territories are colored according to their geographic area and sized based on their population (Total/Female/Children). Clicking on the items in the legend you can show/hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -139,23 +140,32 @@ tab_correlations = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Component (x)"),
+                    dbc.Label("Data (x)"),
                     dcc.Dropdown(
                     id="corr_x",
                     options = features_list + components_list,
                     value = features_list[0],
                     optionHeight=50,
                     #style={"width": "75%"}
-                )], lg = 4, xs =12),
+                )], lg = 3, xs =12),
                 dbc.Col([
-                    dbc.Label("Component (y)"),
+                    dbc.Label("Data (y)"),
                     dcc.Dropdown(
                     id="corr_y",
                     options = features_list + components_list,
                     value = features_list[1],
                     optionHeight=50
                     #style={"width": "75%"}
-                )], lg = 4, xs =12),
+                )], lg = 3, xs =12),
+                dbc.Col([
+                    dbc.Label("Population"),
+                    dcc.Dropdown(
+                    id="corr_pop",
+                    options = population_list,
+                    value = population_list[0],
+                    optionHeight=50
+                    #style={"width": "75%"}
+                )], lg = 3, xs =12),
                 dbc.Col([
                     dbc.Label("Year"),
                     dcc.Slider(
@@ -167,7 +177,7 @@ tab_correlations = html.Div([
                         marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
                         tooltip={"placement": "bottom", "always_visible": True}
                         )
-                    ], lg = 4, xs =12)],
+                    ], lg = 3, xs =12)],
                 justify='between'),
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="features_correlation",
@@ -325,7 +335,7 @@ tab_comparison = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart compares the Index and other relevant indicators: each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population: clicking on the items in the legend you can hide them.", body=True),
+                        dbc.Card("The chart compares the Index and other relevant indicators: each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population (Total/Female/Children). Clicking on the items in the legend you can show/hide them.", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -340,7 +350,7 @@ tab_comparison = html.Div([
                     value = subindexes_list[0],
                     #optionHeight=50,
                     #style={"width": "75%"}
-                )], lg = 4, xs =12),
+                )], lg = 3, xs =12),
                 dbc.Col([
                     dbc.Label("Data (y)"),
                     dcc.Dropdown(
@@ -349,7 +359,16 @@ tab_comparison = html.Div([
                     value = auxiliary_list[1],
                     #optionHeight=50
                     #style={"width": "75%"}
-                )], lg = 4, xs =12),
+                )], lg = 3, xs =12),
+                                dbc.Col([
+                    dbc.Label("Population"),
+                    dcc.Dropdown(
+                    id="comp_pop",
+                    options = population_list,
+                    value = population_list[0],
+                    optionHeight=50
+                    #style={"width": "75%"}
+                )], lg = 3, xs =12),
                 dbc.Col([
                     dbc.Label("Year"),
                     dcc.Slider(
@@ -361,7 +380,7 @@ tab_comparison = html.Div([
                         marks = {str(year): str(year) for year in  [years_list[0],years_list[-1]] },
                         tooltip={"placement": "bottom", "always_visible": True}
                         )
-                    ], lg = 4, xs =12)],
+                    ], lg = 3, xs =12)],
                 justify='between'),
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="comparison_chart",
