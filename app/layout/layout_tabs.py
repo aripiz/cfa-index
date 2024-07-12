@@ -144,7 +144,7 @@ tab_correlations = html.Div([
                     dcc.Dropdown(
                     id="corr_x",
                     options = features_list + components_list,
-                    value = features_list[0],
+                    value = features_list[2],
                     optionHeight=50,
                     #style={"width": "75%"}
                 )], lg = 3, xs =12),
@@ -153,7 +153,7 @@ tab_correlations = html.Div([
                     dcc.Dropdown(
                     id="corr_y",
                     options = features_list + components_list,
-                    value = features_list[1],
+                    value = features_list[3],
                     optionHeight=50
                     #style={"width": "75%"}
                 )], lg = 3, xs =12),
@@ -498,7 +498,7 @@ tab_construction = html.Div([
         dbc.Col([
             dcc.Markdown(
                 """
-                The Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The _General_ Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
+                CFA Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
                 """),
                 html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes.", href=NOTES_FILE)]),
                 html.Br()
@@ -576,7 +576,7 @@ tab_construction = html.Div([
         dbc.Col([
             dcc.Markdown("### Aggregation process"),
             dcc.Markdown("""
-                The Index for each territory consists of a **0-100 score** developed by aggregating the normalised data of its 30 Indicators in **three different steps**.
+                CFA Index for each territory consists of a **0-100 score** developed by aggregating the normalised data of its 30 Indicators in **three different steps**.
 
                 First, the scores of each of each **Dimension** is calculated by taking the arithmetic mean of the scores of the two constituent **Component** (normalised indicators). Next, to avoid full compensability between Dimensions, the score of the **Sub-indexes** is determined by the geometric mean of the Dimensions that are part of it. Finally, the geometric mean is also used to calculate the overall **Index** from the 3 Sub-indexes.
 
@@ -600,7 +600,7 @@ tab_construction = html.Div([
                 dbc.Card(
                     dbc.CardBody([
                         html.H4("Index", className="card-title"),
-                        dcc.Markdown("The **Geometric mean** of **3 Sub-indexes** gives the Index score.", className="card-text")
+                        dcc.Markdown("The **geometric mean** of **3 Sub-indexes** gives the Index score.", className="card-text")
                     ])
                 )
             ]),
