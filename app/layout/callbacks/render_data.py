@@ -134,8 +134,8 @@ def display_corr(x_data, y_data, population, year):
                      size_max = 50
     )
 
-    if x_data == 'GDP per capita': fig.update_xaxes(type='log', ticksuffix=' ' + metadata.loc[101]['unit'])
-    if y_data == 'GDP per capita': fig.update_yaxes(type='log', ticksuffix=' ' + metadata.loc[101]['unit'])
+    if x_data == 'GDP per capita': fig.update_xaxes(type='log', ticksuffix=' $') #+  metadata.loc[101]['unit'])
+    if y_data == 'GDP per capita': fig.update_yaxes(type='log', ticksuffix=' $') #+ metadata.loc[101]['unit'])
     return fig
 
 # Ranking
