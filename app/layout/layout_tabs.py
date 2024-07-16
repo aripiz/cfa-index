@@ -196,7 +196,7 @@ tab_ranking = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The table shows the ranking of territories for the selected component (Index/Sub-index/Dimension) and year.", body=True),
+                        dbc.Card("The table shows the ranking of territories for the selected component (Index/Sub-index/Dimension) and year. The table updates change in score and rank from 2015. When comparing rank values keep in mind that the number of territories varies in each year (between 157 and 166).", body=True),
                         id="collapse",
                         is_open=False,
                         ),
@@ -335,7 +335,7 @@ tab_comparison = html.Div([
                             n_clicks=0,
                         ),
                         dbc.Collapse(
-                        dbc.Card("The chart compares the Index and other relevant indicators: each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population (Total/Female/Children). Clicking on the items in the legend you can show/hide them.", body=True),
+                        dbc.Card("The chart compares the Index and other relevant indicators: GDP per capita and Human Development Index. Each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population (Total/Female/Children). Clicking on the items in the legend you can show/hide them. GDP per capita uses a logarithmic scale.", body=True),
                         id="collapse",
                         is_open=False,
                         ),

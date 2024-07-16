@@ -148,16 +148,25 @@ def display_ranking(feature, year):
     years_list = data['year'].unique()
     final = df[df['year']==year][['territory', feature]]
     initial = df[df['year']==years_list[0]][['territory', feature]]
+
+    initial['Rank'] = initial[feature].rank(ascending=False, method='min')
     final['Rank'] = final[feature].rank(ascending=False, method='min')
-    final[f'Change since {years_list[0]}'] = (final[feature]-initial[feature]).apply(sig_round)
+    
+    final[f'Score change from {years_list[0]}'] = (final[feature] - initial[feature]).apply(sig_round)
+    final[f'Rank change from {years_list[0]}'] = (initial['Rank'] - final['Rank'])
+
     final = final.reset_index().rename(columns={'territory':'Territory', feature:'Score'}).sort_values('Rank')
+    rank_change_col = f'Rank change from {years_list[0]}'
+    score_change_col = f'Score change from {years_list[0]}'
+    final = final.set_index(['Rank', 'Territory'], drop=True)
     table = dbc.Table.from_dataframe(
-                    final[['Rank', 'Territory', 'Score', f'Change since {years_list[0]}']],
+                    final[['Score', score_change_col , rank_change_col]],
                     bordered=False,
                     hover=True,
                     responsive=True,
                     striped=True,
-                )
+                    index = True
+                )   
     return table
 
 # Evolution
