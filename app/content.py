@@ -6,6 +6,8 @@ import dash_bootstrap_components as dbc
 
 from layout.callbacks  import render_data
 from layout.callbacks import render_tab
+from layout.callbacks import render_scorecards
+
 from layout.callbacks import toggle_modal
 from layout.callbacks import toggle_collapse
 
@@ -16,8 +18,9 @@ from layout.layout_download import modal_data_download
 # Navbar
 pages_nav = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Overview", active='exact', href='/')),
+        dbc.NavItem(dbc.NavLink("Home", active='exact', href='/')),
         dbc.NavItem(dbc.NavLink("Data", active='exact', href="/data")),
+        dbc.NavItem(dbc.NavLink("Scorecards", active='exact', href='/scorecards')),
         dbc.NavItem(dbc.NavLink("Methodology", active='exact', href="/methodology")),
         dbc.DropdownMenu(
             [

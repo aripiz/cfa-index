@@ -3,12 +3,14 @@
 from dash import Dash
 import dash_bootstrap_components as dbc
 import pandas as pd
+import geopandas as gpd
 
-from configuration import DATA_FILE, META_FILE, TITLE, DBC_CSS
+from configuration import DATA_FILE, META_FILE, GEO_FILE, TITLE, DBC_CSS
 
 # Loading data
 data = pd.read_csv(DATA_FILE)
 metadata = pd.read_csv(META_FILE, index_col=0)
+geodata = gpd.read_file(GEO_FILE)
 #auxiliary_meta = pd.read_csv(META_FILE, index_col=0 ,nrows=2, header=0, skiprows=range(1,31))
 
 # App 

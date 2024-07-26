@@ -3,9 +3,9 @@
 from index import app
 from dash import Input, Output
 
-from layout.layout_tabs import tab_map_features, tab_map_indicators, tab_correlations, tab_ranking, tab_evolution, tab_radar, tab_comparison
+from layout.layout_data import tab_map_features, tab_map_indicators, tab_correlations, tab_ranking, tab_evolution, tab_radar, tab_comparison
 
-from layout.layout_tabs import tab_construction, tab_indicators
+from layout.layout_methodology import tab_construction, tab_indicators
 
 # Data tabs
 @app.callback(
