@@ -16,7 +16,7 @@ from configuration import NOTES_FILE, REPORT_FILE
 from layout.layout_download import modal_data_download
 
 # Navbar
-pages_nav = dbc.NavbarSimple(
+navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Home", active='exact', href='/')),
         dbc.NavItem(dbc.NavLink("Data", active='exact', href="/data")),
@@ -29,6 +29,7 @@ pages_nav = dbc.NavbarSimple(
                 dbc.DropdownMenuItem("Data", id='open_download', n_clicks=0),
                 modal_data_download
             ],
+            nav=True,
             label="Download",
             in_navbar=True,
         ),
@@ -41,42 +42,28 @@ pages_nav = dbc.NavbarSimple(
     dark=True
 )
 
-header_old = dbc.Row(
-            dbc.Col(dcc.Markdown("# WeWorld _Mai più invisibili 2023_"), style={'text-align':'center'})
-)
-
 # Footer
 footer = dbc.Navbar(
     dbc.Container([
-        html.Div("© 2024 WeWorld", style={'font-size':'x-small'}), 
-        html.Div(["credits: ", html.A("aripiz", href="https://github.com/aripiz",className='link-warning')], style={'font-size':'x-small'})
+        html.P("© 2024 WeWorld", style={'font-size':'xx-small'}, className='mb-0'), 
+        html.P(["credits: ", html.A("aripiz", href="https://github.com/aripiz",className='link')], style={'font-size':'xx-small'}, className='mb-0')
     ]),
-    style={"display": "flex", 'justify-content': 'space-between', 'flex':'1', },
+    style={"display": "flex", 'justify-content': 'space-between', 'flex':'1', 'height': '15px' },
     #color="primary",
     fixed='bottom',
 )      
            
-# footer_old = dbc.Row([
-#     dbc.Col(html.Div("WeWorld Onlus"), style={'text-align':'left'} ),
-#     dbc.Col(html.Div(["created by ", html.A("aripiz", href="https://github.com/aripiz", className='link-warning')]), style={'text-align':'right'})],   
-#     justify='around',
-#     class_name='fixed-bottom',
-#     style={'background-color': '#005D9E', 'color':'white', "margin-top":"auto", 'padding-left':'1.5rem', 'padding-right':'1.5rem' }
-#                 #"padding-top": "1rem", "padding-bottom": "1rem"
-# )      
-#             #style={"position": "absolute", "bottom": "0", 'left':"0", "right":"0", "width": "100%", "height": "2.5rem","text-align":"center"}
-
 # Page
-page = dbc.Row(dbc.Col([page_container, html.Br()]), style={ 'padding-top': '80px', 'padding-bottom': '60px'}) 
+content = dbc.Container(page_container, class_name='mt-4', style={ 'padding-top': '80px', 'padding-bottom': '60px'}) 
 
 # Main layout
 app.layout = dbc.Container(
     [
-        pages_nav,
-        page,
+        navbar,
+        content,
         footer
     ],
-    #fluid=True,
+    fluid=True,
     className="dbc",     
     style={"display": "flex", "flex-direction": "column"}
 )

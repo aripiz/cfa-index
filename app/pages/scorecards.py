@@ -6,5 +6,5 @@ from configuration import TITLE
 
 register_page(__name__, name = TITLE )
 
-from layout.layout_scorecards import country_card, card
+from layout.layout_scorecards import card
 layout = dbc.Container(card, class_name='mt-4')

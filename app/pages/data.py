@@ -7,7 +7,7 @@ from configuration import TITLE
 register_page(__name__, name = TITLE )
 
 # Tabs
-tabs = html.Div(dbc.Tabs(
+tabs = dbc.Tabs(
     [
         dbc.Tab(label="Map", tab_id="map_features"),
         dbc.Tab(label="Ranking", tab_id="ranking"),
@@ -20,11 +20,10 @@ tabs = html.Div(dbc.Tabs(
     id="data_tabs",
     active_tab="map_features",
     className= 'd-flex justify-content-around'
-))
-
-layout = html.Div(
-    [
-        dbc.Row(dbc.Col(tabs)),
-        dbc.Row(dbc.Col(id="data_tab_content"), class_name='mt-4')
-    ],
 )
+
+layout = dbc.Container(
+    [
+        dbc.Row(dbc.Col(tabs), ),
+        dbc.Row(dbc.Col(id="data_tab_content"), className='mt-2')
+    ],  class_name='mt-4')

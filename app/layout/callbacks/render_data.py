@@ -108,7 +108,7 @@ def display_corr(x_data, y_data, population, year):
     fig = px.scatter(df, x=x_data, y=y_data, size=population, color='Area', 
                      hover_name='territory', 
                      hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', population:':.3g'},
-                     color_discrete_sequence=px.colors.qualitative.G10,
+                     #color_discrete_sequence=px.colors.qualitative.G10,
                      size_max = 50
     )
     #fig.update_traces(marker={'size': 15})
@@ -130,12 +130,12 @@ def display_corr(x_data, y_data, population, year):
     fig = px.scatter(df, x=x_data, y=y_data, size=population, color='Area', 
                      hover_name='territory', 
                      hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', population:':.3g'},
-                     color_discrete_sequence=px.colors.qualitative.G10,
+                     #color_discrete_sequence=px.colors.qualitative.G10,
                      size_max = 50
     )
 
-    if x_data == 'GDP per capita': fig.update_xaxes(type='log', ticksuffix=' $') #+  metadata.loc[101]['unit'])
-    if y_data == 'GDP per capita': fig.update_yaxes(type='log', ticksuffix=' $') #+ metadata.loc[101]['unit'])
+    if x_data == 'GDP per capita': fig.update_xaxes(type='log', tickprefix='US$') #+  metadata.loc[101]['unit'])
+    if y_data == 'GDP per capita': fig.update_yaxes(type='log', tickprefix='US$') #+ metadata.loc[101]['unit'])
     return fig
 
 # Ranking
@@ -203,6 +203,8 @@ def display_radar(territories, year):
     features = data.columns[8:23]
     df = data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score')
+    label_map = {f: f.replace(' ', '<br>') for f in features}
+    df['Dimension'] = df['Dimension'].map(label_map)
     fig = px.line_polar(df, theta='Dimension', r='Score',
                         line_close=True,
                         color='Territory', 

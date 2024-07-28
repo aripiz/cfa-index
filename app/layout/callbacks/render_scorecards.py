@@ -12,7 +12,7 @@ from dash import Input, Output
 
 from index import app
 from index import data, geodata
-from configuration import TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, COLOR_SCALE
+from configuration import OCEAN_COLOR, TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, LAND_COLOR
 
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
@@ -28,6 +28,15 @@ areas['World'] = data['code'].unique().tolist()
 centroids = {row['ADM0_A3']: {'lat': row['geometry'].centroid.y, 'lon': row['geometry'].centroid.x} for _, row in geodata.iterrows()}
 centroids.update({k: area_centroid(v) for k,v in areas.items()})
 
+def get_value(dataframe, key, format_string, divide=1, default=" "):
+    value = dataframe[key]
+    if value != np.nan:
+        if divide != 1:
+            value = value / divide
+        return format_string.format(value)
+    else:
+        return default
+    
 # Scorecard title
 @app.callback(
     Output("scorecard_header", "children"),
@@ -52,17 +61,17 @@ def update_scorecard_map(territory):
                                geojson=GEO_FILE,
                                locations='code', 
                                featureidkey="properties.ADM0_A3",
-                               color_discrete_sequence = ["#005D9E"],
+                               color_discrete_sequence = [LAND_COLOR],
                                hover_name='territory',
                                hover_data={'code':False, 'Year': False, 'Area': False}
         )
     fig.update_layout(
         showlegend=False,
         margin={"r":0,"t":0,"l":0,"b":0},
-        geo = dict(projection_type='orthographic', projection_scale = 1, showland=True, showocean=True, oceancolor="hsl(0, 0, 88%)")
+        geo = dict(projection_type='orthographic', projection_scale = 1, showland=True, showocean=True, oceancolor=OCEAN_COLOR)
     )
     if territory == 'World': 
-        fig.update_layout(geo = dict(center=dict(lat=0, lon=0), projection_rotation=dict(lat=0, lon=0), landcolor="#005D9E"))
+        fig.update_layout(geo = dict(center=dict(lat=0, lon=0), projection_rotation=dict(lat=0, lon=0), landcolor=LAND_COLOR))
     else: 
         fig.update_layout(geo = dict(center=dict(lat=lat, lon=lon), projection_rotation=dict(lat=lat, lon=lon)))
     return fig
@@ -78,20 +87,25 @@ def update_scorecard_map(territory):
     Input('scorecard_territory', 'value')
 )
 def update_scorecard_summary(territory):
-    df_territory = data.set_index(['territory','year']).loc[territory, 2023]
-    df_all = data[data['area'].notna()].set_index(['territory','year']) 
-    df_all['rank'] = df_all.loc(axis=0)[:,2023]["CFA Index"].rank(ascending=False, method='min')
-    df_all['tier'] = pd.cut(df_all.loc(axis=0)[:,2023]["CFA Index"], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
+    df_territory = data[data['year'] == 2023].set_index('territory').loc[territory]
+    df_all = data[(data['area'].notna()) & (data['year'] == 2023)].set_index('territory')
+    try: 
+        df_territory['rank'] = df_all['CFA Index'].rank(ascending=False, method='min').loc[territory]
+        df_territory['tier'] = pd.cut(df_all['CFA Index'], bins=TIER_BINS, labels=TIER_LABELS, right=False).loc[territory]
 
-    info = [
-        f"{df_territory['area']}",
-        f"{df_territory['Population, total']:.3g}",
-        f"{df_territory['GDP per capita']:.3g} $",
-        f"{df_territory['CFA Index']}/100",
-        f"{df_all.loc[territory, 2023]['rank']:.0f}/157",
-        f"{df_all.loc[territory, 2023]['tier']}",
+    except KeyError:
+        df_territory['rank'] = np.nan
+        df_territory['tier'] = np.nan
+    values = [
+        get_value(df_territory, 'area', "{}"),
+        get_value(df_territory, 'Population, total', "{:,.3g} millions", divide=1e6),
+        get_value(df_territory, 'GDP per capita', "US${:,.0f}"),
+        get_value(df_territory, 'CFA Index', "{}/100"),
+        get_value(df_territory, 'rank', "{:.0f}/157"),
+        get_value(df_territory, 'tier', "{}"),
     ]
-    return info
+    
+    return values
 
 # Scorecard progress
 @app.callback(

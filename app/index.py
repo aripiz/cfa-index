@@ -11,7 +11,6 @@ from configuration import DATA_FILE, META_FILE, GEO_FILE, TITLE, DBC_CSS
 data = pd.read_csv(DATA_FILE)
 metadata = pd.read_csv(META_FILE, index_col=0)
 geodata = gpd.read_file(GEO_FILE)
-#auxiliary_meta = pd.read_csv(META_FILE, index_col=0 ,nrows=2, header=0, skiprows=range(1,31))
 
 # App 
 app = Dash(

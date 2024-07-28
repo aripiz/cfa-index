@@ -24,7 +24,7 @@ tab_indicators = html.Div([
                 value=indicators_list[0],
                 style={"width": "100%"}),
         ]),
-    ]),
+    ], className='mt-2'),
     dbc.Row([
         dbc.Col(
             dbc.Table([

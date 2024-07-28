@@ -16,17 +16,17 @@ population_list = data.columns[83:86].to_list()
 
 card = dbc.Container([
     dbc.Row([
-        dbc.Col(html.H2(id='scorecard_header'), width=8),
+        dbc.Col(html.H2(id='scorecard_header'), lg=8, xs=12),
         dbc.Col([
             dbc.Label("Territory"),
             dcc.Dropdown(
                 id='scorecard_territory',
                 options=territories_list,
                 value='World',
-            )], width=4, align='end')
+            )], lg=4, xs=12,align='end')
     ], className='mt-2', justify='evenly' ),
     dbc.Row([
-        dbc.Col(dcc.Graph(id="scorecard_map", style={'height': 200, "width": 200}), width=2, align='end'),
+        dbc.Col(dcc.Graph(id="scorecard_map", style={'height': 200, "width": 200}), lg=2, xs = 12, align='center'),
         dbc.Col(html.Div([
             html.H4("Area "),
             html.P(id="scorecard_area", style={'align':'right'}),
@@ -34,7 +34,7 @@ card = dbc.Container([
             html.P(id="scorecard_pop", style={'align':'right'}),
             html.H4("GDP per capita"),
             html.P(id="scorecard_gdp", style={'align':'right'})
-        ]), width=4, align='end'),
+        ]), lg=4, xs=12, align='end'),
         dbc.Col(html.Div([
             html.H4("CFA Index Score "),
             html.P(id="scorecard_score"),
@@ -42,17 +42,17 @@ card = dbc.Container([
             html.P(id="scorecard_rank", style={'align':'right'}),
             html.H4("Human Rights Implementaion "),
             html.P(id="scorecard_group")
-        ]), width=5, align='end')
+        ]), lg=5, xs=12, align='end')
     ], className='mt-2', justify='evenly'),
    dbc.Row([
         dbc.Col(html.Div([
-            html.H4("CFA Index progress"),
+            html.H4("Progress"),
             dcc.Graph(id='scorecard_progress')
-        ]), width=6),
+        ]), lg=6, xs= 12),
         dbc.Col(html.Div([
-            html.H4("Components profile"),
+            html.H4("Profile"),
             dcc.Graph(id='scorecard_radar')
-        ]), width=6)
+        ]), lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
     # dbc.Row([
     #     dbc.Col(html.Div([

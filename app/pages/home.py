@@ -9,7 +9,7 @@ register_page(__name__, path='/', name=TITLE)
 from layout.layout_home import display_map_home
 
 
-layout = html.Div("Da costruire")
+layout = dbc.Container("Da costruire",class_name='mt-4' )
 # layout = html.Div([
 #         html.Br(),
 #         dbc.Row([

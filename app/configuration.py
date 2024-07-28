@@ -4,8 +4,10 @@
 TITLE = 'WeWorld Index 2024'
 
 # Themes and colors
-FIGURE_TEMPLATE = 'zephyr'
+FIGURE_TEMPLATE = 'lux'
 DBC_CSS = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
+LAND_COLOR = "#343a40"
+OCEAN_COLOR = "hsl(0, 0, 88%)"
 COLOR_SCALE = ["#D53A50", "#E97B4E", "#F0B060", "#DECE58", "#64A972", "#3E876B"]
 
 # Tiers
