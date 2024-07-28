@@ -28,13 +28,15 @@ areas['World'] = data['code'].unique().tolist()
 centroids = {row['ADM0_A3']: {'lat': row['geometry'].centroid.y, 'lon': row['geometry'].centroid.x} for _, row in geodata.iterrows()}
 centroids.update({k: area_centroid(v) for k,v in areas.items()})
 
-def get_value(dataframe, key, format_string, divide=1, default=" "):
-    value = dataframe[key]
-    if value != np.nan:
+def get_value(dataframe, key, format_string, divide=1, default="N/A"):
+    try:
+        value = dataframe[key]
+        if pd.isna(value):
+            return default
         if divide != 1:
             value = value / divide
         return format_string.format(value)
-    else:
+    except (KeyError, TypeError, ValueError):
         return default
     
 # Scorecard title
@@ -89,13 +91,11 @@ def update_scorecard_map(territory):
 def update_scorecard_summary(territory):
     df_territory = data[data['year'] == 2023].set_index('territory').loc[territory]
     df_all = data[(data['area'].notna()) & (data['year'] == 2023)].set_index('territory')
+    df_territory['tier'] = pd.cut(pd.Series(df_territory['CFA Index']), bins=TIER_BINS, labels=TIER_LABELS, right=False).iloc[0]
     try: 
         df_territory['rank'] = df_all['CFA Index'].rank(ascending=False, method='min').loc[territory]
-        df_territory['tier'] = pd.cut(df_all['CFA Index'], bins=TIER_BINS, labels=TIER_LABELS, right=False).loc[territory]
-
     except KeyError:
         df_territory['rank'] = np.nan
-        df_territory['tier'] = np.nan
     values = [
         get_value(df_territory, 'area', "{}"),
         get_value(df_territory, 'Population, total', "{:,.3g} millions", divide=1e6),
@@ -104,7 +104,6 @@ def update_scorecard_summary(territory):
         get_value(df_territory, 'rank', "{:.0f}/157"),
         get_value(df_territory, 'tier', "{}"),
     ]
-    
     return values
 
 # Scorecard progress

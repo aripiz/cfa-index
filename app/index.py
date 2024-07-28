@@ -16,7 +16,7 @@ geodata = gpd.read_file(GEO_FILE)
 app = Dash(
     __name__, 
     title=TITLE,
-    external_stylesheets=[DBC_CSS], 
+    external_stylesheets=[dbc.themes.LUX, DBC_CSS], 
     suppress_callback_exceptions=True, 
     use_pages=True,
     )
