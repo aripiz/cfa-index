@@ -2,6 +2,8 @@
 
 # Title
 TITLE = 'ChildFund Alliace Index 2024'
+BRAND_LINK = "https://childfundalliance.org/"
+CREDITS_LINK = "https://github.com/aripiz"
 
 # Themes and colors
 FIGURE_TEMPLATE = 'lux'

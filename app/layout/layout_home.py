@@ -8,7 +8,7 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html
 
 from index import data
-from configuration import MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL, CENTER_COORDINATES
+from configuration import BRAND_LINK, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL, CENTER_COORDINATES
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
 
@@ -45,7 +45,7 @@ home = dbc.Container([
     dbc.Row(
         dbc.Col([
             html.H1("ChildFund Alliance Index"),
-            html.P("The ChildFund Alliance Index is a flagship report by ChildFund Alliance. Formerly known as the WeWorld Index and published annually since 2015 by WeWorld - the Italian member of ChildFund Alliance - it is a tool to measure the living conditions of women and children worldwide by assessing the promotion, exercise, and violation of their rights.")
+            html.Div(["The ChildFund Alliance Index is a flagship report by ", html.A("ChildFund Alliance", href=BRAND_LINK), ". Formerly known as the WeWorld Index and published annually since 2015 by WeWorld - the Italian member of ChildFund Alliance - it is a tool to measure the living conditions of women and children worldwide by assessing the promotion, exercise, and violation of their rights."])
         ]),
         className='mt-2', justify='evenly' ),
     dbc.Row(
