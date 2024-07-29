@@ -37,12 +37,12 @@ import os
 MAP_TOKEN = os.getenv("MAP_TOKEN")
 if MAP_TOKEN is not None: MAP_STYLE = "mapbox://styles/aripiz/clf1ay30l004n01lnzi17hjvj"
 else: MAP_STYLE = "carto-positron"
-ZOOM_LEVEL = 0.9
-CENTER_COORDINATES = (13 ,5)
+ZOOM_LEVEL = 0.6
+CENTER_COORDINATES = (10 ,5)
 
 # Files link
 DATA_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/weworld-index2024_data.csv"
 META_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/weworld-index2024_meta.csv"
-GEO_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ne_50m_admin_0_countries.geojson"
+GEO_FILE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson" #"https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ne_50m_admin_0_countries.geojson"
 NOTES_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ChildFundAlliance-Index-2024_TechnicalNotes.pdf"
 REPORT_FILE = ""

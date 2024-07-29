@@ -59,7 +59,7 @@ tab_map_features = html.Div([
                 dbc.Row(dbc.Col(
                 dcc.Graph(
                     id = "map",
-                    style = {'height': '60vh'},
+                    style = {'height': '70vh'},
                 )), justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -115,7 +115,7 @@ tab_map_indicators = html.Div([
                 dbc.Row(dbc.Col(
                 dcc.Graph(
                     id="indicators_map",
-                    style = {'height': '60vh'},
+                    style = {'height': '70vh'},
                 )), justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -179,7 +179,7 @@ tab_correlations = html.Div([
                 justify='between'),
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="features_correlation",
-                    style={'height': '60vh'},
+                    style={'height': '70vh'},
                 )), justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -270,7 +270,7 @@ tab_evolution = html.Div([
                 dbc.Row(dbc.Col(
                 dcc.Graph(
                     id="evolution_plot",
-                    style={'height': '60vh'},
+                    style={'height': '70vh'},
                 )), justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -319,7 +319,7 @@ tab_radar = html.Div([
                 # ), lg = 6, xs =12),
                 dbc.Col(dcc.Graph(
                     id="radar_chart",
-                    style={'height': '60vh'},
+                    style={'height': '70vh'},
                 ), lg = 6, xs =12)
                 ], justify = 'around', class_name = 'mt-2'),
             ])
@@ -384,7 +384,7 @@ tab_comparison = html.Div([
                 justify='between'),
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="comparison_chart",
-                    style={'height': '60vh'},
+                    style={'height': '70vh'},
                 )), justify = 'around', class_name = 'mt-2'),
             ])
 

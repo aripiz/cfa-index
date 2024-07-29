@@ -12,7 +12,7 @@ from dash import Input, Output, html, dash_table
 
 from index import app
 from index import metadata, data
-from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
+from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL, OCEAN_COLOR
 from utilis import get_value, sig_round, sig_format, get_score_change_arrow
 
 load_figure_template(FIGURE_TEMPLATE)
@@ -26,7 +26,7 @@ pio.templates.default = FIGURE_TEMPLATE
 def display_map_index(feature, year):
     df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
-    fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
+    fig = px.choropleth(df, geojson=GEO_FILE,
         locations='code', featureidkey="properties.ADM0_A3",
         #color=feature,
         #range_color=[0,100],
@@ -36,19 +36,32 @@ def display_map_index(feature, year):
         category_orders={'Tier': TIER_LABELS},
         #hover_name='territory',
         #hover_data={'code':False, 'Year': True, feature: ':#.3g'},
-        zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
+        #zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
         custom_data = ['territory', 'Area', feature, 'Tier', 'Year']
     )
-    fig.update_layout(legend=dict(title_text="Human Rights Implementation",xanchor='right', yanchor='top', x=0.95, y=0.92))
-    fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92))
-    fig.update_layout(
-        mapbox_style = MAP_STYLE,
-        mapbox_accesstoken = MAP_TOKEN,
-        margin={"r":0,"t":0,"l":0,"b":0},
-    )
+    fig.update_layout(legend=dict(
+        title_text="Human Rights Implementation",
+        orientation="h",
+        #entrywidth=70,
+        yanchor="bottom",
+        y=1.02,
+        xanchor="center",
+        x=0.5
+        )
+    )#,xanchor='right', yanchor='top', x=0.95, y=0.92))
     template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{feature}: "+ "%{customdata[2]:#.3g}<br>" + f"Human Rights Implementation: " + "%{customdata[3]}<br><br>" + f"Year: "+ "%{customdata[4]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
 
+    # fig.update_layout(
+    #         mapbox_style = MAP_STYLE,
+    #         mapbox_accesstoken = MAP_TOKEN,
+    #         margin={"r":0,"t":0,"l":0,"b":0},
+    #         mapbox_bounds=dict(west=-180, east=180, south=-85, north=85)
+    #     )
+    fig.update_layout(
+        margin={"r":0,"t":0,"l":0,"b":0},
+        geo = dict(projection_type='natural earth', showland=True, showocean=True, oceancolor=OCEAN_COLOR,  showframe=False,  projection_scale=1.0, scope='world'),
+    )
     return fig
 
 # Indicators map
@@ -72,14 +85,14 @@ def display_map_indicators(indicator, year, kind):
     df = data.loc[data['year']==year].rename(columns={'year':'Year', 'area':'Area'})
     if kind=='Data':
         col = f'Indicator {int(indicator)} (data)'
-        fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
+        fig = px.choropleth(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
             color=col,
             range_color=limits_scale,
             color_continuous_scale=colors,
             #hover_name='territory',
             #hover_data={'code':False, 'Year': True, col: ':#.3g'},
-            zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
+            #zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
             custom_data = ['territory', 'Area', col, 'Year']
         )
         template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{name}: " + "%{customdata[2]:#.3g}" + f" {unit}<br><br>"  + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
@@ -87,24 +100,29 @@ def display_map_indicators(indicator, year, kind):
         fig.update_layout(coloraxis_colorbar=dict(title=unit, x=0.92, len=0.75))
     if kind == 'Scores':
         col = f'Indicator {int(indicator)}'
-        fig = px.choropleth_mapbox(df, geojson=GEO_FILE,
+        fig = px.choropleth(df, geojson=GEO_FILE,
             locations='code', featureidkey="properties.ADM0_A3",
             color=col,
             range_color=[0,100],
             color_continuous_scale=TIER_COLORS,
             #hover_name='territory',
             #hover_data={'code':False, 'Year': True, col: ':#.3g'},
-            zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
+            #zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
             custom_data = ['territory', 'Area', col, 'Year']
         )
         fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92,  len=0.75))
         template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{col}: "+ "%{customdata[2]:#.3g}<br><br>"  + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
         fig.update_traces(hovertemplate=template)
+    # fig.update_layout(
+    #         mapbox_style = MAP_STYLE,
+    #         mapbox_accesstoken = MAP_TOKEN,
+    #         margin={"r":0,"t":0,"l":0,"b":0},
+    #         mapbox_bounds=dict(west=-180, east=180, south=-85, north=85)
+    #     )
     fig.update_layout(
-            mapbox_style = MAP_STYLE,
-            mapbox_accesstoken = MAP_TOKEN,
-            margin={"r":0,"t":0,"l":0,"b":0},
-        )
+        margin={"r":0,"t":0,"l":0,"b":0},
+        geo = dict(projection_type='natural earth', showland=True, showocean=True, oceancolor=OCEAN_COLOR,  showframe=False,  projection_scale=1.0, scope='world'),
+    )
     return fig
 
 # Correlation
