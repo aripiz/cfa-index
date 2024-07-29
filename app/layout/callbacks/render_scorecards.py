@@ -84,7 +84,7 @@ def update_scorecard_summary(territory):
         df_territory['rank'] = np.nan
     values = [
         get_value(df_territory, 'area', "{}"),
-        get_value(df_territory, 'Population, total', "{:,.3g} millions", divide=1e6),
+        get_value(df_territory, 'Population, total', "{:,.3f} millions", divide=1e6),
         get_value(df_territory, 'GDP per capita', "US${:,.0f}"),
         get_value(df_territory, 'CFA Index', "{}/100"),
         get_value(df_territory, 'rank', "{:.0f}/157"),
@@ -102,13 +102,18 @@ def display_evolution(territory):
 
     df = data.query("territory == @territory").rename(columns={'year':'Year', 'territory':'Territory'})
     fig = px.line(df, x='Year', y='CFA Index',
-                hover_name='Territory',
+                #hover_name='Territory',
                 color='Territory',
                 color_discrete_sequence=SEQUENCE_COLOR,
-                hover_data={'Territory':False, 'CFA Index': ':#.3g'},
-                markers=True
+                #hover_data={'Territory':False, 'CFA Index': ':#.3g'},
+                markers=True,
+                custom_data = ['Territory', 'CFA Index', 'Year']
+
+
         )
     fig.update_traces(marker={'size': 10})
+    template = "<b>%{customdata[0]}</b><br><br>" + "CFA Index: "+ "%{customdata[1]:#.3g}<br><br>" + f"Year: "+ "%{customdata[2]}" + "<extra></extra>"
+    fig.update_traces(hovertemplate=template)
     fig.update_layout(
         legend_title = 'Territory',
         xaxis = dict(tickvals = df['Year'].unique()),
@@ -125,18 +130,24 @@ def display_radar(territory):
     if territory != "World": territory = [territory, area, 'World']
     df = data.query("territory == @territory and year == 2023").rename(columns={'territory':'Territory'})
     df = pd.melt(df, id_vars=['Territory'], value_vars=features, var_name='Dimension', value_name='Score')
-    label_map = {f: f.replace(' ', '<br>') for f in features}
-    df['Dimension'] = df['Dimension'].map(label_map)
+    tick_labels = [f.replace(' ', '<br>') for f in features]
+    df['Dimension'] = df['Dimension']
     fig = px.line_polar(df, theta='Dimension', r='Score',
                         line_close=True,
                         color='Territory', 
                         range_r=[0,100],
                         start_angle=90,
-                        hover_name='Territory',
-                        color_discrete_sequence=SEQUENCE_COLOR,
-                        hover_data={'Territory':False, 'Dimension':True, 'Score':':#.3g'}
+                        #hover_name='Territory',
+                        #color_discrete_sequence=SEQUENCE_COLOR,
+                        #hover_data={'Territory':False, 'Dimension':True, 'Score':':#.3g'}
+                        custom_data = ['Territory', 'Dimension', 'Score']
+
         )
+    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}<br><br>" + "<extra></extra>"
+    fig.update_traces(hovertemplate=template)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
+    fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels))
+
     return fig
 
 # Scorecard table
