@@ -149,7 +149,7 @@ def display_radar(territory):
                         hover_name='Territory',
                         hover_data={'Territory':False, 'Dimension':True, 'Score':True}
         )
-    fig.update_polars(radialaxis=dict(angle=90, tickangle=90))
+    fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     return fig
 
 # Scorecard table

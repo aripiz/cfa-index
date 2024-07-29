@@ -261,7 +261,7 @@ def display_radar(territories, year):
                         hover_name='Territory',
                         hover_data={'Territory':False, 'Dimension':True, 'Score':True}
         )
-    fig.update_polars(radialaxis=dict(angle=90, tickangle=90))
+    fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     return fig
 
 # Radar table
@@ -280,7 +280,9 @@ def display_radar_table(territories, year):
                     index=True,
                     responsive=True,
                     striped=True,
-                    size='sm'
+                    size='sm',         
+                    class_name='fixed-header'
+
                 )
     return table
 

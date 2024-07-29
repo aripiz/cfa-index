@@ -314,7 +314,8 @@ tab_radar = html.Div([
                 dbc.Row([
                 dbc.Col(html.Div(
                     id='radar_table',
-                    style={"height": "60vh", "overflow": "scroll"},
+                    className='table-container',
+                    #style={"height": "60vh", "overflow": "scroll"},
                 ), lg = 6, xs =12),
                 dbc.Col(dcc.Graph(
                     id="radar_chart",

@@ -9,7 +9,7 @@
 .fixed-header thead th {
     position: sticky;
     top: 0;
-    background-color: #f8f9fa; /* Colore di sfondo per l'header */
+    background-color: #F2F2F2; /* Colore di sfondo per l'header */
     z-index: 0;
-    border-bottom: 2px solid #dee2e6; /* Aggiungi una linea di separazione inferiore se necessario */
+    border-bottom: 2px solid #818181; /* Aggiungi una linea di separazione inferiore se necessario */
 }
