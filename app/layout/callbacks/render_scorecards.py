@@ -8,11 +8,12 @@ import geopandas as gpd
 
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-from dash import Input, Output
+from dash import Input, Output, html
 
 from index import app
 from index import data, geodata
 from configuration import OCEAN_COLOR, TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, LAND_COLOR
+from utilis import sig_round, style_score_change_col
 
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
@@ -150,3 +151,59 @@ def display_radar(territory):
         )
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90))
     return fig
+
+# Scorecard table
+@app.callback(
+    Output("scorecard_table", "children"),
+    Input("scorecard_territory", "value"))
+def display_table(territory):
+    features = data.columns[4:53]
+    area = data.query("territory == @territory")['area'].to_list()[0]
+    world = "World"
+    if territory != world:
+        territory_list = [territory, area, world]
+    else:
+        territory_list = [territory]
+    df = data.query("territory == @territory_list and year == 2023").rename(columns={'territory':'Territory'})
+
+    # Ottieni i dati per il territorio specificato, area e mondo
+    df_territory = df[df['Territory'] == territory]
+    df_area = df[df['Territory'] == area]
+    df_world = df[df['Territory'] == world]
+
+    rows = []
+    for feature in features:
+        score = df_territory[feature].values[0]
+        try: 
+            score_change_from_area = sig_round(score - df_area[feature].values[0])
+            score_change_from_world = sig_round(score - df_world[feature].values[0])
+        except IndexError:
+            score_change_from_area = np.nan
+            score_change_from_world = np.nan
+
+        score_change_area_style = style_score_change_col(score_change_from_area)
+        score_change_world_style = style_score_change_col(score_change_from_world)
+
+        rows.append(
+            html.Tr([
+                html.Td(feature),
+                html.Td(score),
+                html.Td(score_change_from_area, style=score_change_area_style),
+                html.Td(score_change_from_world, style=score_change_world_style)
+            ])
+        )
+
+    # Creare la tabella con intestazione
+    table = dbc.Table(
+        # Header della tabella
+        [html.Thead(html.Tr([html.Th(col, style={'padding': '5px'}) for col in ['Component', 'Score', 'Score Change from Area', 'Score Change from World']]))] +
+        # Corpo della tabella
+        [html.Tbody(rows)],
+        bordered=False,
+        hover=True,
+        responsive=True,
+        striped=False,
+        size='sm'
+    )
+
+    return table

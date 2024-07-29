@@ -222,10 +222,10 @@ tab_ranking = html.Div([
                         )
                 ], lg = 4, xs =12)
                 ], justify='around'),
-                dbc.Row(dbc.Col(html.Div(
+                dbc.Row(dbc.Col(
                     id='ranking_table',
                     style={"height": "60vh", "overflow": "scroll"},
-                )), justify = 'around', class_name = 'mt-2')
+                ), justify = 'around', class_name = 'mt-2')
             ])
 
 tab_evolution = html.Div([

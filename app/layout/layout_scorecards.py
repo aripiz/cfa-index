@@ -54,43 +54,10 @@ card = dbc.Container([
             dcc.Graph(id='scorecard_radar')
         ]), lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
-    # dbc.Row([
-    #     dbc.Col(html.Div([
-    #         html.H4("Components scores"),
-    #         html.Div(id='table', children=[
-    #             html.Table([
-    #                 html.Thead(html.Tr([html.Th("Column 1"), html.Th("Column 2")])),
-    #                 html.Tbody([
-    #                     html.Tr([html.Td("Value 1"), html.Td("Value 2")]),
-    #                     html.Tr([html.Td("Value 3"), html.Td("Value 4")])
-    #                     # Add more rows as needed
-    #                 ])
-    #             ])
-    #         ])
-    #     ]))
-    # ], className='mt-2', justify='evenly')
+    dbc.Row([html.Div([
+            html.H4("Component table"),
+            html.Div(id='scorecard_table')
+        ])
+    ], className='mt-2', justify='evenly')
 ], fluid=True)
-
-country_card = html.Div([
-    dbc.Row([
-        dbc.Col(html.H2(id='scorecard_header')),
-        dbc.Col([
-        dbc.Label("Territory"),
-        dcc.Dropdown(
-            id='scorecard_territory',
-            options = territories_list ,
-            value = 'World',
-            style = {"width": "75%"}
-        )]),
-    ],  class_name = 'mt-2'),
-    dbc.Row([
-        dbc.Col(
-        dcc.Graph(
-            id="scorecard_map",
-            style={'height': 200, "width":200}
-        ), ),
-        dbc.Col([html.H4('CFA Index')])
-    ])
-   
-])
 

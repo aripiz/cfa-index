@@ -38,7 +38,7 @@ tab_indicators = html.Div([
                     html.Tr([html.Th("Last update", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_update")]),
                     html.Tr([html.Th("Source", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(html.A(id="indicator_source", target="_blank", rel="noopener noreferrer"))])
                 ])
-            ], bordered=True, hover=True, responsive=True, striped=True)
+            ], bordered=True, hover=True, responsive=True, striped=True, size='sm')
         )
     ], className='mt-2')
 ])

@@ -7,12 +7,12 @@ import plotly.io as pio
 
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-from dash import Input, Output
+from dash import Input, Output, html
 
 from index import app
 from index import metadata, data
 from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, COLOR_SCALE, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
-from utilis import sig_round
+from utilis import sig_round, style_rank_change_col, style_score_change_col
 
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
@@ -143,31 +143,77 @@ def display_corr(x_data, y_data, population, year):
     Output("ranking_table", "children"),
     Input("ranking_feature", "value"),
     Input("slider_year", "value"))
+# def display_ranking(feature, year):
+#     df = data[data['area'].notna()].set_index('code')
+#     years_list = data['year'].unique()
+#     final = df[df['year']==year][['territory', feature]]
+#     initial = df[df['year']==years_list[0]][['territory', feature]]
+
+#     initial['Rank'] = initial[feature].rank(ascending=False, method='min')
+#     final['Rank'] = final[feature].rank(ascending=False, method='min')
+    
+#     final[f'Score change from {years_list[0]}'] = (final[feature] - initial[feature]).apply(sig_round)
+#     final[f'Rank change from {years_list[0]}'] = (initial['Rank'] - final['Rank'])
+
+#     final = final.reset_index().rename(columns={'territory':'Territory', feature:'Score'}).sort_values('Rank')
+#     rank_change_col = f'Rank change from {years_list[0]}'
+#     score_change_col = f'Score change from {years_list[0]}'
+#     final = final.set_index(['Rank', 'Territory'], drop=True)
+#     table = dbc.Table.from_dataframe(
+#                     final[['Score', score_change_col , rank_change_col]],
+#                     bordered=False,
+#                     hover=True,
+#                     responsive=True,
+#                     striped=True,
+#                     index = True
+#                 )   
+#     return table
 def display_ranking(feature, year):
     df = data[data['area'].notna()].set_index('code')
     years_list = data['year'].unique()
-    final = df[df['year']==year][['territory', feature]]
-    initial = df[df['year']==years_list[0]][['territory', feature]]
+    final = df[df['year'] == year][['territory', feature]]
+    initial = df[df['year'] == years_list[0]][['territory', feature]]
 
     initial['Rank'] = initial[feature].rank(ascending=False, method='min')
     final['Rank'] = final[feature].rank(ascending=False, method='min')
-    
+
     final[f'Score change from {years_list[0]}'] = (final[feature] - initial[feature]).apply(sig_round)
     final[f'Rank change from {years_list[0]}'] = (initial['Rank'] - final['Rank'])
 
-    final = final.reset_index().rename(columns={'territory':'Territory', feature:'Score'}).sort_values('Rank')
+    final = final.reset_index().rename(columns={'territory': 'Territory', feature: 'Score'}).sort_values('Rank')
     rank_change_col = f'Rank change from {years_list[0]}'
     score_change_col = f'Score change from {years_list[0]}'
     final = final.set_index(['Rank', 'Territory'], drop=True)
-    table = dbc.Table.from_dataframe(
-                    final[['Score', score_change_col , rank_change_col]],
-                    bordered=False,
-                    hover=True,
-                    responsive=True,
-                    striped=True,
-                    index = True
-                )   
+
+    # Crea la tabella con lo stile condizionale per score_change_col e rank_change_col
+    rows = []
+    for idx, row in final.iterrows():
+        score_change_style = style_score_change_col(row[score_change_col])
+        rank_change_style = style_rank_change_col(row[rank_change_col])
+        rows.append(
+            html.Tr([
+                html.Td(idx[0]),  # Rank
+                html.Td(idx[1]),  # Territory
+                html.Td(row['Score']),
+                html.Td(row[score_change_col], style=score_change_style),
+                html.Td(row[rank_change_col], style=rank_change_style)
+            ], )
+        )
+
+    table = dbc.Table(
+        # Header della tabella
+        [html.Thead(html.Tr([html.Th(col) for col in ['Rank', 'Territory', 'Score', score_change_col, rank_change_col]]))] +
+        # Corpo della tabella
+        [html.Tbody(rows)],
+        bordered=False,
+        hover=True,
+        responsive=True,
+        striped=False,
+        size='sm'
+    )
+
     return table
+
 
 # Evolution
 @app.callback(
@@ -233,6 +279,7 @@ def display_radar_table(territories, year):
                     index=True,
                     responsive=True,
                     striped=True,
+                    size='sm'
                 )
     return table
 
