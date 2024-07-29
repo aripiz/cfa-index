@@ -196,7 +196,7 @@ def display_table(territory):
     # Creare la tabella con intestazione
     table = dbc.Table(
         # Header della tabella
-        [html.Thead(html.Tr([html.Th(col) for col in ['Component', 'Score', 'Score Change from Area', 'Score Change from World']]),)] +
+        [html.Thead(html.Tr([html.Th(col) for col in ['Component', 'Score', 'Difference from Area', 'Difference from World']]),)] +
         # Corpo della tabella
         [html.Tbody(rows)],
         bordered=False,
