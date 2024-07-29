@@ -58,7 +58,7 @@ card = dbc.Container([
         ]), lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
     dbc.Row([dbc.Col([
-            html.H4("Component table"),
+            html.H4("Components"),
             html.Div(id='scorecard_table', 
                      className='table-container'
 )

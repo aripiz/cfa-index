@@ -12,33 +12,18 @@ from dash import Input, Output, html
 
 from index import app
 from index import data, geodata
-from configuration import OCEAN_COLOR, TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, LAND_COLOR
-from utilis import sig_round, style_score_change_col
+from configuration import OCEAN_COLOR, SEQUENCE_COLOR, TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, LAND_COLOR
+from utilis import sig_round, style_score_change_col, get_score_change_arrow, sig_format, area_centroid, get_value
 
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
-
-def area_centroid(countries):
-    selected_countries = geodata[geodata['ADM0_A3'].isin(countries)]
-    combined_geometry = selected_countries.unary_union
-    return {'lat': combined_geometry.centroid.y, 'lon': combined_geometry.centroid.x}
 
 areas = {area: data[data['area'] == area]['code'].dropna().unique().tolist() for area in data['area'].dropna().unique()}
 areas['World'] = data['code'].unique().tolist()
 
 centroids = {row['ADM0_A3']: {'lat': row['geometry'].centroid.y, 'lon': row['geometry'].centroid.x} for _, row in geodata.iterrows()}
-centroids.update({k: area_centroid(v) for k,v in areas.items()})
+centroids.update({k: area_centroid(geodata, v) for k,v in areas.items()})
 
-def get_value(dataframe, key, format_string, divide=1, default="N/A"):
-    try:
-        value = dataframe[key]
-        if pd.isna(value):
-            return default
-        if divide != 1:
-            value = value / divide
-        return format_string.format(value)
-    except (KeyError, TypeError, ValueError):
-        return default
     
 # Scorecard title
 @app.callback(
@@ -119,7 +104,8 @@ def display_evolution(territory):
     fig = px.line(df, x='Year', y='CFA Index',
                 hover_name='Territory',
                 color='Territory',
-                hover_data={'Territory':False},
+                color_discrete_sequence=SEQUENCE_COLOR,
+                hover_data={'Territory':False, 'CFA Index': ':#.3g'},
                 markers=True
         )
     fig.update_traces(marker={'size': 10})
@@ -147,7 +133,8 @@ def display_radar(territory):
                         range_r=[0,100],
                         start_angle=90,
                         hover_name='Territory',
-                        hover_data={'Territory':False, 'Dimension':True, 'Score':True}
+                        color_discrete_sequence=SEQUENCE_COLOR,
+                        hover_data={'Territory':False, 'Dimension':True, 'Score':':#.3g'}
         )
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     return fig
@@ -160,10 +147,14 @@ def display_table(territory):
     features = data.columns[4:53]
     area = data.query("territory == @territory")['area'].to_list()[0]
     world = "World"
-    if territory != world:
-        territory_list = [territory, area, world]
-    else:
+    if territory == world:
         territory_list = [territory]
+    else:
+        if pd.isna(area):
+            territory_list = [territory, world]
+        else:
+            territory_list = [territory, area, world]
+        
     df = data.query("territory == @territory_list and year == 2023").rename(columns={'territory':'Territory'})
 
     # Ottieni i dati per il territorio specificato, area e mondo
@@ -174,24 +165,47 @@ def display_table(territory):
     rows = []
     for feature in features:
         score = df_territory[feature].values[0]
-        try: 
-            score_change_from_area = sig_round(score - df_area[feature].values[0])
+
+        if territory == world:
+            score_change_from_area = np.nan
+            score_change_from_world = np.nan
+        elif territory in areas:
+            score_change_from_area = np.nan
             score_change_from_world = sig_round(score - df_world[feature].values[0])
-        except IndexError:
+        else:
+               score_change_from_area = sig_round(score - df_area[feature].values[0])
+               score_change_from_world = sig_round(score - df_world[feature].values[0])
+        if pd.isna(score): 
             score_change_from_area = np.nan
             score_change_from_world = np.nan
 
-        score_change_area_style = style_score_change_col(score_change_from_area)
-        score_change_world_style = style_score_change_col(score_change_from_world)
+        # try: 
+        #     score_change_from_area = sig_round(score - df_area[feature].values[0])
+        #     score_change_from_world = sig_round(score - df_world[feature].values[0])
+        # except IndexError:
+        #     score_change_from_area = np.nan
+        #     score_change_from_world = np.nan
 
         rows.append(
             html.Tr([
                 html.Td(feature),
-                html.Td(score),
-                html.Td(score_change_from_area, style=score_change_area_style),
-                html.Td(score_change_from_world, style=score_change_world_style)
+                html.Td(sig_format(score), className='number-cell'),
+                html.Td(
+                    html.Div([
+                        get_score_change_arrow(score_change_from_area),
+                        html.Span('\u2003'),
+                        html.Span(sig_format(score_change_from_area), className='number-text'), 
+                    ], className='flex-container')
+                ),
+                html.Td(
+                    html.Div([
+                        get_score_change_arrow(score_change_from_world),
+                        html.Span('\u2003'),
+                        html.Span(sig_format(score_change_from_world), className='number-text'), 
+                    ], className='flex-container')
+                )
             ])
-        )
+        )    
 
     # Creare la tabella con intestazione
     table = dbc.Table(

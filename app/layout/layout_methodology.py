@@ -51,9 +51,8 @@ tab_construction = html.Div([
                 CFA Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
                 """),
                 html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes.", href=NOTES_FILE)]),
-                html.Br()
-            ])
-    ),
+            ]),
+    className='mt-4', justify='evenly' ),
     dbc.Row([
         dbc.Col([
             dcc.Markdown("### Index structure"),
@@ -67,19 +66,6 @@ tab_construction = html.Div([
                 """
 
             ),
-            # dcc.Markdown(
-            #     """
-                
-            #     La necessità di valutare separatamente le performance dei territori in relazioni ai tre sottoindici nasce da un assunto ben preciso: **intervenire per garantire inclusione tout court, senza tenere conto degli specifici bisogni e rischi di genere e generazionali,** adottando dunque un approccio intersezionale, non consente una piena realizzazione dei diritti e delle capacitazioni di donne, bambini e adolescenti. 
-                
-            #     Una reale inclusione di queste categorie, infatti, può compiersi solo attraverso la **creazione, implementazione e il monitoraggio di policy** adeguate che devono essere al tempo stesso **multidimensionali,** per tenere conto dell’intreccio esistente tra i diritti di donne e minori, e **targettizzate,** ovvero tarate sulle loro necessità specifiche. **Per questo è necessario guardare ancora più da vicino alle loro condizioni.** 
-                
-            #     L’Italia offre un contesto tendenzialmente favorevole all’inclusione delle categorie più vulnerabili, eppure queste continuano a vivere in condizioni di svantaggio e fragilità. 
-            #     I valori ottenuti dalle regioni nei tre sottoindici sono in certi casi molto diversi, al punto da apparire quasi discordanti. 
-                
-            #     È necessario quindi procedere su due fronti paralleli e complementari: da una parte è fondamentale **lavorare sui contesti** in cui donne, bambini e adolescenti vivono e renderli il più favorevoli possibile al loro pieno sviluppo; dall’altra non si può di certo pensare che contesti favorevoli siano di per sé sufficienti a soddisfare i bisogni e le istanze di donne, bambini e adolescenti per i quali sono necessarie **politiche adeguate e interventi mirati.**
-            #     """
-            # ),
         ], lg=6, xs =12),
         dbc.Col(
             dbc.CardGroup([
@@ -130,7 +116,7 @@ tab_construction = html.Div([
                 ])
             ]),
         align='center', lg= 6, xs =12)
-    ], justify="around"),
+    ], className='mt-4', justify="around"),
     dbc.Row([
         dbc.Col([
             dcc.Markdown("### Aggregation process"),
@@ -164,7 +150,7 @@ tab_construction = html.Div([
                 )
             ]),
         align='center', lg= 6, xs =12)
-    ],  justify="around")
+    ], className='mt-4', justify="around")
 ])
 
 

@@ -32,6 +32,7 @@ navbar = dbc.NavbarSimple(
             nav=True,
             label="Download",
             in_navbar=True,
+            class_name='dbc'
         ),
     ],
     brand= [html.Img(src="assets/logo_childfund.svg", height='30px'), "  Index 2024"],

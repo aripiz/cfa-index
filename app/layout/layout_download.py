@@ -18,7 +18,7 @@ modal_data_download = dbc.Modal(
         dbc.ModalHeader(dbc.ModalTitle("Data download"), close_button=False),
         dbc.ModalBody(
             html.Div([
-                dbc.Label('Download all available data or select a subset'),
+                dbc.Label('Download all available data or select a subset from the menus'),
                 dbc.Row(
                 dbc.Col([
                     # dbc.DropdownMenu(
@@ -29,23 +29,24 @@ modal_data_download = dbc.Modal(
                     #     ),
                     #     label='Select features', 
                     # )
+                    dbc.Label("Select features"),
                     dcc.Dropdown(
                         id='download_indicator',
                         options=features_list,
                         multi=True,
-                        placeholder="All features",
+                        #placeholder="All features",
                         style={"width": "100%",}
                     ),
-                ], xs=12)),
+                ], xs=12), class_name='mt-2'),
                 dbc.Row(
                 dbc.Col([
-                    html.Br(),
+                    dbc.Label('Select territories'),
                     dcc.Dropdown(
                         id='download_territory',
                         options=territories_list,
                         multi=True,
-                        placeholder="All territories",
-                        style={"width": "100%",}
+                        #placeholder="All territories",
+                        style={"width": "100%",},
                     ),
                     # dbc.DropdownMenu(
                     #     dbc.Checklist(
@@ -55,7 +56,7 @@ modal_data_download = dbc.Modal(
                     #     ),
                     #     label='Select territories', 
                     # )
-                ], xs=12)),
+                ], xs=12), class_name='mt-2'),
                 html.Br(),
                 dbc.Button('Download', id='download_button', n_clicks=0, className="ml-auto"),
                 dcc.Download(id='download_file')
@@ -71,4 +72,6 @@ modal_data_download = dbc.Modal(
     id="modal",
     centered=True,
     is_open=False,
+    class_name='dbc',
+    size='lg'
 )

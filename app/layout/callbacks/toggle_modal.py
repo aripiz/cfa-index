@@ -40,6 +40,6 @@ def download_excel(n_clicks, features, territories):
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer) as writer:
             meta.to_excel(writer, sheet_name='indicators_metadata')
-            data.to_excel(writer, sheet_name='data')
+            data.to_excel(writer, sheet_name='data', float_format='%#.3g')
         return dcc.send_bytes(buffer.getvalue(), filename=file_name)
     else: return None

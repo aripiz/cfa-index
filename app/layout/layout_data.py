@@ -312,11 +312,11 @@ tab_radar = html.Div([
                 )], lg = 3, xs =12)
                 ], justify = 'around'),
                 dbc.Row([
-                dbc.Col(html.Div(
-                    id='radar_table',
-                    className='table-container',
-                    #style={"height": "60vh", "overflow": "scroll"},
-                ), lg = 6, xs =12),
+                # dbc.Col(html.Div(
+                #     id='radar_table',
+                #     className='table-container',
+                #     #style={"height": "60vh", "overflow": "scroll"},
+                # ), lg = 6, xs =12),
                 dbc.Col(dcc.Graph(
                     id="radar_chart",
                     style={'height': '60vh'},

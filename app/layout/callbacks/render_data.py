@@ -11,8 +11,8 @@ from dash import Input, Output, html, dash_table
 
 from index import app
 from index import metadata, data
-from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
-from utilis import sig_round, style_rank_change_col, style_score_change_col
+from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
+from utilis import sig_round, sig_format, get_score_change_arrow
 
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
@@ -35,7 +35,7 @@ def display_map_index(feature, year):
         category_orders={'Tier': TIER_LABELS},
         hover_name='territory',
         hover_data={'code':False, 'Year': True,
-                    feature: ':.3g'},
+                    feature: ':#.3g'},
         zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
     )
     fig.update_layout(legend=dict(title_text="Human Rights Implementation",xanchor='right', yanchor='top', x=0.95, y=0.92))
@@ -70,7 +70,7 @@ def display_map_indicators(indicator, year, kind):
             range_color=limits_scale,
             color_continuous_scale=colors,
             hover_name='territory',
-            hover_data={'code':False, 'Year': True, col: ':.3g'},
+            hover_data={'code':False, 'Year': True, col: ':#.3g'},
             zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
         )
         fig.update_layout(coloraxis_colorbar=dict(title=metadata.loc[int(indicator)]['unit'], x=0.92, len=0.75))
@@ -82,7 +82,7 @@ def display_map_indicators(indicator, year, kind):
             range_color=[0,100],
             color_continuous_scale=TIER_COLORS,
             hover_name='territory',
-            hover_data={'code':False, 'Year': True, col: ':.3g'},
+            hover_data={'code':False, 'Year': True, col: ':#.3g'},
             zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
         )
         fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92,  len=0.75))
@@ -107,12 +107,12 @@ def display_corr(x_data, y_data, population, year):
     corr = df.corr('spearman', numeric_only=True)
     fig = px.scatter(df, x=x_data, y=y_data, size=population, color='Area', 
                      hover_name='territory', 
-                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', population:':.3g'},
-                     #color_discrete_sequence=px.colors.qualitative.G10,
+                     hover_data={'Area':False, 'Year': True, x_data: ':#.3g', y_data:':#.3g', population:':#.3g'},
+                     color_discrete_sequence=SEQUENCE_COLOR,
                      size_max = 50
     )
     #fig.update_traces(marker={'size': 15})
-    fig.update_layout(title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:.3g}")
+    fig.update_layout(title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:#.3g}")
     #fig.update_xaxes(range=[-5, 105])
     #fig.update_yaxes(range=[-5, 105])    
     return fig
@@ -129,8 +129,8 @@ def display_corr(x_data, y_data, population, year):
     #corr = df.corr('pearson', numeric_only=True)
     fig = px.scatter(df, x=x_data, y=y_data, size=population, color='Area', 
                      hover_name='territory', 
-                     hover_data={'Area':False, 'Year': True, x_data: ':.3g', y_data:':.3g', population:':.3g'},
-                     #color_discrete_sequence=px.colors.qualitative.G10,
+                     hover_data={'Area':False, 'Year': True, x_data: ':#.3g', y_data:':#.3g', population:':.#3g'},
+                     color_discrete_sequence=SEQUENCE_COLOR,
                      size_max = 50
     )
 
@@ -185,19 +185,28 @@ def display_ranking(feature, year):
     score_change_col = f'Score change from {years_list[0]}'
     final = final.set_index(['Rank', 'Territory'], drop=True)
 
-    # Crea la tabella con lo stile condizionale per score_change_col e rank_change_col
     rows = []
     for idx, row in final.iterrows():
-        score_change_style = style_score_change_col(row[score_change_col])
-        rank_change_style = style_rank_change_col(row[rank_change_col])
         rows.append(
             html.Tr([
                 html.Td(idx[0]),  # Rank
                 html.Td(idx[1]),  # Territory
-                html.Td(row['Score']),
-                html.Td(row[score_change_col], style=score_change_style),
-                html.Td(row[rank_change_col], style=rank_change_style)
-            ], )
+                html.Td(sig_format(row['Score']), className='number-cell'),
+                html.Td(
+                    html.Div([
+                        get_score_change_arrow(row[score_change_col]),
+                        html.Span('\u2003'),
+                        html.Span(sig_format(row[score_change_col]), className='number-text'), 
+                    ], className='flex-container')
+                ),
+                html.Td(
+                    html.Div([
+                        get_score_change_arrow(row[rank_change_col]),
+                        html.Span('\u2003'),
+                        html.Span(sig_format(row[rank_change_col]), className='number-text'), 
+                    ], className='flex-container')
+                )
+            ])
         )
 
     table = dbc.Table(
@@ -230,8 +239,9 @@ def display_evolution(component, territory):
                 hover_name='Territory',
                 color='Territory',
                 line_dash='Component',
-                hover_data={'Territory':False},
-                markers=True
+                hover_data={'Territory':False, 'Score': ':#.3g'},
+                markers=True,
+                color_discrete_sequence=SEQUENCE_COLOR
         )
     fig.update_traces(marker={'size': 10})
     fig.update_layout(
@@ -259,7 +269,8 @@ def display_radar(territories, year):
                         range_r=[0,100],
                         start_angle=90,
                         hover_name='Territory',
-                        hover_data={'Territory':False, 'Dimension':True, 'Score':True}
+                        hover_data={'Territory':False, 'Dimension':True, 'Score':':#.3g'},
+                        color_discrete_sequence=SEQUENCE_COLOR
         )
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     return fig
@@ -272,7 +283,28 @@ def display_radar(territories, year):
 def display_radar_table(territories, year):
     features = data.columns[8:23].to_list()
     df = data.query("territory == @territories and year==@year").rename(columns={'year':'Year', 'territory':'Territory'})
-    df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score').set_index(['Dimension', 'Territory', 'Year']).unstack(['Territory','Year']).loc[features]
+    df = pd.melt(df, id_vars=['Territory', 'Year'], value_vars=features, var_name='Dimension', value_name='Score').set_index(['Dimension', 'Territory', 'Year']).unstack(['Territory', 'Year']).loc[features]
+    
+    # # Creazione della tabella con numeri allineati
+    # rows = []
+    # for idx, row in df.iterrows():
+    #     cells = [html.Td(idx)]
+    #     for value in row:
+    #         cells.append(html.Td(f"{sig_round(value)}", className='number-cell'))
+    #     rows.append(html.Tr(cells))
+    
+    # table = dbc.Table(
+    #     # Header della tabella
+    #     [html.Thead(html.Tr([html.Th(col) for col in df.columns]))] +
+    #     # Corpo della tabella
+    #     [html.Tbody(rows)],
+    #     bordered=False,
+    #     hover=True,
+    #     responsive=True,
+    #     striped=True,
+    #     size='sm',
+    #     class_name='fixed-header'
+    # )
     table = dbc.Table.from_dataframe(
                     df,
                     bordered=False,
@@ -282,6 +314,7 @@ def display_radar_table(territories, year):
                     striped=True,
                     size='sm',         
                     class_name='fixed-header'
+
 
                 )
     return table
