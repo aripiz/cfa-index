@@ -57,7 +57,16 @@ tab_construction = html.Div([
     dbc.Row([
         dbc.Col([
             dcc.Markdown("### Index structure"),
-            dcc.Markdown("Da scrivere"),
+            dcc.Markdown(
+                """
+            The need to evaluate the performance of territories separately in relation to the three sub-indices arises from a specific assumption: intervening to ensure inclusion in general, without considering the specific gender and generational needs and risks, adopting an intersectional approach, does not allow for the full realization of the rights and empowerment of women, children, and adolescents.
+
+            Real inclusion for these categories, in fact, can only be achieved through the creation, implementation, and monitoring of appropriate policies that must be multidimensional to account for the intersection between the rights of women and minors, and targeted to address their specific needs. Therefore, it is necessary to look even more closely at their conditions.
+
+            It is therefore necessary to proceed on two parallel and complementary fronts: on the one hand, it is essential to work on the contexts in which women, children, and adolescents live to make them as favorable as possible for their full development; on the other hand, it cannot be assumed that favorable contexts alone are sufficient to meet the needs and demands of women, children, and adolescents, for which adequate policies and targeted interventions are necessary.
+                """
+
+            ),
             # dcc.Markdown(
             #     """
                 

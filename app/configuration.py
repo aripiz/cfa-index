@@ -1,14 +1,14 @@
 # configuration.py
 
 # Title
-TITLE = 'WeWorld Index 2024'
+TITLE = 'ChildFund Alliace Index 2024'
 
 # Themes and colors
 FIGURE_TEMPLATE = 'lux'
 DBC_CSS = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
-LAND_COLOR = "#343a40"
+LAND_COLOR = "#3B3B3B"
 OCEAN_COLOR = "hsl(0, 0, 88%)"
-COLOR_SCALE = ["#D53A50", "#E97B4E", "#F0B060", "#DECE58", "#64A972", "#3E876B"]
+TIER_COLORS = ["#D53A50", "#E97B4E", "#F0B060", "#DECE58", "#64A972", "#3E876B"]
 
 # Tiers
 TIER_LABELS = ['Minimal', 'Limited', 'Basic', 'Moderate', 'Strong', 'Advanced']

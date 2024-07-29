@@ -196,14 +196,15 @@ def display_table(territory):
     # Creare la tabella con intestazione
     table = dbc.Table(
         # Header della tabella
-        [html.Thead(html.Tr([html.Th(col, style={'padding': '5px'}) for col in ['Component', 'Score', 'Score Change from Area', 'Score Change from World']]))] +
+        [html.Thead(html.Tr([html.Th(col) for col in ['Component', 'Score', 'Score Change from Area', 'Score Change from World']]),)] +
         # Corpo della tabella
         [html.Tbody(rows)],
         bordered=False,
         hover=True,
         responsive=True,
         striped=False,
-        size='sm'
+        size='sm',
+        class_name='fixed-header'
     )
 
     return table

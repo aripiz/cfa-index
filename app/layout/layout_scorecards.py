@@ -16,15 +16,18 @@ population_list = data.columns[83:86].to_list()
 
 card = dbc.Container([
     dbc.Row([
-        dbc.Col(html.H2(id='scorecard_header'), lg=8, xs=12),
+        dbc.Col(html.P("Select a territory (Country/Area/World) from the list and explore the scorecard proving an insight on the CFA Index performance."), lg =8, xs =12),
         dbc.Col([
             dbc.Label("Territory"),
             dcc.Dropdown(
                 id='scorecard_territory',
                 options=territories_list,
                 value='World',
-            )], lg=4, xs=12,align='end')
-    ], className='mt-2', justify='evenly' ),
+            )], lg=4, xs=12,align='end'),
+    ], className='mt-4', justify='evenly' ),
+    dbc.Row([
+        dbc.Col(html.H2(id='scorecard_header'), lg=12, xs=12),
+    ], className='mt-4', justify='evenly' ),
     dbc.Row([
         dbc.Col(dcc.Graph(id="scorecard_map", style={'height': 200, "width": 200}), lg=2, xs = 12, align='center'),
         dbc.Col(html.Div([
@@ -43,7 +46,7 @@ card = dbc.Container([
             html.H4("Human Rights Implementaion "),
             html.P(id="scorecard_group")
         ]), lg=5, xs=12, align='end')
-    ], className='mt-2', justify='evenly'),
+    ], className='mt-4', justify='evenly'),
    dbc.Row([
         dbc.Col(html.Div([
             html.H4("Progress"),
@@ -54,10 +57,12 @@ card = dbc.Container([
             dcc.Graph(id='scorecard_radar')
         ]), lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
-    dbc.Row([html.Div([
+    dbc.Row([dbc.Col([
             html.H4("Component table"),
-            html.Div(id='scorecard_table')
+            html.Div(id='scorecard_table', 
+                     className='table-container'
+)
         ])
-    ], className='mt-2', justify='evenly')
+    ], className='mt-4', justify='evenly')
 ], fluid=True)
 

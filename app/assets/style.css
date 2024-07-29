@@ -1,0 +1,15 @@
+/* assets/styles.css */
+
+/* Stile per l'intestazione della tabella */
+.table-container {
+    height: 60vh; /* Imposta l'altezza massima del contenitore della tabella */
+    overflow-y: auto;  /* Abilita lo scorrimento verticale */
+}
+
+.fixed-header thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa; /* Colore di sfondo per l'header */
+    z-index: 0;
+    border-bottom: 2px solid #dee2e6; /* Aggiungi una linea di separazione inferiore se necessario */
+}

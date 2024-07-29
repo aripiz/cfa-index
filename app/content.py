@@ -34,10 +34,11 @@ navbar = dbc.NavbarSimple(
             in_navbar=True,
         ),
     ],
-    brand= [html.Img(src="assets/logo_weworld_neg.png", height='30px'), "  Index 2024"],
+    brand= [html.Img(src="assets/logo_childfund.svg", height='30px'), "  Index 2024"],
             #html.Img(src="assets/logo_maipiuinvisibili2023_neg.png", height="30px", alt='Index 2024')],
-    brand_href="https://www.weworld.it",
+    brand_href="https://childfundalliance.org/",
     fixed='top',
+    #class_name="custom-navbar",
     color='primary',
     dark=True
 )
@@ -45,7 +46,7 @@ navbar = dbc.NavbarSimple(
 # Footer
 footer = dbc.Navbar(
     dbc.Container([
-        html.P("© 2024 WeWorld", style={'font-size':'xx-small'}, className='mb-0'), 
+        html.P("© 2024 ChildFund Alliance", style={'font-size':'xx-small'}, className='mb-0'), 
         html.P(["credits: ", html.A("aripiz", href="https://github.com/aripiz",className='link')], style={'font-size':'xx-small'}, className='mb-0')
     ]),
     style={"display": "flex", 'justify-content': 'space-between', 'flex':'1', 'height': '15px' },

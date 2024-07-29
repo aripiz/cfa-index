@@ -7,11 +7,11 @@ import plotly.io as pio
 
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-from dash import Input, Output, html
+from dash import Input, Output, html, dash_table
 
 from index import app
 from index import metadata, data
-from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, COLOR_SCALE, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
+from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL
 from utilis import sig_round, style_rank_change_col, style_score_change_col
 
 load_figure_template(FIGURE_TEMPLATE)
@@ -29,9 +29,9 @@ def display_map_index(feature, year):
         locations='code', featureidkey="properties.ADM0_A3",
         #color=feature,
         #range_color=[0,100],
-        #color_continuous_scale=COLOR_SCALE,
+        #color_continuous_scale=TIER_COLORS,
         color='Tier',
-        color_discrete_map=dict(zip(TIER_LABELS,COLOR_SCALE)),
+        color_discrete_map=dict(zip(TIER_LABELS,TIER_COLORS)),
         category_orders={'Tier': TIER_LABELS},
         hover_name='territory',
         hover_data={'code':False, 'Year': True,
@@ -56,10 +56,10 @@ def display_map_index(feature, year):
 def display_map_indicators(indicator, year, kind):
     indicator = indicator.split(":")[0]
     if metadata.loc[int(indicator)]['inverted']=='yes':
-        colors = COLOR_SCALE[::-1]
+        colors = TIER_COLORS[::-1]
         limits_scale = [metadata.loc[int(indicator)]['best_value'], metadata.loc[int(indicator)]['worst_value']]
     else:
-        colors = COLOR_SCALE
+        colors = TIER_COLORS
         limits_scale = [metadata.loc[int(indicator)]['worst_value'], metadata.loc[int(indicator)]['best_value']]
     df = data.loc[data['year']==year].rename(columns={'year':'Year'})
     if kind=='Data':
@@ -80,7 +80,7 @@ def display_map_indicators(indicator, year, kind):
             locations='code', featureidkey="properties.ADM0_A3",
             color=col,
             range_color=[0,100],
-            color_continuous_scale=COLOR_SCALE,
+            color_continuous_scale=TIER_COLORS,
             hover_name='territory',
             hover_data={'code':False, 'Year': True, col: ':.3g'},
             zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0])
@@ -209,7 +209,8 @@ def display_ranking(feature, year):
         hover=True,
         responsive=True,
         striped=False,
-        size='sm'
+        size='sm',
+        class_name='fixed-header'
     )
 
     return table
