@@ -50,7 +50,7 @@ tab_construction = html.Div([
                 """
                 CFA Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
                 """),
-                html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes.", href=NOTES_FILE)]),
+                html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes", href=NOTES_FILE),'.']),
             ]),
     className='mt-4', justify='evenly' ),
     dbc.Row([

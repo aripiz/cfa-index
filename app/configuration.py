@@ -44,5 +44,5 @@ CENTER_COORDINATES = (13 ,5)
 DATA_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/weworld-index2024_data.csv"
 META_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/weworld-index2024_meta.csv"
 GEO_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ne_50m_admin_0_countries.geojson"
-NOTES_FILE = ""
+NOTES_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ChildFundAlliance-Index-2024_TechnicalNotes.pdf"
 REPORT_FILE = ""

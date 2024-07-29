@@ -32,7 +32,7 @@ def download_excel(n_clicks, features, territories):
         meta_columns = ['sub-index', 'dimension', 'name', 'unit', 'definition', 'last_update', 'source', 'source_link']
         meta = metadata[meta_columns]  
         data = data.set_index(['territory','year'])
-        file_name = "WeWorld-Index-2024_Data.xlsx"
+        file_name = "ChildFundAlliance-Index-2024_Data.xlsx"
         if features  is not None: 
             data = data[features]
         if territories is not None:
