@@ -13,7 +13,7 @@ FIGURE_TEMPLATE = TEMPLATE.lower()
 DBC_CSS = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
 
 LAND_COLOR = "#3B3B3B"
-OCEAN_COLOR = "hsl(0, 0, 88%)"
+OCEAN_COLOR = "#F2F2F2"#"hsl(0, 0, 88%)"
 TIER_COLORS = ["#D53A50", "#E97B4E", "#F0B060", "#DECE58", "#64A972", "#3E876B"]
 SEQUENCE_COLOR = [
     "#3c3c3c",  # Grigio scuro
