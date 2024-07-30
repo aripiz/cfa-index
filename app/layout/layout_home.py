@@ -39,10 +39,12 @@ def display_map():
 
 # Text
 opening_text = f'''
-The **ChildFund Alliance Index** is a flagship report by [ChildFund Alliance]({BRAND_LINK}). It is a tool designed to **measure the living conditions of women and children worldwide** by assessing the promotion, exercise, and violation of their rights. CFA Index is formerly known as the WeWorld Index and published annually since 2015 by WeWorld, the Italian member of ChildFund Alliance.
+The **ChildFund Alliance Index** is a flagship report by **ChildFund Alliance**. It is a tool designed to **measure the living conditions of women and children worldwide** by assessing the promotion, exercise, and violation of their rights. 
 '''
 description_text = '''
-CFA Index ranks **157 countries** from 2015 to 2023 combining **30 different indicators.** The Index consists of an absolute 0-100 score aiming at inquiring the implementation of human rights for children and women at the country, regional area and world level.
+CFA Index is formerly known as the WeWorld Index and published annually since 2015 by WeWorld, the Italian member of ChildFund Alliance.
+The Index ranks **157 countries** from 2015 to 2023 combining **30 different indicators.** 
+For each territory is computed an absolute 0-100 score aiming at inquiring the implementation of human rights for children and women at the country, regional area and world level.
 
 Explore the dashboard for more details:
 
@@ -53,8 +55,8 @@ Explore the dashboard for more details:
 Navigate through these sections to better understand the impact of the ChildFund Alliance Index and discover how the rights of women and children are promoted, exercised, and violated in different countries. All resources, including full reports and datasets, are available to download.
 '''
 
-about_text = '''
-Eleven child-focused development and humanitarian agencies are part of the global ChildFund Alliance network, which helps children and their families overcome poverty and the underlying conditions that prevent children from reaching their full potential. Together we reach nearly 36 million children and family members in 70 countries. Members work to end violence and exploitation against children; provide expertise in emergencies and disasters to ease the harmful impact on children and their communities; and engage children, families and communities to create lasting change.
+about_text = f'''
+Eleven child-focused development and humanitarian agencies are part of the global [ChildFund Alliance]({BRAND_LINK}) network, which helps children and their families overcome poverty and the underlying conditions that prevent children from reaching their full potential. Together we reach nearly 36 million children and family members in 70 countries. Members work to end violence and exploitation against children; provide expertise in emergencies and disasters to ease the harmful impact on children and their communities; and engage children, families and communities to create lasting change.
 '''
 
 # Structure
