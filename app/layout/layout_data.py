@@ -35,8 +35,7 @@ tab_map_features = html.Div([
                 ),
                 dbc.Row([
                 dbc.Col([
-                    dbc.Label("Component"),
-                    
+                    dbc.Label("Component"), 
                     dcc.Dropdown(
                     id = 'feature',
                     options = features_list,
@@ -60,7 +59,8 @@ tab_map_features = html.Div([
                 dcc.Graph(
                     id = "map",
                     style = {'height': '70vh'},
-                )), justify = 'around', class_name = 'mt-2'),
+                    config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
+                ), lg =12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_map_indicators = html.Div([
@@ -116,7 +116,8 @@ tab_map_indicators = html.Div([
                 dcc.Graph(
                     id="indicators_map",
                     style = {'height': '70vh'},
-                )), justify = 'around', class_name = 'mt-2'),
+                    config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
+                ), lg =12, xs =12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_correlations = html.Div([
@@ -180,7 +181,8 @@ tab_correlations = html.Div([
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="features_correlation",
                     style={'height': '70vh'},
-                )), justify = 'around', class_name = 'mt-2'),
+                    config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
+                ), lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_ranking = html.Div([
@@ -222,9 +224,10 @@ tab_ranking = html.Div([
                         )
                 ], lg = 4, xs =12)
                 ], justify='around'),
-                dbc.Row(html.Div(
+                dbc.Row(dbc.Col(
                     id='ranking_table',
                     className='table-container',
+                    lg=12, xs=12
                     #style={"height": "60vh", "overflow": "scroll"},
                 ), justify = 'around', class_name = 'mt-2')
             ])
@@ -271,7 +274,9 @@ tab_evolution = html.Div([
                 dcc.Graph(
                     id="evolution_plot",
                     style={'height': '70vh'},
-                )), justify = 'around', class_name = 'mt-2'),
+                    config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',],},
+                ),
+                lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_radar = html.Div([
@@ -320,7 +325,8 @@ tab_radar = html.Div([
                 dbc.Col(dcc.Graph(
                     id="radar_chart",
                     style={'height': '70vh'},
-                ), lg = 6, xs =12)
+                    config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
+                ), lg = 12, xs =12)
                 ], justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -385,6 +391,7 @@ tab_comparison = html.Div([
                 dbc.Row(dbc.Col(dcc.Graph(
                     id="comparison_chart",
                     style={'height': '70vh'},
-                )), justify = 'around', class_name = 'mt-2'),
+                    config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
+                ), lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 

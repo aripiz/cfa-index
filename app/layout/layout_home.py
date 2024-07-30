@@ -71,16 +71,17 @@ home = dbc.Container([
         dbc.Col([
             html.H1("ChildFund Alliance Index"),
             html.Div(["The ChildFund Alliance Index is a flagship report by ", html.A("ChildFund Alliance", href=BRAND_LINK), ". Formerly known as the WeWorld Index and published annually since 2015 by WeWorld - the Italian member of ChildFund Alliance - CFA Index is a tool to measure the living conditions of women and children worldwide by assessing the promotion, exercise, and violation of their rights."])
-        ]),
-        className='mt-2', justify='evenly' ),
+        ],  lg = 12, xs = 12 ),
+        className='mt-2', justify='center' ),
     dbc.Row(
-        dcc.Graph(figure=display_map(), style = {'height': '70vh'}),
-        className='mt-2', justify='evenly'),
+        dbc.Col(
+        dcc.Graph(figure=display_map(), config = {'displayModeBar': False, 'editable':False}), lg = 12, xs = 12),
+        className='mt-2', justify='center'),
     dbc.Row(
         dbc.Col([
             html.H4("About ChildFund Alliance"),
             html.P("Eleven child-focused development and humanitarian agencies are part of the global ChildFund Alliance network, which helps children and their families overcome poverty and the underlying conditions that prevent children from reaching their full potential. Together we reach nearly 36 million children and family members in 70 countries. Members work to end violence and exploitation against children; provide expertise in emergencies and disasters to ease the harmful impact on children and their communities; and engage children, families and communities to create lasting change.")
-        ]),
-        className='mt-4', justify='evenly' ),
+        ], lg = 12, xs = 12),
+        className='mt-4', justify='center' ),
 
 ])

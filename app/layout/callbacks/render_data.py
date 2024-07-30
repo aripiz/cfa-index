@@ -8,7 +8,7 @@ import plotly.io as pio
 
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-from dash import Input, Output, html, dash_table
+from dash import Input, Output, html, callback_context
 
 from index import app
 from index import metadata, data
@@ -291,9 +291,11 @@ def display_evolution(component, territory):
     fig.update_traces(marker={'size': 10})
     fig.update_layout(
         legend_title = 'Territory, Component',
+        #legend_font_size = 10,
         xaxis = dict(tickvals = df['Year'].unique()),
         yaxis = dict(title='Score')
         )
+    
     return fig
 
 # Radar chart

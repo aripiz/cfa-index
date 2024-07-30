@@ -16,7 +16,7 @@ population_list = data.columns[83:86].to_list()
 
 card = dbc.Container([
     dbc.Row([
-        dbc.Col(html.P("Select a territory (Country/Area/World) from the list and explore the scorecard proving an insight on the CFA Index performance."), lg =8, xs =12),
+        dbc.Col(html.P("Select a territory (Country/Area/World) from the list and explore the scorecard proving an insight on the CFA Index performance."), lg = 8, xs =12),
         dbc.Col([
             dbc.Label("Territory"),
             dcc.Dropdown(
@@ -29,7 +29,9 @@ card = dbc.Container([
         dbc.Col(html.H2(id='scorecard_header'), lg=12, xs=12),
     ], className='mt-4', justify='evenly' ),
     dbc.Row([
-        dbc.Col(dcc.Graph(id="scorecard_map", style={'height': 200, "width": 200}), lg=2, xs = 12, align='center'),
+        dbc.Col(dcc.Graph(id="scorecard_map", 
+                          style={'height': 200, "width": 200},
+                          config={'displayModeBar': False, 'editable':False}), lg=2, xs = 12, align='center'),
         dbc.Col(html.Div([
             html.H4("Area "),
             html.P(id="scorecard_area", style={'align':'right'}),
@@ -50,11 +52,11 @@ card = dbc.Container([
    dbc.Row([
         dbc.Col(html.Div([
             html.H4("Progress"),
-            dcc.Graph(id='scorecard_progress')
+            dcc.Graph(id='scorecard_progress', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']})
         ]), lg=6, xs= 12),
         dbc.Col(html.Div([
             html.H4("Profile"),
-            dcc.Graph(id='scorecard_radar')
+            dcc.Graph(id='scorecard_radar', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']})
         ]), lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
     dbc.Row([dbc.Col([
@@ -64,5 +66,5 @@ card = dbc.Container([
 )
         ])
     ], className='mt-4', justify='evenly')
-], fluid=True)
+])
 
