@@ -7,7 +7,7 @@ territories_list = data['territory'].unique()
 
 card = dbc.Container([
     dbc.Row([
-        dbc.Col(html.P("Select a territory (Country/Area/World) from the list and explore the scorecard proving an insight on the CFA Index performance."), lg = 8, xs =12),
+        dbc.Col(html.P("Select a territory (Country/Area/World) from the list and explore the scorecard to gain insights into its CFA Index performance."), lg = 8, xs =12),
         dbc.Col([
             dbc.Label("Territory"),
             dcc.Dropdown(
