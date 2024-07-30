@@ -220,7 +220,7 @@ def display_ranking(feature, year):
     final['Rank'] = final[feature].rank(ascending=False, method='min')
 
     final[f'Score change from {years_list[0]}'] = (final[feature] - initial[feature]).apply(sig_round)
-    final[f'Rank change from {years_list[0]}'] = (initial['Rank'] - final['Rank'])
+    final[f'Rank change from {years_list[0]}'] = initial['Rank'] - final['Rank']
 
     final = final.reset_index().rename(columns={'territory': 'Territory', feature: 'Score'}).sort_values('Rank')
     rank_change_col = f'Rank change from {years_list[0]}'
@@ -245,7 +245,7 @@ def display_ranking(feature, year):
                     html.Div([
                         get_score_change_arrow(row[rank_change_col]),
                         html.Span('\u2003'),
-                        html.Span(sig_format(row[rank_change_col]), className='number-text'), 
+                        html.Span(row[rank_change_col], className='number-text'), 
                     ], className='flex-container')
                 )
             ])

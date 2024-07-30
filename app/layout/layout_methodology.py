@@ -52,7 +52,7 @@ tab_construction = html.Div([
                 """),
                 html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes", href=NOTES_FILE),'.']),
             ]),
-    className='mt-4', justify='evenly' ),
+    className='mt-4', justify='around' ),
     dbc.Row([
         dbc.Col([
             dcc.Markdown("### Index structure"),
