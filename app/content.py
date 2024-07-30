@@ -7,9 +7,7 @@ import dash_bootstrap_components as dbc
 from layout.callbacks  import render_data
 from layout.callbacks import render_tab
 from layout.callbacks import render_scorecards
-
-from layout.callbacks import toggle_modal
-from layout.callbacks import toggle_collapse
+from layout.callbacks import modal_download
 
 from configuration import BRAND_LINK, NOTES_FILE, REPORT_FILE, CREDITS_LINK
 

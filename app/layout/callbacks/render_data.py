@@ -49,7 +49,7 @@ def display_map_index(feature, year):
         x=0.5
         )
     )#,xanchor='right', yanchor='top', x=0.95, y=0.92))
-    template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{feature}: "+ "%{customdata[2]:#.3g}<br>" + f"Human Rights Implementation: " + "%{customdata[3]}<br><br>" + f"Year: "+ "%{customdata[4]}" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{feature}: "+ "%{customdata[2]:#.3g}/100<br>" + f"Human Rights Implementation: " + "%{customdata[3]}<br><br>" + f"Year: "+ "%{customdata[4]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
 
     # fig.update_layout(
@@ -111,7 +111,7 @@ def display_map_indicators(indicator, year, kind):
             custom_data = ['territory', 'Area', col, 'Year']
         )
         fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92,  len=0.75))
-        template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{col}: "+ "%{customdata[2]:#.3g}<br><br>"  + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
+        template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{col}: "+ "%{customdata[2]:#.3g}/100<br><br>"  + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
         fig.update_traces(hovertemplate=template)
     # fig.update_layout(
     #         mapbox_style = MAP_STYLE,
@@ -147,13 +147,10 @@ def display_corr(x_data, y_data, population, year):
                      custom_data = ['territory', 'Area', x_data, y_data, 'population_milions', 'Year']
 
     )
-    template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{x_data}: "+ "%{customdata[2]:#.3g}<br>" + f"{y_data}: " + "%{customdata[3]:#.3g}<br>" +f"{population}: "+ "%{customdata[4]:,.3f} millions<br><br>" + f"Year: "+ "%{customdata[5]}" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{x_data}: "+ "%{customdata[2]:#.3g}/100<br>" + f"{y_data}: " + "%{customdata[3]:#.3g}/100<br><br>" +f"{population}: "+ "%{customdata[4]:,.3f} millions<br><br>" + f"Year: "+ "%{customdata[5]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
-
-    #fig.update_traces(marker={'size': 15})
     fig.update_layout(title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:#.3g}")
-    #fig.update_xaxes(range=[-5, 105])
-    #fig.update_yaxes(range=[-5, 105])    
+
     return fig
 
 # Comparison
@@ -174,7 +171,7 @@ def display_corr(x_data, y_data, population, year):
                      size_max = 50,
                      custom_data = ['territory', 'Area', x_data, y_data, 'population_milions', 'Year']
     )
-    template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{x_data}: "+ "%{customdata[2]:#.3g}<br>" + f"{y_data}: " + "%{customdata[3]:#.3g}<br>" +f"{population}: "+ "%{customdata[4]:,.3f} millions<br><br>" + f"Year: "+ "%{customdata[5]}" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{x_data}: "+ "%{customdata[2]:#.3g}/100<br>" + f"{y_data}: " + "%{customdata[3]:#.3g}/100<br><br>" +f"{population}: "+ "%{customdata[4]:,.3f} millions<br><br>" + f"Year: "+ "%{customdata[5]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     if x_data == 'GDP per capita': fig.update_xaxes(type='log', tickprefix='US$') #+  metadata.loc[101]['unit'])
     if y_data == 'GDP per capita': fig.update_yaxes(type='log', tickprefix='US$') #+ metadata.loc[101]['unit'])
@@ -286,7 +283,7 @@ def display_evolution(component, territory):
                 color_discrete_sequence=SEQUENCE_COLOR,
                 custom_data = ['Territory', 'Component', 'Score', 'Year']
         )
-    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}<br><br>" + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}/100<br><br>" + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     fig.update_traces(marker={'size': 10})
     fig.update_layout(
@@ -321,7 +318,7 @@ def display_radar(territories, year):
                         custom_data = ['Territory', 'Dimension', 'Score', 'Year']
 
         )
-    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}<br><br>" + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}/100<br><br>" + f"Year: "+ "%{customdata[3]}/100" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels))

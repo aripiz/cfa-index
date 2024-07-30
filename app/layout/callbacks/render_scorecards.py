@@ -110,7 +110,7 @@ def display_evolution(territory):
 
         )
     fig.update_traces(marker={'size': 10})
-    template = "<b>%{customdata[0]}</b><br><br>" + "CFA Index: "+ "%{customdata[1]:#.3g}<br><br>" + f"Year: "+ "%{customdata[2]}" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br><br>" + "CFA Index: "+ "%{customdata[1]:#.3g}/100<br><br>" + f"Year: "+ "%{customdata[2]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     fig.update_layout(
         legend_title = 'Territory',
@@ -143,7 +143,7 @@ def display_radar(territory):
                         custom_data = ['Territory', 'Dimension', 'Score']
 
         )
-    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}<br><br>" + "<extra></extra>"
+    template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}/100<br><br>" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     #fig.update_layout(legend_font_size = 10)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))

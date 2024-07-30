@@ -1,7 +1,7 @@
 # render_tab.py
 
 from index import app
-from dash import Input, Output
+from dash import Input, Output, State
 
 from layout.layout_data import tab_map_features, tab_map_indicators, tab_correlations, tab_ranking, tab_evolution, tab_radar, tab_comparison
 
@@ -31,3 +31,20 @@ def render_tab(active_tab):
         if active_tab == "construction": return tab_construction
         elif active_tab == "indicators":  return tab_indicators
     return "Select a tab."
+
+# Collapse info
+@app.callback(
+    Output("collapse", "is_open"),
+    [Input("collapse-button", "n_clicks")],
+    [State("collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+# Scorecard link
+# @app.callback(
+#     Output("collapse", "is_open"),
+#     Input("map_home", "clickData"),
+# )

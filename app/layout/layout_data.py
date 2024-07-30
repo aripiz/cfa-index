@@ -29,7 +29,7 @@ tab_map_features = html.Div([
                         dbc.Collapse(
                         dbc.Card("The map displays the scores of the Index components. You can choose the component (Index/Sub-index/Dimension) and the year to view from the menus. Each area is shaded according to its level of Human Rights Implementation for the selected component. The score ranges for each level are detailed in the Technical Notes.", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
@@ -76,7 +76,7 @@ tab_map_indicators = html.Div([
                         dbc.Collapse(
                         dbc.Card("The map displays data for the Indicators that are part of the Index. You can use the menus to choose the Indicator, the type of value (original data or normalized score), and the reference year. If you select original data, the map will show blank areas for any missing values.", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
@@ -133,7 +133,7 @@ tab_correlations = html.Div([
                         dbc.Collapse(
                         dbc.Card("The chart shows the correlation between Index components: each point represents a territory, with x and y coordinates based on its scores in the selected components. You can use the menus to choose which two components (Index/Sub-index/Dimension/Indicator) to compare. Spearmans's correlation coefficient \u03c1\u209b is displayed above the plot. Territories are colored according to their geographic area and sized based on their population (Total/Female/Children). Clicking on the items in the legend you can show/hide them.", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
@@ -198,7 +198,7 @@ tab_ranking = html.Div([
                         dbc.Collapse(
                         dbc.Card("The table shows the ranking of territories for the selected component (Index/Sub-index/Dimension) and year. The table updates change in score and rank from 2015. When comparing rank values keep in mind that the number of territories varies in each year (between 157 and 166).", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
@@ -245,7 +245,7 @@ tab_evolution = html.Div([
                         dbc.Collapse(
                         dbc.Card("The chart displays the temporal evolution of the Index components. From the menus, you can select one or more components (Index/Sub-index/Dimension/Indicator) and one or more territories (Country/Area/World) to compare their evolution.", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
@@ -292,7 +292,7 @@ tab_radar = html.Div([
                         dbc.Collapse(
                         dbc.Card("The radar chart shows the scores of the Dimensions for the territory. You can use the menus to select the territories (Country/Area/World) and the years to display. The table beside the chart shows the data presented in the chart.", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
@@ -343,7 +343,7 @@ tab_comparison = html.Div([
                         dbc.Collapse(
                         dbc.Card("The chart compares the Index and other relevant indicators: GDP per capita and Human Development Index. Each point represents a territory, with x and y coordinates based on its value in the selected datasets. You can use the menus to choose which datasets to compare. Territories are colored according to their geographic area and sized based on their population (Total/Female/Children). Clicking on the items in the legend you can show/hide them. GDP per capita uses a logarithmic scale.", body=True),
                         id="collapse",
-                        is_open=False,
+                        is_open=True,
                         ),
                     ]),  justify = 'around', class_name = 'my-2'
                 ),
