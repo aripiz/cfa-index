@@ -85,8 +85,8 @@ tab_map_indicators = html.Div([
                     dbc.Label("Indicator"),
                     dcc.Dropdown(
                     id='indicator',
-                    options=indicators_list,
-                    value=indicators_list[0],
+                    options=components_list,
+                    value=components_list[0],
                     style={"width": "100%"})],
                     lg = 6, xs = 12
                 ),

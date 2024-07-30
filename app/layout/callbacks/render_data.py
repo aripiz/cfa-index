@@ -71,7 +71,7 @@ def display_map_index(feature, year):
     Input('slider_year', 'value'),
     Input('indicator_kind', 'value'))
 def display_map_indicators(indicator, year, kind):
-    indicator = indicator.split(":")[0]
+    indicator = indicator.split(":")[0].split(" ")[1]
     name = metadata.loc[int(indicator)]['name']
     unit = metadata.loc[int(indicator)]['unit']
 

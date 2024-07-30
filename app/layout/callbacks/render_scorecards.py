@@ -4,16 +4,15 @@ import numpy as np
 import plotly.express as px
 import pandas as pd
 import plotly.io as pio
-import geopandas as gpd
 
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 from dash import Input, Output, html
 
 from index import app
-from index import data, geodata
+from index import data, geodata, metadata
 from configuration import OCEAN_COLOR, SEQUENCE_COLOR, TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, LAND_COLOR
-from utilis import sig_round, style_score_change_col, get_score_change_arrow, sig_format, area_centroid, get_value
+from utilis import sig_round, get_score_change_arrow, sig_format, area_centroid, get_value
 
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
@@ -24,7 +23,6 @@ areas['World'] = data['code'].unique().tolist()
 centroids = {row['ADM0_A3']: {'lat': row['geometry'].centroid.y, 'lon': row['geometry'].centroid.x} for _, row in geodata.iterrows()}
 centroids.update({k: area_centroid(geodata, v) for k,v in areas.items()})
 
-    
 # Scorecard title
 @app.callback(
     Output("scorecard_header", "children"),
@@ -177,6 +175,9 @@ def display_table(territory):
 
     rows = []
     for feature in features:
+        if len(feature.split('Indicator '))>1:
+            component_name = feature + ": " + metadata.loc[int(feature.split('Indicator ')[1])]['name']
+        else: component_name = feature
         score = df_territory[feature].values[0]
 
         if territory == world:
@@ -192,16 +193,9 @@ def display_table(territory):
             score_change_from_area = np.nan
             score_change_from_world = np.nan
 
-        # try: 
-        #     score_change_from_area = sig_round(score - df_area[feature].values[0])
-        #     score_change_from_world = sig_round(score - df_world[feature].values[0])
-        # except IndexError:
-        #     score_change_from_area = np.nan
-        #     score_change_from_world = np.nan
-
         rows.append(
             html.Tr([
-                html.Td(feature),
+                html.Td(component_name),
                 html.Td(sig_format(score), className='number-cell'),
                 html.Td(
                     html.Div([

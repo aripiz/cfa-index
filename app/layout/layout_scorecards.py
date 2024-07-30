@@ -3,16 +3,7 @@ from dash import dcc, html
 import dash_bootstrap_components as dbc
 
 # Options
-subindexes_list = [data.columns[4]]
-features_list = data.columns[4:23].to_list()
-years_list = data['year'].unique()
-components_list = [f"Indicator {num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
-indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
-kind_list = ['Data', 'Scores']
 territories_list = data['territory'].unique()
-auxiliary_list = metadata.loc[101:102]['name'].to_list()
-population_list = data.columns[83:86].to_list()
-
 
 card = dbc.Container([
     dbc.Row([
