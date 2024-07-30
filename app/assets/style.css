@@ -65,5 +65,6 @@
 .number-text {
     display: inline-block;
     text-align: right;
-    min-width: 50px; /* Aggiungi una larghezza minima per garantire spazio uniforme */
+    min-width: 60px; /* Adeguato per numeri con segno e diverse lunghezze */
+    /*padding-left: 10px; /* Spazio tra il numero e la freccia */
 }

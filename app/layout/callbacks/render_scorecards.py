@@ -200,7 +200,7 @@ def display_table(territory):
                 html.Td(
                     html.Div([
                         get_score_change_arrow(score_change_from_area),
-                        html.Span('\u2003'),
+                        html.Span('\u2003\u2003'),
                         html.Span(sig_format(score_change_from_area), className='number-text'), 
                     ], className='flex-container')
                 ),

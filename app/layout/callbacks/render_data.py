@@ -237,7 +237,7 @@ def display_ranking(feature, year):
                 html.Td(
                     html.Div([
                         get_score_change_arrow(row[score_change_col]),
-                        html.Span('\u2003'),
+                        html.Span('\u2003\u2003'),
                         html.Span(sig_format(row[score_change_col]), className='number-text'), 
                     ], className='flex-container')
                 ),
@@ -245,7 +245,7 @@ def display_ranking(feature, year):
                     html.Div([
                         get_score_change_arrow(row[rank_change_col]),
                         html.Span('\u2003'),
-                        html.Span(row[rank_change_col], className='number-text'), 
+                        html.Span(sig_format(row[rank_change_col], precision=0), className='number-text'), 
                     ], className='flex-container')
                 )
             ])

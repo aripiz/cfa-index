@@ -10,6 +10,7 @@ def sig_round(x, precision=3):
 
 def sig_format(x, precision=3):
     if pd.isna(x): return "N/A"
+    if precision == 0: return x
     else: return f'{np.float64(x):#.{precision}g}'
 
 def style_score_change_col(value, equal_buffer = 1.5):
