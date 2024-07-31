@@ -9,7 +9,7 @@ from layout.callbacks import navigation
 from layout.callbacks import render_scorecards
 from layout.callbacks import download
 
-from configuration import BRAND_LINK, NOTES_FILE, REPORT_FILE, CREDITS_LINK
+from configuration import BRAND_LINK, NOTES_FILE, REPORT_FILE, CREDITS_LINK, BRAND_COLOR
 
 from layout.layout_download import modal_data_download
 
@@ -37,8 +37,7 @@ navbar = dbc.NavbarSimple(
             #html.Img(src="assets/logo_maipiuinvisibili2023_neg.png", height="30px", alt='Index 2024')],
     brand_href=BRAND_LINK,
     fixed='top',
-    #class_name="custom-navbar",
-    color='primary',
+    color= BRAND_COLOR, #'primary',
     dark=True
 )
 

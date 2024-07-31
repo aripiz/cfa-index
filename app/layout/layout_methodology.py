@@ -13,6 +13,41 @@ years_list = data['year'].unique()
 components_list = [f"Indicator {num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
 indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.loc[1:30].index]
 
+intro_text =  f"""
+CFA Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
+
+For a detailed description of the method adopted refer to the [Techincal Notes]({NOTES_FILE}).
+"""
+
+structure_text = """
+The need to evaluate the performance of territories separately in relation to the three sub-indices arises from a specific assumption: intervening to ensure inclusion in general, without considering the specific gender and generational needs and risks, adopting an intersectional approach, does not allow for the full realization of the rights and empowerment of women, children, and adolescents.
+
+Real inclusion for these categories, in fact, can only be achieved through the creation, implementation, and monitoring of appropriate policies that must be multidimensional to account for the intersection between the rights of women and minors, and targeted to address their specific needs. Therefore, it is necessary to look even more closely at their conditions.
+
+It is therefore necessary to proceed on two parallel and complementary fronts: on the one hand, it is essential to work on the contexts in which women, children, and adolescents live to make them as favorable as possible for their full development; on the other hand, it cannot be assumed that favorable contexts alone are sufficient to meet the needs and demands of women, children, and adolescents, for which adequate policies and targeted interventions are necessary.
+"""
+
+aggregation_text = """
+CFA Index for each territory consists of a **0-100 score** developed by aggregating the normalised data of its 30 Indicators in **three different steps**.
+
+First, the scores of each of each **Dimension** is calculated by taking the arithmetic mean of the scores of the two constituent **Component** (normalised indicators). Next, to avoid full compensability between Dimensions, the score of the **Sub-indexes** is determined by the geometric mean of the Dimensions that are part of it. Finally, the geometric mean is also used to calculate the overall **Index** from the 3 Sub-indexes.
+
+This kind of aggregation is **non-compensatory**: a poor performance in one aspect judged to be crucial for inclusion cannot be fully or partly compensated for by a high score in others.
+"""
+
+indicator_table = dbc.Table([
+                html.Tbody([
+                    html.Tr([html.Th("Indicator", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_num")]),
+                    html.Tr([html.Th("Name", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_name")]),
+                    html.Tr([html.Th("Sub-index", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_sub")]),
+                    html.Tr([html.Th("Dimension", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_dim")]),
+                    html.Tr([html.Th("Definition", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_des")]),
+                    html.Tr([html.Th("Unit", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_unit")]),
+                    html.Tr([html.Th("Last update", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_update")]),
+                    html.Tr([html.Th("Source", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(html.A(id="indicator_source", target="_blank", rel="noopener noreferrer"))])
+                ])
+            ], bordered=True, hover=True, responsive=True, striped=True, size='sm')
+
 # Methodology tabs
 tab_indicators = html.Div([
     dbc.Row([
@@ -26,46 +61,20 @@ tab_indicators = html.Div([
         ]),
     ], className='mt-2'),
     dbc.Row([
-        dbc.Col(
-            dbc.Table([
-                html.Tbody([
-                    html.Tr([html.Th("Indicator", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_num")]),
-                    html.Tr([html.Th("Name", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_name")]),
-                    html.Tr([html.Th("Sub-index", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_sub")]),
-                    html.Tr([html.Th("Dimension", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_dim")]),
-                    html.Tr([html.Th("Definition", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_des")]),
-                    html.Tr([html.Th("Unit", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_unit")]),
-                    html.Tr([html.Th("Last update", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(id="indicator_update")]),
-                    html.Tr([html.Th("Source", style={'font-weight': 'bold', 'text-transform': 'uppercase'}), html.Td(html.A(id="indicator_source", target="_blank", rel="noopener noreferrer"))])
-                ])
-            ], bordered=True, hover=True, responsive=True, striped=True, size='sm')
-        )
+        dbc.Col(indicator_table)
     ], className='mt-2')
 ])
 
 tab_construction = html.Div([
     dbc.Row(
         dbc.Col([
-            dcc.Markdown(
-                """
-                CFA Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
-                """),
-                html.Div(["For a detailed description of the method adopted refer to the ", html.A("Techincal Notes", href=NOTES_FILE),'.']),
+            dcc.Markdown(intro_text),
             ]),
     className='mt-4', justify='around' ),
     dbc.Row([
         dbc.Col([
             dcc.Markdown("### Index structure"),
-            dcc.Markdown(
-                """
-            The need to evaluate the performance of territories separately in relation to the three sub-indices arises from a specific assumption: intervening to ensure inclusion in general, without considering the specific gender and generational needs and risks, adopting an intersectional approach, does not allow for the full realization of the rights and empowerment of women, children, and adolescents.
-
-            Real inclusion for these categories, in fact, can only be achieved through the creation, implementation, and monitoring of appropriate policies that must be multidimensional to account for the intersection between the rights of women and minors, and targeted to address their specific needs. Therefore, it is necessary to look even more closely at their conditions.
-
-            It is therefore necessary to proceed on two parallel and complementary fronts: on the one hand, it is essential to work on the contexts in which women, children, and adolescents live to make them as favorable as possible for their full development; on the other hand, it cannot be assumed that favorable contexts alone are sufficient to meet the needs and demands of women, children, and adolescents, for which adequate policies and targeted interventions are necessary.
-                """
-
-            ),
+            dcc.Markdown(structure_text),
         ], lg=6, xs =12),
         dbc.Col(
             dbc.CardGroup([
@@ -120,13 +129,7 @@ tab_construction = html.Div([
     dbc.Row([
         dbc.Col([
             dcc.Markdown("### Aggregation process"),
-            dcc.Markdown("""
-                CFA Index for each territory consists of a **0-100 score** developed by aggregating the normalised data of its 30 Indicators in **three different steps**.
-
-                First, the scores of each of each **Dimension** is calculated by taking the arithmetic mean of the scores of the two constituent **Component** (normalised indicators). Next, to avoid full compensability between Dimensions, the score of the **Sub-indexes** is determined by the geometric mean of the Dimensions that are part of it. Finally, the geometric mean is also used to calculate the overall **Index** from the 3 Sub-indexes.
-
-                This kind of aggregation is **non-compensatory**: a poor performance in one aspect judged to be crucial for inclusion cannot be fully or partly compensated for by a high score in others.
-                """)
+            dcc.Markdown(aggregation_text)
         ], lg=6, xs =12),
         dbc.Col(
             dbc.CardGroup([

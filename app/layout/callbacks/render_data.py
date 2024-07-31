@@ -12,7 +12,7 @@ from dash import Input, Output, html, callback_context
 
 from index import app
 from index import metadata, data
-from configuration import CENTER_COORDINATES, MAP_STYLE, MAP_TOKEN, GEO_FILE, FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, ZOOM_LEVEL, OCEAN_COLOR
+from configuration import GEO_FILE, FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, OCEAN_COLOR
 from utilis import get_value, sig_round, sig_format, get_score_change_arrow
 
 load_figure_template(FIGURE_TEMPLATE)
@@ -182,31 +182,6 @@ def display_corr(x_data, y_data, population, year):
     Output("ranking_table", "children"),
     Input("ranking_feature", "value"),
     Input("slider_year", "value"))
-# def display_ranking(feature, year):
-#     df = data[data['area'].notna()].set_index('code')
-#     years_list = data['year'].unique()
-#     final = df[df['year']==year][['territory', feature]]
-#     initial = df[df['year']==years_list[0]][['territory', feature]]
-
-#     initial['Rank'] = initial[feature].rank(ascending=False, method='min')
-#     final['Rank'] = final[feature].rank(ascending=False, method='min')
-    
-#     final[f'Score change from {years_list[0]}'] = (final[feature] - initial[feature]).apply(sig_round)
-#     final[f'Rank change from {years_list[0]}'] = (initial['Rank'] - final['Rank'])
-
-#     final = final.reset_index().rename(columns={'territory':'Territory', feature:'Score'}).sort_values('Rank')
-#     rank_change_col = f'Rank change from {years_list[0]}'
-#     score_change_col = f'Score change from {years_list[0]}'
-#     final = final.set_index(['Rank', 'Territory'], drop=True)
-#     table = dbc.Table.from_dataframe(
-#                     final[['Score', score_change_col , rank_change_col]],
-#                     bordered=False,
-#                     hover=True,
-#                     responsive=True,
-#                     striped=True,
-#                     index = True
-#                 )   
-#     return table
 def display_ranking(feature, year):
     df = data[data['area'].notna()].set_index('code')
     years_list = data['year'].unique()

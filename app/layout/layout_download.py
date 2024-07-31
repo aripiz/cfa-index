@@ -8,7 +8,6 @@ import dash_bootstrap_components as dbc
 features_list = data.columns[4:]
 years_list = data['year'].unique()
 #indicators_list = [f"{num}: {metadata.loc[num]['name']}" for num in metadata.index]
-
 #indicators_numbers = [f"{num}" for num in metadata.index]
 territories_list = data['territory'].unique()
 
