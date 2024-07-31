@@ -33,11 +33,11 @@ navbar = dbc.NavbarSimple(
             class_name='dbc'
         ),
     ],
-    brand= [html.Img(src="assets/logo_childfund.svg", height='30px'),"\u2003", "Index 2024"],
+    brand= [html.Img(src="assets/logo_childfund.svg", height='30px'),"\u2002", "Index 2024"],
             #html.Img(src="assets/logo_maipiuinvisibili2023_neg.png", height="30px", alt='Index 2024')],
     brand_href=BRAND_LINK,
     fixed='top',
-    color= BRAND_COLOR, #'primary',
+    color= 'primary',
     dark=True
 )
 
