@@ -19,8 +19,10 @@ def display_map():
     feature = 'CFA Index' 
     df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
-    fig = px.choropleth(df, geojson=GEO_FILE,
-        locations='code', featureidkey="properties.ADM0_A3",
+    fig = px.choropleth(df, 
+        #geojson=GEO_FILE,
+        #featureidkey="properties.ADM0_A3",
+        locations='code', 
         color='Tier',
         color_discrete_map=dict(zip(TIER_LABELS,TIER_COLORS)),
         category_orders={'Tier': TIER_LABELS},
@@ -33,7 +35,12 @@ def display_map():
     fig.update_layout(
         showlegend=False,
         margin={"r":0,"t":0,"l":0,"b":0},
-        geo = dict(projection_type='natural earth', showland=True, showocean=True, oceancolor=OCEAN_COLOR,  showframe=False,  projection_scale=1.0, scope='world'),
+        geo = dict(projection_type='natural earth', 
+                   showland=True, 
+                   showocean=True, oceancolor=OCEAN_COLOR, 
+                   showlakes=True, lakecolor=OCEAN_COLOR,
+                   showrivers=False,
+                   projection_scale=1.0, scope='world'),
     )
     return fig
 

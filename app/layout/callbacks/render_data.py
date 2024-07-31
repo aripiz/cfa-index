@@ -12,7 +12,7 @@ from dash import Input, Output, html, callback_context
 
 from index import app
 from index import metadata, data
-from configuration import GEO_FILE, FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, OCEAN_COLOR
+from configuration import FIGURE_TEMPLATE, SEQUENCE_COLOR, TIER_COLORS, TIER_BINS, TIER_LABELS, OCEAN_COLOR
 from utilis import get_value, sig_round, sig_format, get_score_change_arrow
 
 load_figure_template(FIGURE_TEMPLATE)
@@ -26,8 +26,10 @@ pio.templates.default = FIGURE_TEMPLATE
 def display_map_index(feature, year):
     df = data[(data['area'].notna()) & (data['year']==year)].rename(columns={'year':'Year', 'area':'Area'})
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
-    fig = px.choropleth(df, geojson=GEO_FILE,
-        locations='code', featureidkey="properties.ADM0_A3",
+    fig = px.choropleth(df, 
+        #geojson=GEO_FILE,
+        locations='code', 
+        #featureidkey="properties.ADM0_A3",
         #color=feature,
         #range_color=[0,100],
         #color_continuous_scale=TIER_COLORS,
@@ -60,7 +62,12 @@ def display_map_index(feature, year):
     #     )
     fig.update_layout(
         margin={"r":0,"t":0,"l":0,"b":0},
-        geo = dict(projection_type='natural earth', showland=True, showocean=True, oceancolor=OCEAN_COLOR,  showframe=False,  projection_scale=1.0, scope='world'),
+        geo = dict(projection_type='natural earth',
+                   showland=True, 
+                   showocean=True, oceancolor=OCEAN_COLOR, 
+                   showlakes=True, lakecolor=OCEAN_COLOR,
+                   showrivers=False
+        )
     )
     return fig
 
@@ -85,8 +92,10 @@ def display_map_indicators(indicator, year, kind):
     df = data.loc[data['year']==year].rename(columns={'year':'Year', 'area':'Area'})
     if kind=='Data':
         col = f'Indicator {int(indicator)} (data)'
-        fig = px.choropleth(df, geojson=GEO_FILE,
-            locations='code', featureidkey="properties.ADM0_A3",
+        fig = px.choropleth(df, 
+            #geojson=GEO_FILE,
+            locations='code', 
+            #featureidkey="properties.ADM0_A3",
             color=col,
             range_color=limits_scale,
             color_continuous_scale=colors,
@@ -100,8 +109,10 @@ def display_map_indicators(indicator, year, kind):
         fig.update_layout(coloraxis_colorbar=dict(title=unit, x=0.92, len=0.75))
     if kind == 'Scores':
         col = f'Indicator {int(indicator)}'
-        fig = px.choropleth(df, geojson=GEO_FILE,
-            locations='code', featureidkey="properties.ADM0_A3",
+        fig = px.choropleth(df, 
+            #geojson=GEO_FILE,
+            locations='code', 
+            #featureidkey="properties.ADM0_A3",
             color=col,
             range_color=[0,100],
             color_continuous_scale=TIER_COLORS,
@@ -121,7 +132,12 @@ def display_map_indicators(indicator, year, kind):
     #     )
     fig.update_layout(
         margin={"r":0,"t":0,"l":0,"b":0},
-        geo = dict(projection_type='natural earth', showland=True, showocean=True, oceancolor=OCEAN_COLOR,  showframe=False,  projection_scale=1.0, scope='world'),
+        geo = dict(projection_type='natural earth',
+                   showland=True, 
+                   showocean=True, oceancolor=OCEAN_COLOR, 
+                   showlakes=True, lakecolor=OCEAN_COLOR,
+                   showrivers=False
+        )
     )
     return fig
 

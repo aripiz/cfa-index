@@ -11,7 +11,7 @@ from dash import Input, Output, html
 
 from index import app
 from index import data, geodata, metadata
-from configuration import OCEAN_COLOR, SEQUENCE_COLOR, TIER_LABELS, TIER_BINS, GEO_FILE, FIGURE_TEMPLATE, LAND_COLOR
+from configuration import OCEAN_COLOR, SEQUENCE_COLOR, TIER_LABELS, TIER_BINS, FIGURE_TEMPLATE, LAND_COLOR
 from utilis import sig_round, get_score_change_arrow, sig_format, area_centroid, get_value
 
 load_figure_template(FIGURE_TEMPLATE)
@@ -44,9 +44,9 @@ def update_scorecard_map(territory):
         df = data[(data['territory']==territory)].rename(columns={'year':'Year', 'area':'Area'})
         lat, lon = centroids[df['code'].values[0]].values()
     fig = px.choropleth(df,
-                               geojson=GEO_FILE,
+                               #geojson=GEO_FILE,
                                locations='code', 
-                               featureidkey="properties.ADM0_A3",
+                               #featureidkey="properties.ADM0_A3",
                                color_discrete_sequence = [LAND_COLOR],
                                hover_name='territory',
                                hover_data={'code':False, 'Year': False, 'Area': False}
@@ -54,7 +54,14 @@ def update_scorecard_map(territory):
     fig.update_layout(
         showlegend=False,
         margin={"r":0,"t":0,"l":0,"b":0},
-        geo = dict(projection_type='orthographic', projection_scale = 1, showland=True, showocean=True, oceancolor=OCEAN_COLOR)
+        geo = dict(projection_type='orthographic',
+                   projection_scale = 1.0,
+                   showland=True, 
+                   showocean=True, oceancolor=OCEAN_COLOR, 
+                   showlakes=True, lakecolor=OCEAN_COLOR,
+                   showrivers=False,
+                   scope = 'world'
+        )
     )
     if territory == 'World': 
         fig.update_layout(geo = dict(center=dict(lat=0, lon=0), projection_rotation=dict(lat=0, lon=0), landcolor=LAND_COLOR))
