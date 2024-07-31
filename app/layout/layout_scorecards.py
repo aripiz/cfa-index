@@ -47,8 +47,8 @@ card = dbc.Container([
         ]), lg=6, xs= 12),
         dbc.Col(html.Div([
             html.H4("Profile"),
-            dcc.Graph(id='scorecard_radar', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']})
-        ]), lg=6, xs= 12)
+            dcc.Graph(id='scorecard_radar', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']}, )
+        ]),lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
     dbc.Row([dbc.Col([
             html.H4("Components"),

@@ -124,7 +124,16 @@ def display_evolution(territory):
         #legend_font_size = 10,
         xaxis = dict(tickvals = df['Year'].unique()),
     )
-        
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+        margin=dict(l=20, r=20),
+    )
     return fig
 
 # Scorecard radar
@@ -155,6 +164,17 @@ def display_radar(territory):
     #fig.update_layout(legend_font_size = 10)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels))
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+        margin=dict(l=20, r=20),
+    )
+
     return fig
 
 # Scorecard table

@@ -74,7 +74,7 @@ home = dbc.Container([
             html.H1("ChildFund Alliance Index"),
             dcc.Markdown(opening_text, className='my-4'),
             html.P("Click on the map to access country scorecards.", style = {"text-align": "center"}),
-            dcc.Graph(figure=display_map(), config={'displayModeBar': False, 'editable': False}, className='my-4', id='map_home'),
+            dcc.Graph(figure=display_map(), config={'displayModeBar': False, 'editable': False}, id='map_home', responsive=True),
             dcc.Markdown(description_text, className='my-4'),
         ], lg=12, xs=12),
         className='mt-2', justify='around'

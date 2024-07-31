@@ -42,13 +42,13 @@ def display_map_index(feature, year):
         custom_data = ['territory', 'Area', feature, 'Tier', 'Year']
     )
     fig.update_layout(legend=dict(
-        title_text="Human Rights Implementation",
-        orientation="h",
-        #entrywidth=70,
-        yanchor="bottom",
-        y=1.02,
-        xanchor="center",
-        x=0.5
+        title_text="Human Rights<br>Implementation",
+        # orientation="h",
+        # #entrywidth=70,
+        # yanchor="bottom",
+        # y=1.02,
+        # xanchor="center",
+        # x=0.5
         )
     )#,xanchor='right', yanchor='top', x=0.95, y=0.92))
     template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{feature}: "+ "%{customdata[2]:#.3g}/100<br>" + f"Human Rights Implementation: " + "%{customdata[3]}<br><br>" + f"Year: "+ "%{customdata[4]}" + "<extra></extra>"
@@ -69,6 +69,15 @@ def display_map_index(feature, year):
                    showrivers=False
         )
     )
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+    )
     return fig
 
 # Indicators map
@@ -80,8 +89,6 @@ def display_map_index(feature, year):
 def display_map_indicators(indicator, year, kind):
     indicator = indicator.split(":")[0].split(" ")[1]
     name = metadata.loc[int(indicator)]['name']
-    unit = metadata.loc[int(indicator)]['unit']
-
     if metadata.loc[int(indicator)]['inverted']=='yes':
         colors = TIER_COLORS[::-1]
         limits_scale = [metadata.loc[int(indicator)]['best_value'], metadata.loc[int(indicator)]['worst_value']]
@@ -91,6 +98,7 @@ def display_map_indicators(indicator, year, kind):
 
     df = data.loc[data['year']==year].rename(columns={'year':'Year', 'area':'Area'})
     if kind=='Data':
+        unit = metadata.loc[int(indicator)]['unit']
         col = f'Indicator {int(indicator)} (data)'
         fig = px.choropleth(df, 
             #geojson=GEO_FILE,
@@ -106,8 +114,9 @@ def display_map_indicators(indicator, year, kind):
         )
         template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{name}: " + "%{customdata[2]:#.3g}" + f" {unit}<br><br>"  + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
         fig.update_traces(hovertemplate=template)
-        fig.update_layout(coloraxis_colorbar=dict(title=unit, x=0.92, len=0.75))
+        #fig.update_layout(coloraxis_colorbar=dict(title=unit, orientation='h', len=0.5))# x=0.92, len=0.75))
     if kind == 'Scores':
+        unit = 'Scores'
         col = f'Indicator {int(indicator)}'
         fig = px.choropleth(df, 
             #geojson=GEO_FILE,
@@ -121,7 +130,7 @@ def display_map_indicators(indicator, year, kind):
             #zoom=ZOOM_LEVEL, opacity=1, center=dict(lat=CENTER_COORDINATES[0]),
             custom_data = ['territory', 'Area', col, 'Year']
         )
-        fig.update_layout(coloraxis_colorbar=dict(title="Score", x=0.92,  len=0.75))
+        #fig.update_layout(coloraxis_colorbar=dict(title="Score", orientation='h', len=0.5))#x=0.92,  len=0.75))
         template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{col}: "+ "%{customdata[2]:#.3g}/100<br><br>"  + f"Year: "+ "%{customdata[3]}" + "<extra></extra>"
         fig.update_traces(hovertemplate=template)
     # fig.update_layout(
@@ -138,6 +147,17 @@ def display_map_indicators(indicator, year, kind):
                    showlakes=True, lakecolor=OCEAN_COLOR,
                    showrivers=False
         )
+    )
+    fig.update_layout(
+        coloraxis_colorbar=dict(
+            len = 0.5,
+            title=unit,
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
     )
     return fig
 
@@ -166,7 +186,17 @@ def display_corr(x_data, y_data, population, year):
     template = "<b>%{customdata[0]}</b><br>" + "<i>%{customdata[1]}</i><br><br>" + f"{x_data}: "+ "%{customdata[2]:#.3g}/100<br>" + f"{y_data}: " + "%{customdata[3]:#.3g}/100<br><br>" +f"{population}: "+ "%{customdata[4]:,.3f} millions<br><br>" + f"Year: "+ "%{customdata[5]}" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     fig.update_layout(title=f"Correlation coefficient: \u03c1\u209b = {corr.loc[x_data][y_data]:#.3g}")
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+        margin=dict(l=20, r=20),
 
+    )
     return fig
 
 # Comparison
@@ -191,6 +221,17 @@ def display_corr(x_data, y_data, population, year):
     fig.update_traces(hovertemplate=template)
     if x_data == 'GDP per capita': fig.update_xaxes(type='log', tickprefix='US$') #+  metadata.loc[101]['unit'])
     if y_data == 'GDP per capita': fig.update_yaxes(type='log', tickprefix='US$') #+ metadata.loc[101]['unit'])
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+        margin=dict(l=20, r=20),
+
+    )
     return fig
 
 # Ranking
@@ -251,9 +292,7 @@ def display_ranking(feature, year):
         size='sm',
         class_name='fixed-header'
     )
-
     return table
-
 
 # Evolution
 @app.callback(
@@ -282,7 +321,18 @@ def display_evolution(component, territory):
         #legend_font_size = 10,
         xaxis = dict(tickvals = df['Year'].unique()),
         yaxis = dict(title='Score')
-        )
+    )
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+        margin=dict(l=20, r=20),
+
+    )
     
     return fig
 
@@ -313,6 +363,17 @@ def display_radar(territories, year):
     fig.update_traces(hovertemplate=template)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
     fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels))
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="left",
+            x=0.01
+        ),
+        margin=dict(l=20, r=20,),
+
+    )
     return fig
 
 # Radar table
@@ -354,8 +415,6 @@ def display_radar_table(territories, year):
                     striped=True,
                     size='sm',         
                     class_name='fixed-header'
-
-
                 )
     return table
 
@@ -386,4 +445,3 @@ def update_indicator_description(indicator):
             data['source_link']
             ]
     return info
-    

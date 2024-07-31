@@ -66,7 +66,7 @@ app.layout = dbc.Container(
         content,
         footer
     ],
-    fluid=True,
+    fluid=False,
     className="dbc dbc-ag-grid",     
     #style={"display": "flex", "flex-direction": "column"}
 )
