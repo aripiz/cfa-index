@@ -48,8 +48,8 @@ For each territory is computed an absolute 0-100 score aiming at inquiring the i
 
 Explore the dashboard for more details:
 
-- **[Data](/data):** Access detailed data that make up the Index, with the ability to view interactive maps and charts.
 - **[Scorecards](/scorecards):** Country scorecards showing scores and rankings based on various indicators.
+- **[Data](/data):** Access detailed data that make up the Index, with the ability to view interactive maps and charts.
 - **[Methodology](/methodology):** Description of the methodology used to collect and analyze data.
 
 Navigate through these sections to better understand the impact of the ChildFund Alliance Index and discover how the rights of women and children are promoted, exercised, and violated in different countries. All resources, including full reports and datasets, are available to download.

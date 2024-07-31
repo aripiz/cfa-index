@@ -17,8 +17,8 @@ from layout.layout_download import modal_data_download
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Home", active='exact', href='/')),
-        dbc.NavItem(dbc.NavLink("Data", active='exact', href="/data")),
         dbc.NavItem(dbc.NavLink("Scorecards", active='exact', href='/scorecards')),
+        dbc.NavItem(dbc.NavLink("Data", active='exact', href="/data")),
         dbc.NavItem(dbc.NavLink("Methodology", active='exact', href="/methodology")),
         dbc.DropdownMenu(
             [

@@ -54,7 +54,6 @@ def navigate_to_scorecard(clickData):
     if clickData:
         country = clickData['points'][0]['customdata'][0]
         return f'/scorecards?country={parse.quote(country)}'
-        #return f'/scorecards?country={country}'
     return '/'
 
 # Callback per aggiornare il dropdown nella pagina delle scorecards
@@ -65,18 +64,7 @@ def navigate_to_scorecard(clickData):
 def update_dropdown(pathname, search):
     if pathname == '/scorecards' and search:
         country = parse.unquote(search.split('=')[-1])
-        #country = search.split('=')[-1]
         return country
     return 'World'
-
-
-# @app.callback(Output('page-content', 'children'),
-#               Input('url', 'pathname'))
-# def display_page(pathname):
-#     if pathname == '/scorecards':
-#         return layout_scorecards.layout
-#     else:
-#         return layout_home.layout
-
 
 
