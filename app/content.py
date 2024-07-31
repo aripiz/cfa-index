@@ -5,9 +5,9 @@ from dash import dcc, html, page_container
 import dash_bootstrap_components as dbc
 
 from layout.callbacks  import render_data
-from layout.callbacks import render_tab
+from layout.callbacks import navigation
 from layout.callbacks import render_scorecards
-from layout.callbacks import modal_download
+from layout.callbacks import download
 
 from configuration import BRAND_LINK, NOTES_FILE, REPORT_FILE, CREDITS_LINK
 
@@ -54,7 +54,11 @@ footer = dbc.Navbar(
 )      
            
 # Page
-content = dbc.Container(page_container, class_name='mt-4', style={'padding-top': '80px', 'padding-bottom': '60px'}) 
+content = dbc.Container([        
+    dcc.Location(id='url', refresh='callback-nav'),
+    page_container
+    ], class_name='mt-4', style={'padding-top': '80px', 'padding-bottom': '60px'}
+) 
 
 # Main layout
 app.layout = dbc.Container(

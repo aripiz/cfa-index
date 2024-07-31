@@ -1,7 +1,8 @@
-# render_tab.py
+# navigation.py
 
 from index import app
 from dash import Input, Output, State
+from urllib import parse
 
 from layout.layout_data import tab_map_features, tab_map_indicators, tab_correlations, tab_ranking, tab_evolution, tab_radar, tab_comparison
 
@@ -44,7 +45,38 @@ def toggle_collapse(n, is_open):
     return is_open
 
 # Scorecard link
-# @app.callback(
-#     Output("collapse", "is_open"),
-#     Input("map_home", "clickData"),
-# )
+# Callback per aggiornare l'URL quando si clicca su un paese
+@app.callback(
+    Output('url', 'pathname'),
+    Input('map_home', 'clickData')
+)
+def navigate_to_scorecard(clickData):
+    if clickData:
+        country = clickData['points'][0]['customdata'][0]
+        return f'/scorecards?country={parse.quote(country)}'
+        #return f'/scorecards?country={country}'
+    return '/'
+
+# Callback per aggiornare il dropdown nella pagina delle scorecards
+@app.callback(
+    Output('scorecard_territory', 'value'),
+    [Input('url', 'pathname'), Input('url', 'search')]
+)
+def update_dropdown(pathname, search):
+    if pathname == '/scorecards' and search:
+        country = parse.unquote(search.split('=')[-1])
+        #country = search.split('=')[-1]
+        return country
+    return 'World'
+
+
+# @app.callback(Output('page-content', 'children'),
+#               Input('url', 'pathname'))
+# def display_page(pathname):
+#     if pathname == '/scorecards':
+#         return layout_scorecards.layout
+#     else:
+#         return layout_home.layout
+
+
+
