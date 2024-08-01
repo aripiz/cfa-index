@@ -172,7 +172,7 @@ def display_radar(territory):
             x=0.01,
             yref="container"
         ),
-        #margin=dict(l=20, r=20),
+        margin=dict(l=20, r=20),
     )
 
     return fig

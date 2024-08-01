@@ -46,7 +46,7 @@ def display_map():
 
 # Text
 opening_text = f'''
-The **ChildFund Alliance Index** is a flagship report by **ChildFund Alliance**. It is a tool designed to **measure the living conditions of women and children worldwide** by assessing the promotion, exercise, and violation of their rights. 
+The **ChildFund Alliance Index 2024 Edition** is a flagship report by **ChildFund Alliance**. It is a tool designed to **measure the living conditions of women and children worldwide** by assessing the promotion, exercise, and violation of their rights. 
 '''
 
 description_text = '''
