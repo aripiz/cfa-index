@@ -66,5 +66,3 @@ def update_dropdown(pathname, search):
         country = parse.unquote(search.split('=')[-1])
         return country
     return 'World'
-
-

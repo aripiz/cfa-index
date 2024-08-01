@@ -75,7 +75,8 @@ def display_map_index(feature, year):
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
     )
     return fig
@@ -156,7 +157,8 @@ def display_map_indicators(indicator, year, kind):
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
     )
     return fig
@@ -192,10 +194,10 @@ def display_corr(x_data, y_data, population, year):
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
         margin=dict(l=20, r=20),
-
     )
     return fig
 
@@ -227,10 +229,10 @@ def display_corr(x_data, y_data, population, year):
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
         margin=dict(l=20, r=20),
-
     )
     return fig
 
@@ -328,10 +330,10 @@ def display_evolution(component, territory):
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
-        margin=dict(l=20, r=20),
-
+        margin=dict(l=20, r=20), 
     )
     
     return fig
@@ -362,16 +364,18 @@ def display_radar(territories, year):
     template = "<b>%{customdata[0]}</b><br><br>" + "%{customdata[1]}: "+ "%{customdata[2]:#.3g}/100<br><br>" + f"Year: "+ "%{customdata[3]}/100" + "<extra></extra>"
     fig.update_traces(hovertemplate=template)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
-    fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels))
+    fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels, tickfont_size=10))
     fig.update_layout(
         legend=dict(
             orientation='h',
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
-        margin=dict(l=20, r=20,),
+        #margin=dict(l=20, r=20,),
+
 
     )
     return fig

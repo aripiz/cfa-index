@@ -14,6 +14,49 @@ from configuration import BRAND_LINK, NOTES_FILE, REPORT_FILE, CREDITS_LINK, BRA
 from layout.layout_download import modal_data_download
 
 # Navbar
+
+new_navbar =  dbc.Navbar(
+    dbc.Container(
+        [
+            html.A(
+                # Use row and col to control vertical alignment of logo / brand
+                dbc.Row(
+                    [
+                        dbc.Col(html.Img(src="assets/logo_childfund.svg", height="30px")),
+                        dbc.Col(dbc.NavbarBrand("Index 2024", className="ms-2")),
+                    ],
+                    align="center",
+                    className="g-0",
+                ),
+                href=BRAND_LINK,
+                style={"textDecoration": "none"},
+            ),
+            dbc.Nav([
+            dbc.NavItem(dbc.NavLink("Home", active='exact', href='/')),
+            dbc.NavItem(dbc.NavLink("Scorecards", active='exact', href='/scorecards')),
+            dbc.NavItem(dbc.NavLink("Data", active='exact', href="/data")),
+            dbc.NavItem(dbc.NavLink("Methodology", active='exact', href="/methodology")),
+            dbc.DropdownMenu(
+                [
+                    dbc.DropdownMenuItem("Report", href=REPORT_FILE), 
+                    dbc.DropdownMenuItem("Techical Notes", href=NOTES_FILE), 
+                    dbc.DropdownMenuItem("Data", id='open_download', n_clicks=0),
+                    modal_data_download
+                ],
+                nav=True,
+                label="Download",
+                in_navbar=True,
+                class_name='dbc'
+            ),
+            dbc.NavbarToggler(id="navbar-toggler", n_clicks=0)
+            ])
+        ]
+    ),
+    fixed='top',
+    color= 'primary',
+    dark=True
+)
+
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Home", active='exact', href='/')),

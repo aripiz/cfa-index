@@ -113,8 +113,6 @@ def display_evolution(territory):
                 #hover_data={'Territory':False, 'CFA Index': ':#.3g'},
                 markers=True,
                 custom_data = ['Territory', 'CFA Index', 'Year']
-
-
         )
     fig.update_traces(marker={'size': 10})
     template = "<b>%{customdata[0]}</b><br><br>" + "CFA Index: "+ "%{customdata[1]:#.3g}/100<br><br>" + f"Year: "+ "%{customdata[2]}" + "<extra></extra>"
@@ -130,7 +128,8 @@ def display_evolution(territory):
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
         margin=dict(l=20, r=20),
     )
@@ -163,16 +162,17 @@ def display_radar(territory):
     fig.update_traces(hovertemplate=template)
     #fig.update_layout(legend_font_size = 10)
     fig.update_polars(radialaxis=dict(angle=90, tickangle=90, tickfont_size=8))
-    fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels))
+    fig.update_polars(angularaxis=dict(tickvals=list(range(len(features))), ticktext=tick_labels, tickfont_size=10))
     fig.update_layout(
         legend=dict(
             orientation='h',
             yanchor="bottom",
             y=-0.3,
             xanchor="left",
-            x=0.01
+            x=0.01,
+            yref="container"
         ),
-        margin=dict(l=20, r=20),
+        #margin=dict(l=20, r=20),
     )
 
     return fig
