@@ -2,6 +2,8 @@ from index import data, metadata
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
+from configuration import SEQUENCE_COLOR
+
 # Options
 territories_list = data['territory'].unique()
 
@@ -20,9 +22,9 @@ card = dbc.Container([
         dbc.Col(html.H2(id='scorecard_header'), lg=12, xs=12),
     ], className='mt-4', justify='evenly' ),
     dbc.Row([
-        dbc.Col(dcc.Graph(id="scorecard_map", 
+        dbc.Col(dcc.Loading(dcc.Graph(id="scorecard_map", 
                           style={'height': 200, "width": 200},
-                          config={'displayModeBar': False, 'editable':False}), lg=2, xs = 12, align='center'),
+                          config={'displayModeBar': False, 'editable':False}), color=SEQUENCE_COLOR[0] ), lg=2, xs = 12, align='center'),
         dbc.Col(html.Div([
             html.H4("Area "),
             html.P(id="scorecard_area", style={'align':'right'}),
@@ -43,18 +45,20 @@ card = dbc.Container([
    dbc.Row([
         dbc.Col(html.Div([
             html.H4("Progress"),
-            dcc.Graph(id='scorecard_progress', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']})
+            dcc.Loading(dcc.Graph(id='scorecard_progress', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']}), color=SEQUENCE_COLOR[0] )
         ]), lg=6, xs= 12),
         dbc.Col(html.Div([
             html.H4("Profile"),
-            dcc.Graph(id='scorecard_radar', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']}, )
+            dcc.Loading(dcc.Graph(id='scorecard_radar', config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d', 'resetScale2d']},), 
+                        color=SEQUENCE_COLOR[0])
         ]),lg=6, xs= 12)
     ], className='mt-2', justify='evenly'),
-    dbc.Row([dbc.Col([
+    dbc.Row([
+        dbc.Col([
             html.H4("Components"),
-            html.Div(id='scorecard_table', 
+            dcc.Loading(html.Div(id='scorecard_table', 
                      className='table-container'
-)
+            ), color=SEQUENCE_COLOR[0]) 
         ])
     ], className='mt-4', justify='evenly')
 ])

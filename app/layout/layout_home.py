@@ -9,7 +9,7 @@ import plotly.io as pio
 import pandas as pd
 from dash_bootstrap_templates import load_figure_template
 from index import data
-from configuration import GEO_FILE, FIGURE_TEMPLATE, TIER_COLORS, TIER_BINS, TIER_LABELS, OCEAN_COLOR, BRAND_LINK
+from configuration import FIGURE_TEMPLATE, TIER_COLORS, TIER_BINS, TIER_LABELS, OCEAN_COLOR, BRAND_LINK, SEQUENCE_COLOR
 load_figure_template(FIGURE_TEMPLATE)
 pio.templates.default = FIGURE_TEMPLATE
 
@@ -74,7 +74,7 @@ home = dbc.Container([
             html.H1("ChildFund Alliance Index"),
             dcc.Markdown(opening_text, className='my-4'),
             html.P("Click on the map to access country scorecards.", style = {"text-align": "center"}),
-            dcc.Graph(figure=display_map(), config={'displayModeBar': False, 'editable': False}, id='map_home', responsive=True),
+            dcc.Loading(dcc.Graph(figure=display_map(), config={'displayModeBar': False, 'editable': False}, id='map_home'), color=SEQUENCE_COLOR[0]),
             dcc.Markdown(description_text, className='my-4'),
         ], lg=12, xs=12),
         className='mt-2', justify='around'

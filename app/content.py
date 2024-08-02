@@ -55,7 +55,7 @@ footer = dbc.Navbar(
 # Page
 content = dbc.Container([        
     dcc.Location(id='url', refresh='callback-nav'),
-    page_container
+    page_container,
     ], class_name='mt-4', style={'padding-top': '80px', 'padding-bottom': '60px'}
 ) 
 

@@ -4,6 +4,8 @@ from index import data, metadata
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
+from configuration import SEQUENCE_COLOR
+
 # Options
 subindexes_list = [data.columns[4]]
 features_list = data.columns[4:23].to_list()
@@ -56,11 +58,13 @@ tab_map_features = html.Div([
                 ], lg = 4, xs =12)],
                 justify='around'),
                 dbc.Row(dbc.Col(
+                dcc.Loading(
                 dcc.Graph(
                     id = "map",
                     style = {'min-height': '70vh'},
                     config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
-                ), lg =12, xs=12), justify = 'around', class_name = 'mt-2'),
+                ), color=SEQUENCE_COLOR[0]),
+                lg =12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_map_indicators = html.Div([
@@ -113,11 +117,13 @@ tab_map_indicators = html.Div([
                     lg = 4, xs = 12
                 )], justify='around'),
                 dbc.Row(dbc.Col(
+                dcc.Loading(
                 dcc.Graph(
                     id="indicators_map",
                     style = {'min-height': '70vh'},
                     config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
-                ), lg =12, xs =12), justify = 'around', class_name = 'mt-2'),
+                ), color=SEQUENCE_COLOR[0] ),
+                lg =12, xs =12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_correlations = html.Div([
@@ -178,11 +184,14 @@ tab_correlations = html.Div([
                         )
                     ], lg = 3, xs =12)],
                 justify='between'),
-                dbc.Row(dbc.Col(dcc.Graph(
+                dbc.Row(dbc.Col(
+                dcc.Loading(
+                dcc.Graph(
                     id="features_correlation",
                     style = {'min-height': '70vh'},
                     config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
-                ), lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
+                ), color=SEQUENCE_COLOR[0]),
+                lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
 tab_ranking = html.Div([
@@ -224,12 +233,14 @@ tab_ranking = html.Div([
                         )
                 ], lg = 4, xs =12)
                 ], justify='around'),
-                dbc.Row(dbc.Col(
+                dbc.Row(
+                dcc.Loading(
+                dbc.Col(
                     id='ranking_table',
                     className='table-container',
                     lg=12, xs=12
                     #style={"height": "60vh", "overflow": "scroll"},
-                ), justify = 'around', class_name = 'mt-2')
+                ), color=SEQUENCE_COLOR[0] ), justify = 'around', class_name = 'mt-2')
             ])
 
 tab_evolution = html.Div([
@@ -271,11 +282,12 @@ tab_evolution = html.Div([
                 )], lg = 6, xs =12)
                 ], justify = 'around'),
                 dbc.Row(dbc.Col(
+                dcc.Loading(
                 dcc.Graph(
                     id="evolution_plot",
                     style = {'min-height': '70vh'},
                     config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',],},
-                ),
+                ), color=SEQUENCE_COLOR[0]), 
                 lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -322,11 +334,11 @@ tab_radar = html.Div([
                 #     className='table-container',
                 #     #style={"height": "60vh", "overflow": "scroll"},
                 # ), lg = 6, xs =12),
-                dbc.Col(dcc.Graph(
+                dbc.Col(dcc.Loading(dcc.Graph(
                     id="radar_chart",
                     style = {'min-height': '70vh'},
                     config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
-                ), lg = 12, xs =12)
+                ), color=SEQUENCE_COLOR[0] ), lg = 12, xs =12)
                 ], justify = 'around', class_name = 'mt-2'),
             ])
 
@@ -388,10 +400,10 @@ tab_comparison = html.Div([
                         )
                     ], lg = 3, xs =12)],
                 justify='between'),
-                dbc.Row(dbc.Col(dcc.Graph(
+                dbc.Row(dbc.Col(dcc.Loading(dcc.Graph(
                     id="comparison_chart",
                     style = {'min-height': '70vh'},
                     config={'displaylogo':False, 'modeBarButtonsToRemove': ['pan2d', 'select2d', 'lasso2d', 'zoom2d',]}
-                ), lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
+                ), color=SEQUENCE_COLOR[0],), lg=12, xs=12), justify = 'around', class_name = 'mt-2'),
             ])
 
