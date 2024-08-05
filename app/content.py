@@ -37,7 +37,7 @@ navbar = dbc.NavbarSimple(
             #html.Img(src="assets/logo_maipiuinvisibili2023_neg.png", height="30px", alt='Index 2024')],
     brand_href=BRAND_LINK,
     fixed='top',
-    color= 'primary',
+    color=BRAND_COLOR  #'primary',
     dark=True
 )
 
