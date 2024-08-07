@@ -17,6 +17,7 @@ COPY ./app /app
 
 WORKDIR /app
 
-EXPOSE 8080R
+EXPOSE 8080
+
 # Run from working directory, and separate args in the json syntax
 CMD ["gunicorn"  , "-b", "0.0.0.0:8080", "app:server"]
