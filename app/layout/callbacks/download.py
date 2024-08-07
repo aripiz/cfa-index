@@ -1,14 +1,18 @@
 # download.py
 
 from fileinput import filename
-from index import app
-from index import data, metadata
-
 from dash import Input, Output, State, dcc, callback_context
 import pandas as pd
 import io
 
+from index import app, data, metadata
+
+
+# Set the index name for metadata
 metadata.index.name = 'indicator'
+
+
+# Toggle the modal open/close state based on button clicks.
 @app.callback(
     Output("modal", "is_open"),
     [Input("open_download", "n_clicks"), Input("close_download", "n_clicks")],
@@ -19,27 +23,43 @@ def toggle_modal(n1, n2, is_open):
         return not is_open
     return is_open
 
+
+# Generate and download an Excel file with selected data and metadata.
 @app.callback(
     Output("download_file", "data"),
-    [Input("download_button", "n_clicks"),
-    Input('download_indicator','value'),
-    Input('download_territory', 'value')],
+    [
+        Input("download_button", "n_clicks"),
+        Input('download_indicator', 'value'),
+        Input('download_territory', 'value')
+    ],
     prevent_initial_call=True,
 )
 def download_excel(n_clicks, features, territories):
     changed_id = [p['prop_id'] for p in callback_context.triggered][0]
+    
     if 'download_button' in changed_id:
-        meta_columns = ['sub-index', 'dimension', 'name', 'unit', 'definition', 'last_update', 'source', 'source_link']
-        meta = metadata[meta_columns]  
-        data = data.set_index(['territory','year'])
-        file_name = "ChildFundAlliance-Index-2024_Data.xlsx"
-        if features  is not None: 
+        # Define columns to include in metadata sheet
+        meta_columns = [
+            'sub-index', 'dimension', 'name', 'unit', 'definition', 
+            'last_update', 'source', 'source_link'
+        ]
+        meta = metadata[meta_columns]
+
+        # Prepare data for export
+        data = data.set_index(['territory', 'year'])
+        
+        if features is not None:
             data = data[features]
         if territories is not None:
             data = data.loc[territories]
+
+        # Create a buffer to hold the Excel file content
         buffer = io.BytesIO()
+        
         with pd.ExcelWriter(buffer) as writer:
             meta.to_excel(writer, sheet_name='indicators_metadata')
             data.to_excel(writer, sheet_name='data', float_format='%#.3g')
-        return dcc.send_bytes(buffer.getvalue(), filename=file_name)
-    else: return None
+        
+        return dcc.send_bytes(buffer.getvalue(), filename="ChildFundAlliance-Index-2024_Data.xlsx")
+    
+    return None

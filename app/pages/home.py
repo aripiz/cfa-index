@@ -8,5 +8,7 @@ register_page(__name__, path='/', name=TITLE)
 
 from layout.layout_home import home
 
-
-layout = dbc.Container(home, class_name='mt-4')
+layout = dbc.Container(
+    children=home,
+    class_name='mt-4'
+)
