@@ -92,7 +92,8 @@ Navigate through these sections to better understand the impact of the ChildFund
 '''
 
 about_text = '''
-Eleven child-focused development and humanitarian agencies are part of the global [ChildFund Alliance]({BRAND_LINK}) network, which helps children and their families overcome poverty and the underlying conditions that prevent children from reaching their full potential. Together we reach nearly 36 million children and family members in 70 countries. Members work to end violence and exploitation against children; provide expertise in emergencies and disasters to ease the harmful impact on children and their communities; and engage children, families, and communities to create lasting change.
+[ChildFund Alliance]({BRAND_LINK}) is a global network of 11 child-focused development and humanitarian organizations reaching nearly 30 million children and family members in more than 70 countries. 
+Members work to end violence and exploitation against children; provide expertise in emergencies and disasters to ease the harmful impact on children and their communities; and engage children, families and communities to create lasting change. With more than 80 years of collective experience, our commitment, resources, innovation and expertise serve as a powerful force to help children and families around the world transform their lives. 
 '''
 
 # Structure
