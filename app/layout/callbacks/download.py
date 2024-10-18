@@ -1,16 +1,15 @@
 # download.py
 
-from fileinput import filename
+#from fileinput import filename
 from dash import Input, Output, State, dcc, callback_context
 import pandas as pd
 import io
 
-from index import app, data, metadata
+from index import app, metadata, data
 
 
 # Set the index name for metadata
 metadata.index.name = 'indicator'
-
 
 # Toggle the modal open/close state based on button clicks.
 @app.callback(
@@ -43,23 +42,23 @@ def download_excel(n_clicks, features, territories):
             'sub-index', 'dimension', 'name', 'unit', 'definition', 
             'last_update', 'source', 'source_link'
         ]
-        meta = metadata[meta_columns]
+        df_meta = metadata[meta_columns]
 
         # Prepare data for export
-        data = data.set_index(['territory', 'year'])
+        df_data = data.set_index(['territory', 'year'])
         
         if features is not None:
-            data = data[features]
+            df_data = df_data[features]
         if territories is not None:
-            data = data.loc[territories]
+            df_data = df_data.loc[territories]
 
         # Create a buffer to hold the Excel file content
         buffer = io.BytesIO()
         
         with pd.ExcelWriter(buffer) as writer:
-            meta.to_excel(writer, sheet_name='indicators_metadata')
-            data.to_excel(writer, sheet_name='data', float_format='%#.3g')
+            df_meta.to_excel(writer, sheet_name='indicators_metadata')
+            df_data.to_excel(writer, sheet_name='data', float_format='%#.3g')
         
-        return dcc.send_bytes(buffer.getvalue(), filename="ChildFundAlliance-Index-2024_Data.xlsx")
+        return dcc.send_bytes(buffer.getvalue(), filename="cfa-index-2024_data.xlsx")
     
     return None

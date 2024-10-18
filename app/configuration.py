@@ -52,8 +52,8 @@ TIER_BINS = [0, 45, 55, 65, 75, 85, 100]
 # CENTER_COORDINATES = (10, 5)
 
 # Files link
-DATA_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/weworld-index2024_data.csv"
-META_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/weworld-index2024_meta.csv"
-GEO_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ne_110m_admin_0_countries.geojson"
-NOTES_FILE = "https://raw.githubusercontent.com/aripiz/weworld-index2024/main/data/ChildFundAlliance-Index-2024_TechnicalNotes.pdf"
+DATA_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data/cfa-index-2024_data.csv"
+META_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data//cfa-index-2024_metadata.csv"
+GEO_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data/ne_110m_admin_0_countries.geojson"
+NOTES_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data//cfa-index-2024_notes.pdf"
 REPORT_FILE = ""
