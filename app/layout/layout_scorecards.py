@@ -13,7 +13,7 @@ card = dbc.Container(
             children=[
                 dbc.Col(
                     html.P(
-                        "Select a territory (Country/Area/World) from the list and explore the scorecard to gain insights into its CFA Index performance."
+                        "Select a territory (Country/Area/World) from the list and explore the scorecard to gain insights into its CFA World Index performance."
                     ),
                     lg=8, 
                     xs=12
@@ -76,9 +76,9 @@ card = dbc.Container(
                 ),
                 dbc.Col(
                     children=[
-                        html.H4("CFA Index Score"),
+                        html.H4("CFA World Index Score"),
                         html.P(id="scorecard_score"),
-                        html.H4("CFA Index Rank"),
+                        html.H4("CFA World Index Rank"),
                         html.P(id="scorecard_rank", style={'align': 'right'}),
                         html.H4("Human Rights Implementation"),
                         html.P(id="scorecard_group")

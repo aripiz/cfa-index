@@ -76,11 +76,11 @@ def display_map():
 
 # Text
 opening_text = '''
-The **ChildFund Alliance Index 2024 Edition** is a flagship report by **ChildFund Alliance**. It is a tool designed to **measure the living conditions of women and children worldwide** by assessing the promotion, exercise, and violation of their rights.
+The **ChildFund Alliance World Index 2024 Edition** is a flagship report by **ChildFund Alliance**. It is a tool designed to **measure the living conditions of women and children worldwide** by assessing the promotion, exercise, and violation of their rights.
 '''
 
 description_text = '''
-CFA Index is formerly known as the WeWorld Index and published annually since 2015 by WeWorld, the Italian member of ChildFund Alliance. The Index ranks **157 countries** from 2015 to 2023 combining **30 different indicators.** For each territory, an absolute 0-100 score is computed, aiming to inquire the implementation of human rights for children and women at the country, regional area, and world level.
+CFA World Index is formerly known as the WeWorld Index and published annually since 2015 by WeWorld, the Italian member of ChildFund Alliance. The Index ranks **157 countries** from 2015 to 2023 combining **30 different indicators.** For each territory, an absolute 0-100 score is computed, aiming to inquire the implementation of human rights for children and women at the country, regional area, and world level.
 
 Explore the dashboard for more details:
 
@@ -102,7 +102,7 @@ home = dbc.Container(
         dbc.Row(
             dbc.Col(
                 children=[
-                    html.H1("ChildFund Alliance Index"),
+                    html.H1("ChildFund Alliance World Index"),
                     dcc.Markdown(opening_text, className='my-4'),
                     html.P("Click on the map to access country scorecards.", style={"text-align": "center"}),
                     dcc.Loading(

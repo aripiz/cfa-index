@@ -16,7 +16,7 @@ indicators_list = [
 ]
 
 intro_text = f"""
-CFA Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
+CFA World Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
 
 For a detailed description of the method adopted refer to the [Technical Notes]({NOTES_FILE}).
 """
@@ -30,7 +30,7 @@ It is therefore necessary to proceed on two parallel and complementary fronts: o
 """
 
 aggregation_text = """
-CFA Index for each territory consists of a **0-100 score** developed by aggregating the normalized data of its 30 Indicators in **three different steps**.
+CFA World Index for each territory consists of a **0-100 score** developed by aggregating the normalized data of its 30 Indicators in **three different steps**.
 
 First, the scores of each **Dimension** are calculated by taking the arithmetic mean of the scores of the two constituent **Components** (normalized indicators). Next, to avoid full compensability between Dimensions, the score of the **Sub-indexes** is determined by the geometric mean of the Dimensions that are part of it. Finally, the geometric mean is also used to calculate the overall **Index** from the 3 Sub-indexes.
 

@@ -1,7 +1,7 @@
 # configuration.py
 
 # Main properties
-TITLE = 'ChildFund Alliance Index 2024'
+TITLE = 'ChildFund Alliance World Index 2024'
 BRAND_LINK = "https://childfundalliance.org/"
 CREDITS_LINK = "https://github.com/aripiz"
 
