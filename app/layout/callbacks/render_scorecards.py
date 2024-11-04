@@ -130,13 +130,13 @@ def update_scorecard_summary(territory):
     df_territory = data[data['year'] == 2023].set_index('territory').loc[territory]
     df_all = data[(data['area'].notna()) & (data['year'] == 2023)].set_index('territory')
     df_territory['tier'] = pd.cut(
-        pd.Series(df_territory['CFA Index']),
+        pd.Series(df_territory['CFA World Index']),
         bins=TIER_BINS,
         labels=TIER_LABELS,
         right=False
     ).iloc[0]
     try:
-        df_territory['rank'] = df_all['CFA Index'].rank(
+        df_territory['rank'] = df_all['CFA World Index'].rank(
             ascending=False,
             method='min'
         ).loc[territory]
@@ -147,7 +147,7 @@ def update_scorecard_summary(territory):
         get_value(df_territory, 'area', "{}"),
         get_value(df_territory, 'Population, total', "{:,.3f} millions", divide=1e6),
         get_value(df_territory, 'GDP per capita', "US${:,.0f}"),
-        get_value(df_territory, 'CFA Index', "{}/100"),
+        get_value(df_territory, 'CFA World Index', "{}/100"),
         get_value(df_territory, 'rank', "{:.0f}/157"),
         get_value(df_territory, 'tier', "{}"),
     ]
@@ -170,16 +170,16 @@ def display_evolution(territory):
     fig = px.line(
         df,
         x='Year',
-        y='CFA Index',
+        y='CFA World Index',
         color='Territory',
         color_discrete_sequence=SEQUENCE_COLOR,
         markers=True,
-        custom_data=['Territory', 'CFA Index', 'Year']
+        custom_data=['Territory', 'CFA World Index', 'Year']
     )
     fig.update_traces(marker={'size': 10})
     template = (
         "<b>%{customdata[0]}</b><br><br>" +
-        "CFA Index: " + "%{customdata[1]:#.3g}/100<br><br>" +
+        "CFA World Index: " + "%{customdata[1]:#.3g}/100<br><br>" +
         "Year: " + "%{customdata[2]}" +
         "<extra></extra>"
     )

@@ -22,7 +22,7 @@ pio.templates.default = FIGURE_TEMPLATE
 # Home map
 def display_map():
     year = 2023
-    feature = 'CFA Index'
+    feature = 'CFA World Index'
     df = data[(data['area'].notna()) & (data['year'] == year)].rename(columns={'year': 'Year', 'area': 'Area'})
     df['Tier'] = pd.cut(df[feature], bins=TIER_BINS, labels=TIER_LABELS, right=False).cat.remove_unused_categories()
 
