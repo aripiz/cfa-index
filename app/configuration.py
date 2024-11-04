@@ -41,16 +41,6 @@ SEQUENCE_COLOR = [
 TIER_LABELS = ['Minimal', 'Limited', 'Basic', 'Moderate', 'Strong', 'Advanced']
 TIER_BINS = [0, 45, 55, 65, 75, 85, 100]
 
-# Mapbox
-# import os
-# MAP_TOKEN = os.getenv("MAP_TOKEN")
-# if MAP_TOKEN is not None:
-#     MAP_STYLE = "mapbox://styles/aripiz/clf1ay30l004n01lnzi17hjvj"
-# else:
-#     MAP_STYLE = "carto-positron"
-# ZOOM_LEVEL = 0.6
-# CENTER_COORDINATES = (10, 5)
-
 # Files link
 DATA_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data/cfa-index-2024_data.csv"
 META_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data//cfa-index-2024_metadata.csv"
