@@ -16,7 +16,7 @@ indicators_list = [
 ]
 
 intro_text = f"""
-CFA World Index ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
+ChildFund Alliance World Index (CFA World Index) ranks 157 countries from 2015 to 2023 combining 30 different indicators. The Index - together with the 3 Sub-indexes _Context_, _Children_ and _Women_ - aims at inquiring the implementation of human rights for children and women at the country, regional area and world level.
 
 For a detailed description of the method adopted refer to the [Technical Notes]({NOTES_FILE}).
 """

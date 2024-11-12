@@ -4,9 +4,7 @@
 
 This repository hosts the dashboard for the "ChildFund Alliance Index - 2024 Edition," a comprehensive statistical index evaluating the inclusion of children and women across various countries. Developed for WeWorld Onlus, a member of the ChildFund Alliance, this tool provides valuable insights into global inclusion efforts.
 
-## Development Version
-
-Access the development version of the [dashboard](https://cfaindex.onrender.com).
+Access the final version of the [dashboard](https://cfaworldindex.azurewebsites.net).
 
 ## Features
 

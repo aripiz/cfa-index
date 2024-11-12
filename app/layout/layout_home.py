@@ -80,7 +80,7 @@ The **ChildFund Alliance World Index 2024 Edition** is a flagship report by **Ch
 '''
 
 description_text = '''
-CFA World Index is formerly known as the WeWorld Index and published annually since 2015 by WeWorld, the Italian member of ChildFund Alliance. The Index ranks **157 countries** from 2015 to 2023 combining **30 different indicators.** For each territory, an absolute 0-100 score is computed, aiming to inquire the implementation of human rights for children and women at the country, regional area, and world level.
+ChildFund Alliance World Index is formerly known as the WeWorld Index and published annually since 2015 by WeWorld, the Italian member of ChildFund Alliance. The Index ranks **157 countries** from 2015 to 2023 combining **30 different indicators.** For each territory, an absolute 0-100 score is computed, aiming to inquire the implementation of human rights for children and women at the country, regional area, and world level.
 
 Explore the dashboard for more details:
 
@@ -88,7 +88,7 @@ Explore the dashboard for more details:
 - **[Data](/data):** Access detailed data that make up the Index, with the ability to view interactive maps and charts.
 - **[Methodology](/methodology):** Description of the methodology used to collect and analyze data.
 
-Navigate through these sections to better understand the impact of the ChildFund Alliance Index and discover how the rights of women and children are promoted, exercised, and violated in different countries. All resources, including full reports and datasets, are available to download.
+Navigate through these sections to better understand the impact of the ChildFund Alliance World Index and discover how the rights of women and children are promoted, exercised, and violated in different countries. All resources, including full reports and datasets, are available to download.
 '''
 
 about_text = f'''
