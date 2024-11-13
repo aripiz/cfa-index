@@ -46,4 +46,4 @@ DATA_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data/cfa-in
 META_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data//cfa-index-2024_metadata.csv"
 GEO_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data/ne_110m_admin_0_countries.geojson"
 NOTES_FILE = "https://raw.githubusercontent.com/aripiz/cfa-index/main/data//cfa-index-2024_notes.pdf"
-REPORT_FILE = ""
+REPORT_FILE =  "https://raw.githubusercontent.com/aripiz/cfa-index/main/data//cfa-index-2024_report.pdf"
