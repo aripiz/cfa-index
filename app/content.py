@@ -49,7 +49,7 @@ navbar = dbc.NavbarSimple(
     ],
     brand=[
         html.Img(src="assets/logo_childfund.svg", height='30px'),
-        "\u2002",
+        "\u2009",
         "World Index"
     ],
     brand_href=BRAND_LINK,
